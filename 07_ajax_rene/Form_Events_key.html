@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="utf-8" />
+	<title>form events - keyup</title>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="container">
+	<p><a href="index.html">Zur Übersicht</a></p>
+	<br>
+	<h1>Events im Zusammenhang mit Formularen</h1>
+	<h2>onkeyup</h2>
+	<form>
+		<div>
+			<label>Gib einen Text ein, die Anzahl der Zeichen wird gezählt:</label><br>
+			<input type="text" name="text1" id="text1">
+		</div>
+		<br>
+		<div>
+			<label>Anzahl der Zeichen oben</label><br>
+			<input type=text name="ausgabe" id="ausgabe">
+		</div>
+		<br>
+		<div>
+			<label>Zu langer Text in der Eingabe löst einen alert() aus</label><br>
+			<input type="text" name="text2" id="text2">
+		</div>
+	</form>
+</div>
+<script>
+ausgabe = document.getElementById("ausgabe");
+
+let myText1 = document.getElementById('text1');
+myText1.onkeyup = function(){
+	ausgabe.value = this.value.length;
+}
+
+let maxLength = 15;
+function textLength(value){
+   	if(value.length > maxLength) {
+   		return false;
+   	}
+   	return true;
+}
+
+let myText2 = document.getElementById('text2');
+myText2.onkeyup = function(){
+	if(!textLength(this.value)){
+     	alert('Zu viele Zeichen im ersten Textfeld!\nErlaubt sind max. ' + maxLength + ' Zeichen');
+     }
+}
+
+/* Hinweis:
+Auf dieser Seite wird mit einer Kurzform gearbeitet, statt
+myText2.addEventListener ('keyup', function (event) { ...
+Grund:
+Man braucht hier keine weiteren Infos im Event
+*/
+</script>
+</body>
+</html>

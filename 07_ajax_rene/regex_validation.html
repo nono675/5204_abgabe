@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="utf-8" />
+	<title>Erste Aufgabe</title>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="container">
+	<p><a href="index.html">Zur Übersicht</a></p>
+	<br>
+	<h1>Erste Aufgabe</h1>
+	<h2>Passwort mit Regex validieren</h2>
+	<p>Hier findest du ein vorbereitetes Script. Es entspricht grob dem Ablauf auf der Seite &quot;thirdStep.html&quot; (E-Mail Adresse mit PHP validieren).</p>
+	<p><strong>Aufgabe: </strong> Vom ersten Kursblock kennst du bereits die Sammlung <a href="http://regexlib.com/Search.aspx?k=password" target="_blank">regexlib.com</a>. Wähle hier einen Regex aus, und bringe damit das Skript &quot;php/regex_validation.php&quot; zum Laufen. Passe auch das JavaScript auf dieser Seite an.</p>
+	<form>
+		<div>
+			<label>Passwort</label><br>
+			<input type="text" name="regex" id="regex">
+		</div>
+	</form>
+	
+	<label>Resultat der Auswertung:</label>
+	<div id="ausgabediv"></div>
+</div>
+<script>
+let ausgabe = document.getElementById("ausgabediv");
+let regexField = document.getElementById("regex");
+regexField.addEventListener('blur', (event) => {
+	var formData = new FormData();
+	formData.append('regex', regexField.value);
+	fetch('php/regex_validation.php', {
+  		method: "post",
+  		body: formData,
+	})
+  	.then((res) => res.json())
+  	.then(function(data) {
+  		console.log(data);
+  		if (data) {
+  			ausgabe.innerHTML = "Passe hier das Feedback an";
+  		}
+  		else {
+  			ausgabe.innerHTML = "Passe auch hier das Feedback an.";
+  			regexField.style.backgroundColor = "lightsalmon";
+  		}
+  	}
+  	)
+  	.catch((error) => console.log(error))
+})
+</script>
+</body>
+</html>

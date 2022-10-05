@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="utf-8" />
+	<title>form events - change</title>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="container">
+	<p><a href="index.html">Zur Übersicht</a></p>
+	<br>
+	<h1>Events im Zusammenhang mit Formularen</h1>
+	<h2>onchange</h2>
+	<form>
+		<div>
+			<label>onchange mit Eventhandler auf Select</label><br>
+			<select name="mySelect" id="mySelect" onchange="writeEventChange(this)">
+				<option value="nada">Bitte wählen</option>
+				<option value="de">Deutschland</option>
+				<option value="ch">Schweiz</option>
+				<option value="at">Österreich</option>
+			</select>
+		</div>
+		<br>
+		<div>
+			<label>change mit Eventlistener auf eine Gruppe von Radio-Buttons</label><br>
+			<input type="radio" id="klar" name="wetter" value="klar"> klar &nbsp;&nbsp;&nbsp;
+			<input type="radio" id="regnerisch" name="wetter" value="regnerisch"> regnerisch &nbsp;&nbsp;&nbsp;
+			<input type="radio" id="neblig" name="wetter" value="neblig"> neblig
+		</div>
+		<div>
+			<textarea name="ausgabe" id="ausgabe" style="height:280px;"></textarea>
+		</div>
+	</form>
+</div>
+<script>
+	ausgabe = document.getElementById("ausgabe");
+	
+	let radios = document.querySelectorAll("[name='wetter']");
+	for (var i = 0; i < radios.length; i++) {
+   		radios[i].addEventListener("change", function (event) {
+       		ausgabe.value += "Das Wetter ist: " + event.target.value + "\n";
+   		});
+	}
+	
+	function writeEventChange(trigger) {
+		ausgabe.value += "Name: " + trigger.name + "\n";
+		ausgabe.value += "Value: " + trigger.value + "\n";
+	}
+	
+</script>
+</body>
+</html>

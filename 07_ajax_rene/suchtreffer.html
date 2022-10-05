@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="utf-8" />
+	<title>fifth step</title>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="container">
+	<p><a href="index.html">Zur Übersicht</a></p>
+	<br>
+	<h1>Fünfter Schritt mit Ajax - fetch() und PDO</h1>
+	<h2>Suchtreffer vorschlagen</h2>
+	<p><strong>Hinweis:</strong> Für diese Übung musst du vorgängig die Tabelle &quot;Personen&quot; installieren (mit &quot;personen_utf8.sql&quot;, das Dokument befindet sich im Ordner &quot;_raw&quot;)</p>
+ 	<form method="post">
+ 		<div style="position: relative;">
+    		<label for="userName">Suche:</label>
+       		<input type="text" id="suchfeld" name="suchfeld">
+       		<!-- Hier werden die Vorschläge ausgegeben -->
+       		<div id="vorschlaege"></div>
+       	</div>
+    </form>
+    <label>Resultat der Auswertung:</label>
+	<div id="ausgabediv"></div>
+</div>
+<script>
+let ausgabe = document.getElementById("ausgabediv");
+let searchField = document.getElementById("suchfeld");
+let hits = document.getElementById("vorschlaege");
+
+searchField.addEventListener('keyup', (event) => {
+	var formData = new FormData();
+	formData.append('nachname', searchField.value);
+	// Erst ab 3 eingegebenen Zeichen soll die Maschinerie in Gang gesetzt werden
+	// Dies schont die Ressourcen
+	if (searchField.value.length > 2) {
+		fetch('php/suchtreffer_nachname.php', {
+			method: "post",
+			body: formData,
+		})
+		.then((res) => res.json())
+		.then(function(data) {
+			console.log(data);
+			if (data) {
+				searchField.style.backgroundColor = "transparent";
+				ausgabe.innerHTML = "";
+				hits.innerHTML = "";
+				var ulNode = document.createElement("ul");  
+				for (let i=0; i<data.length; i++) {
+					var liNode = document.createElement("li");
+					let text = data[i].Nachname;
+					text += " " + data[i].Vorname;
+					textnode = document.createTextNode(text);
+					liNode.appendChild(textnode);
+					ulNode.appendChild(liNode);
+				}
+				hits.appendChild(ulNode); 
+			}
+			else {
+				ausgabe.innerHTML = "Habe noch nichts gefunden.";
+				hits.innerHTML = "";
+				searchField.style.backgroundColor = "lightsalmon";
+			}
+		}
+		)
+		.catch((error) => console.log(error))
+	}
+})
+</script>
+</body>
+</html>

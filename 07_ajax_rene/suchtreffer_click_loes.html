@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="utf-8" />
+	<title>Dritte Aufgabe - Lösung</title>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="container">
+	<p><a href="index.html">Zur Übersicht</a></p>
+	<br>
+	<h1>Dritte Aufgabe - Lösung</h1>
+	<h2>Suchtreffer-Vorschläge zum Auswählen</h2>
+ 	<form method="post">
+ 		<div style="position: relative;">
+    		<label for="userName">Suche:</label>
+       		<input type="text" id="suchfeld" name="suchfeld">
+       		<!-- Hier werden die Vorschläge ausgegeben -->
+       		<div id="vorschlaege"></div>
+       	</div>
+    </form>
+    <label>Resultat der Auswertung:</label>
+	<div id="ausgabediv"></div>
+	<!-- Hier wird der Datensatz angezeigt -->
+    <div id="datensatz"></div>
+</div>
+<script>
+let ausgabe = document.getElementById("ausgabediv");
+let searchField = document.getElementById("suchfeld");
+let hits = document.getElementById("vorschlaege");
+
+searchField.addEventListener('keyup', (event) => {
+	var formData = new FormData();
+	formData.append('nachname', searchField.value);
+	if (searchField.value.length > 2) {
+		fetch('php/suchtreffer_nachname.php', {
+			method: "post",
+			body: formData,
+		})
+		.then((res) => res.json())
+		.then(function(data) {
+			console.log(data);
+			if (data) {
+				searchField.style.backgroundColor = "transparent";
+				ausgabe.innerHTML = "";
+				hits.innerHTML = "";
+				var ulNode = document.createElement("ul");
+				ulNode.classList.add("clicki");
+				for (let i=0; i<data.length; i++) {
+					var liNode = document.createElement("li");
+					liNode.setAttribute('data-id', data[i].ID);
+					liNode.setAttribute('onclick', "getClicks(this)");
+					let text = data[i].Nachname;
+					text += " " + data[i].Vorname;
+					textnode = document.createTextNode(text);
+					liNode.appendChild(textnode);
+					ulNode.appendChild(liNode);
+				}
+				hits.appendChild(ulNode); 
+			}
+			else {
+				ausgabe.innerHTML = "Habe noch nichts gefunden.";
+				hits.innerHTML = "";
+				searchField.style.backgroundColor = "lightsalmon";
+			}
+		}
+		)
+		.catch((error) => console.log(error))
+	}
+})
+
+let ausgabeDatensatz = document.getElementById("datensatz");
+function getClicks(trigger) {
+	hits.innerHTML = "";
+	searchField.value = "";
+	let id = trigger.dataset.id;
+	var formData2 = new FormData();
+	formData2.append('id', id);
+	fetch('php/getSingleRecord.php', {
+  		method: "post",
+  		body: formData2,
+	})
+  	.then((res) => res.json())
+  	.then(function(data) {
+  		console.log(data);
+  		ausgabeDatensatz.innerHTML = data.Vorname + " " + data.Nachname + "<br>";
+  		ausgabeDatensatz.innerHTML += data.Strasse + " " + data.Nr + "<br>";
+  		ausgabeDatensatz.innerHTML += data.PLZ + " " + data.Ort + "<br>";
+  		}
+  	)
+  	.catch((error) => console.log(error))
+
+}
+</script>
+</body>
+</html>

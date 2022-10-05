@@ -1,0 +1,123 @@
+/* Import */
+
+@import url('https://fonts.googleapis.com/css2?family=Handlee&display=swap');
+
+body {
+  margin: 20px auto;
+  font-family: 'Lato';
+
+}
+
+*{
+  margin:0;
+  padding:0;
+}
+
+h2 {
+
+  font-family: 'Handlee', cursive;
+  font-size: 2rem;
+}
+p {
+  font-family: 'Reenie Beanie';
+  font-size: 2rem;
+}
+ul,li{
+  list-style:none;
+}
+.recipe-container{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.contenteditable{
+  position: relative;
+  margin: 3rem;
+  color:#000;
+  background:rgb(249, 249, 238);
+  display:block;
+  height:20rem;
+  width:20rem;
+  padding:1em;
+  box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+  transform: rotate(-6deg);
+  transition: transform .15s linear;
+}
+
+.contenteditable:nth-child(even) {
+  transform:rotate(4deg);
+  position:relative;
+  top:5px;
+  background: #00d1b2;
+}
+.contenteditable:nth-child(3n) {
+  transform:rotate(-3deg);
+  position:relative;
+  top:-5px;
+  background:#9C4C89;
+  color: #fff;
+}
+.contenteditable:nth-child(5n) {
+  transform:rotate(5deg);
+  position:relative;
+  top:-10px;
+}
+
+.contenteditable:hover, .contenteditable:focus{
+  box-shadow:10px 10px 7px rgba(0,0,0,.7);
+  transform: scale(1.25);
+  position:relative;
+  z-index:5;
+}
+
+.icon-container {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 0.5rem 0.2rem;
+}
+.icon-container i {
+  color: #000;
+  font-size: 1.5rem;
+  padding: 1rem;
+}
+
+.contenteditable:nth-child(3n) i {
+  color: #fff;
+}
+
+.contenteditable h3 {
+  font-family: 'Handlee', cursive;
+  font-size: 1.2rem;
+}
+
+.recipe-form.contenteditable {
+  width: 400px;
+  height: auto;
+}
+
+.recipe-form.contenteditable .title {
+  font-family: 'Handlee', cursive;
+  font-size: 1.5rem;
+  padding: 1.5rem 0 0.5rem 0;
+}
+
+.recipe-form .ingredient-container {
+  padding: 1rem 0;
+}
+.recipe-form .ingredient-container h3 {
+  font-family: 'Handlee', cursive;
+  font-size: 1.2rem;
+}
+
+#recipe-result {
+  background-color: violet;
+  height: auto;
+  width: 300px;
+}
+
+.new-recipe {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}

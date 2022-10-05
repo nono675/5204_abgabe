@@ -1,0 +1,203 @@
+* {
+	margin: 0px;
+	padding: 0px;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	font-family: 'Open Sans', Arial, Verdana, sans-serif;
+	font-size: 16px;
+	line-height: 20px;
+	font-weight: 400;
+	color: #333;
+}
+
+#go:disabled{
+	background: grey;
+	cursor: not-allowed;
+}
+div {
+	margin-bottom: 20px
+}
+
+p {
+	margin-bottom: 15px;
+}
+
+ul {
+	margin: 0 0 20px 20px;
+}
+
+.text_orange {
+	color: #e45c3f;
+}
+
+h1 {
+	font-size: 28px;
+	line-height: 32px;
+	font-weight: 700;
+	margin-bottom: 20px;
+}
+
+h2 {
+	font-size: 24px;
+	line-height: 25px;
+	font-weight: 700;
+	margin-bottom: 20px;
+	color: #e45c3f;
+}
+
+strong {
+	font-weight: 700;
+}
+
+
+#container {
+	max-width: 1120px;
+	margin: 20px auto 25px auto;
+}
+
+.feedback_pos {
+	border: 2px solid #008000;
+	padding: 5px 10px;
+	margin-bottom: 18px;
+}
+
+.feedback_neg {
+	border: 2px solid #e85e40;
+	padding: 5px 10px;
+	margin-bottom: 18px;
+}
+
+#ausgabediv {
+	border: 1px solid #008000;
+	margin-bottom: 18px;
+	min-height: 30px;
+	padding: 5px 10px;
+}
+
+form {
+	margin-bottom: 25px;
+}
+
+/* Styles für falsch ausgefüllte Felder */
+.invalid {
+	background-color: #f9c9b5;
+	padding: 10px;
+}
+
+/* Form Elements */
+label {
+	font-weight: 700;
+	display: inline-block;
+	margin-bottom: 5px;
+}
+
+textarea,
+input[type=text],
+input[type=email],
+input[type=number],
+input[type=date] {
+	font-family: 'Open Sans', Arial, Verdana, sans-serif;
+	background-color: #FFFFFF;
+	border: 1px solid #333333;
+	border-radius: 3px;
+	padding: 5px 1%;
+	width: 98%;
+	font-size: 16px;
+}
+
+textarea {
+	height: 150px;
+}
+
+select {
+	font-size: 16px;
+}
+
+option {
+	font-size: 16px;
+}
+
+fieldset {
+	padding: 20px 30px;
+}
+
+legend {
+	padding: 0 10px;
+}
+
+button {
+	background: #e45c3f;
+	border: 3px solid #fff;
+	display: inline-block;
+	font-size: 16px;
+	line-height: 20px;
+	padding: 7px 15px;
+	color: #FFFFFF;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+button:hover {
+	background-color: #ff674c;
+}
+
+#vorschlaege {
+	position: absolute;
+	left: 0px;
+	top: 58px;
+	z-index: 10;
+	width: 70%;
+	max-height: 180px;
+	overflow: auto;
+	background-color: rgba(230,230,230,0.9);
+	border-left: 1px solid #555555;
+	border-right: 1px solid #555555;
+	border-bottom: 1px solid #555555;
+}
+
+#vorschlaege ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+#vorschlaege ul li {
+	border-top: 1px solid #555555;
+	padding: 3px 12px;
+}
+
+ul.clicki li {
+	cursor: pointer;
+}
+
+ul.clicki li:hover {
+	background-color: black;
+	color: white;
+}
+
+/* ----------------------------------- Media queries ---------------------------------- */
+@media screen and (max-width: 720px) {
+	body {
+    	font-size: 14px;
+		line-height: 16px;
+  	}
+	
+	h1 {
+		font-size: 20px;
+		line-height: 25px;
+		margin-bottom: 10px;
+	}
+}
+
+@media (max-width: 576px) {
+	body {
+		font-size: 12px;
+		line-height: 16px;
+	}
+}
+

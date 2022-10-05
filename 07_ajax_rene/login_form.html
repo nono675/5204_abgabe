@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="utf-8" />
+	<title>fourth step</title>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="container">
+	<p><a href="index.html">Zur Übersicht</a></p>
+	<br>
+	<h1>Vierter Schritt mit Ajax - fetch() und PDO</h1>
+	<h2>Benutzernamen überprüfen</h2>
+	<p>Testuser in Tabelle &quot;login&quot; (von Übung &quot;Login mit PDO&quot;):<br>
+	<strong>heiri89</strong> und <strong>carla34</strong></p>
+	<div id="feedback"></div>
+ 	<form method="post" action="login_form.html"  id="myForm">
+ 		<div>
+    		<label for="userName">Username:</label>
+       		<input type="text" id="userName" name="username">
+       	</div>
+			 <div class=formcontrol>
+				<label for="Passwort">Passwort:</label>
+				<input type="text" id="PW" name="PW">
+			</div>
+			<br>
+			<div class=formcontrol>        
+			<button type="submit" name="go" id="go">login</button>
+			</div>
+    </form>
+</div>
+<script>
+let feedback = document.getElementById("feedback"); 
+let formular = document.getElementById("myForm"); 
+let username = document.getElementById("userName"); 
+let password = document.getElementById("PW"); 
+let submitBtn = document.getElementById("go"); 
+
+formular.addEventListener ("submit", function (event) {
+	event.preventDefault();
+	let formData = new FormData();
+	formData.append('username', username.value);
+	formData.append('password', password.value);
+	formData.append('login', "test3");
+	fetch('php/User.class.php', {
+		method: "post",
+		body: formData,
+	})
+	.then((res) => res.json())
+	.then(function(data) {
+		console.log(data);
+		// Von PHP wird true oder false gesendet
+		if (data) {
+			//account created
+			feedback.innerHTML = "logged in";
+			
+		}
+		else {
+			//account failed
+			feedback.innerHTML = "not logged in";
+		}
+	}
+	)
+	.catch((error) => console.log(error))
+
+			
+	})
+</script>
+</body>
+</html>

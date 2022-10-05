@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="utf-8" />
+	<title>form events - submit</title>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="container">
+	<p><a href="index.html">Zur Übersicht</a></p>
+	<br>
+	<h1>Events im Zusammenhang mit Formularen</h1>
+	<h2>onsubmit</h2>
+	<form id="formoben" name="formoben" onsubmit="return checkboxCheck();" method="post">
+		<fieldset>
+			<legend>Formular oben</legend>
+			<p>onsubmit mit Eventhandler auf Form <strong>(veraltet!!!)</strong></p>
+			<div>
+				<input type="checkbox" name="nl" id="nl" value="newsletter">
+				<label>Ich möchte gerne den Newsletter erhalten</label>
+			</div>
+			<br>
+			<div>
+				<button type="submit">Formular oben verschicken</button>
+			</div>
+		</fieldset>
+	</form>
+	<br><br>
+	<form id="formunten" name="formunten">
+		<fieldset>
+			<legend>Formular unten</legend>
+			<p>submit mit Eventlistener auf Form <strong>(bessere Methode!!!)</strong></p>
+			<div>
+				<input type="checkbox" name="bed" id="bed" value="bedingungen">
+				<label>Ich habe die allgemeinen Geschäftsbedingungen gelesen und verstanden</label>
+			</div>
+			<br>
+			<div>
+				<button type="submit">Formular unten verschicken</button>
+			</div>
+		</fieldset>
+	</form>
+</div>
+<script>
+	// Diese Methode ist veraltet!
+	let myCheckbox1 = document.getElementById("nl");
+	function checkboxCheck(event) {
+		if (!myCheckbox1.checked) {
+			alert("Sie müssen den Newsletter bestellen");
+    		// Verhindert das Verschicken
+    		return false;
+		}
+    		
+	}
+	
+	// Diese Methode ist besser, neuer und klarer
+	let myCheckbox2 = document.getElementById("bed");
+	document.getElementById('formunten').addEventListener ("submit", function (event) {
+		if (!myCheckbox2.checked) {
+			alert("Bitte bestätigen Sie, dass Sie die allgemeinen Geschäftsbedingungen gelesen und verstanden haben");
+    		// Verhindert das Verschicken
+    		event.preventDefault();
+		}
+	});
+	
+</script>
+</body>
+</html>

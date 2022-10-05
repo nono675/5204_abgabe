@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="utf-8" />
+	<title>form events - blur</title>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="container">
+	<p><a href="index.html">Zur Übersicht</a></p>
+	<br>
+	<h1>Events im Zusammenhang mit Formularen</h1>
+	<h2>onblur</h2>
+	<p>Wenn das Feld den Fokus verliert, wird gearbeitet ...</p>
+	<form>
+		<div>
+			<label>onblur mit Eventhandler auf Textfeld</label><br>
+			<input type="text" name="text1" id="text1" onblur="writeEventBlur(this)">
+		</div>
+		<div>
+			<label>blur mit Eventlistener auf Textarea</label><br>
+			<textarea name="text2" id="text2"></textarea>
+		</div>
+		<div>
+			<textarea name="ausgabe" id="ausgabe" style="height:280px;"></textarea>
+		</div>
+	</form>
+</div>
+<script>
+	// Speichere das Textarea für die Ausgabe
+	ausgabe = document.getElementById("ausgabe");
+	
+	// Hänge einen EventListener an das Textarea mit der Usereingabe
+	myTextarea = document.getElementById("text2");
+	myTextarea.addEventListener('blur', (event) => {
+  		ausgabe.value += "Name: " + event.target.name + "\n";
+		ausgabe.value += "Value: " + event.target.value + "\n";
+	});
+	
+	function writeEventBlur(trigger) {
+		ausgabe.value += "Name: " + trigger.name + "\n";
+		ausgabe.value += "Value: " + trigger.value + "\n";
+	}
+	
+</script>
+</body>
+</html>

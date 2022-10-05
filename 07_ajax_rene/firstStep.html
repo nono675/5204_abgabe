@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="utf-8" />
+	<title>first step</title>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="container">
+	<p><a href="index.html">Zur Übersicht</a></p>
+	<br>
+	<h1>Erster Schritt mit Ajax - fetch()</h1>
+	<h2>Einbahnverkehr: Nur Daten abholen</h2>
+	<p>Öffne die Entwickler-Konsole!</p>
+	<p>Schaue dir auch das PHP-Dokument an!</p>
+	<label>Antwort von PHP:</label>
+	<div id="ausgabediv"></div>
+</div>
+<script>
+	let ausgabe = document.getElementById("ausgabediv");
+	// 1. Spaghetti: PHP aufrufen
+	fetch('php/firstStep.php')
+	// 2. Spaghetti: Daten als JSON abholen
+  	.then((res) => res.json())
+  	// 3. Spaghetti: Daten verarbeiten
+  	.then(function(data) {
+  		console.log(data);
+  		ausgabe.innerHTML = data.antipasto;
+  		}
+  	)
+  	// 4. Spaghetti: Fehler ausgeben
+  	.catch((error) => console.log(error))
+</script>
+</body>
+</html>

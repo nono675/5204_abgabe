@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="utf-8" />
+	<title>Zweite Aufgabe</title>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="container">
+	<p><a href="index.html">Zur Übersicht</a></p>
+	<br>
+	<h1>Zweite Aufgabe</h1>
+	<h2>Speed it up - Speed it down</h2>
+	<p>
+	<code>SELECT * FROM foo WHERE field LIKE &quot;bar%&quot;</code><br>
+	geht schneller, wenn man einen Index auf die Spalte anlegt</p>
+	<p>Steht jedoch auch eine Wildcard links vom Suchstring, nützt der Index nichts:<br>
+	<code>SELECT * FROM foo WHERE field LIKE &quot;%bar%&quot;</code></p>
+	</p>
+	<p><strong>Aufgabe:</strong> Um den Speedtest wirklich aussagekräftig zu gestalten, müssen mehr Datensätze zum Einsatz kommen. Hier kannst du dir Dummy-Daten holen: <a href="http://filldb.info/dbgenerator" target="_blank">filldb.info/dbgenerator</a>.<br>
+	Stelle dir eine Tabelle mit mindestens 5'000 Einträgen zusammen und füge damit eine neue Tabelle in deine lokale DB hinzu. Lege auf der Spalte, die du durchsuchen möchtest, mit PHPMyAdmin einen Index an. Passe die Query an, damit diese wieder läuft.</p>
+	<p>Teste mit und ohne Wildcard auf der linken Seite des Suchbegriffs.</p>
+ 	<form method="post">
+ 		<label>Zeit für die Verarbeitung der Datenbank-Abfrage:</label>
+		<div id="ausgabediv"></div>
+ 		<div style="position: relative;">
+    		<label for="userName">Suche:</label>
+       		<input type="text" id="suchfeld" name="suchfeld">
+       		<!-- Hier werden die Vorschläge ausgegeben -->
+       		<div id="vorschlaege"></div>
+       	</div>
+    </form>
+
+</div>
+<script>
+let ausgabe = document.getElementById("ausgabediv");
+let searchField = document.getElementById("suchfeld");
+let hits = document.getElementById("vorschlaege");
+
+searchField.addEventListener('keyup', (event) => {
+	var formData = new FormData();
+	formData.append('nachname', searchField.value);
+	if (searchField.value.length > 2) {
+		fetch('php/suchtreffer_speed.php', {
+			method: "post",
+			body: formData,
+		})
+		.then((res) => res.json())
+		.then(function(data) {
+			console.log(data);
+			let dataNr = Object.keys(data).length;
+			if (dataNr > 1) {
+				searchField.style.backgroundColor = "transparent";
+				ausgabe.innerHTML = data.zeit;
+				hits.innerHTML = "";
+				var ulNode = document.createElement("ul");  
+				for (let i=0; i<(dataNr-1); i++) {
+					var liNode = document.createElement("li");
+					let text = data[i].Nachname;
+					text += " " + data[i].Vorname;
+					textnode = document.createTextNode(text);
+					liNode.appendChild(textnode);
+					ulNode.appendChild(liNode);
+				}
+				hits.appendChild(ulNode); 
+			}
+			else {
+				ausgabe.innerHTML = "Habe noch nichts gefunden.";
+				hits.innerHTML = "";
+				searchField.style.backgroundColor = "lightsalmon";
+			}
+		}
+		)
+		.catch((error) => console.log(error))
+	}
+})
+</script>
+</body>
+</html>

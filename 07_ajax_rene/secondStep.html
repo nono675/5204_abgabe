@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="utf-8" />
+	<title>second step</title>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="container">
+	<p><a href="index.html">Zur Übersicht</a></p>
+	<br>
+	<h1>Zweiter Schritt mit Ajax - fetch()</h1>
+	<h2>Daten senden, Resulat abholen</h2>
+	<p>Öffne die Entwickler-Konsole!</p>
+	<p>Schaue dir auch das PHP-Dokument an!</p>
+	<label>Antwort von PHP:</label>
+	<div id="ausgabediv"></div>
+</div>
+<script>
+	let ausgabe = document.getElementById("ausgabediv");
+	
+	// Dies befüllt dann $_POST['send'] im PHP-Script
+	var formData = new FormData();
+	formData.append('send', 'primo');
+	
+	// Beim 1. Spaghetti braucht es jetzt zusätzliche Angaben
+	fetch('php/secondStep.php', {
+  		method: "post",
+  		body: formData,
+	})
+  	.then((res) => res.json())
+  	.then(function(data) {
+  		console.log(data);
+  		ausgabe.innerHTML = data;
+  		}
+  	)
+  	.catch((error) => console.log(error))
+	</script>
+</body>
+</html>

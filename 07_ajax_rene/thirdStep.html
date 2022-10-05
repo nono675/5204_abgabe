@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+	<meta charset="utf-8" />
+	<title>third step</title>
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="container">
+	<p><a href="index.html">Zur Übersicht</a></p>
+	<br>
+	<h1>Dritter Schritt mit Ajax - fetch()</h1>
+	<h2>E-Mail Adresse mit PHP validieren</h2>
+	<p>Öffne die Entwickler-Konsole!</p>
+	<p>Schaue dir auch das PHP-Dokument an!</p>
+	<form>
+		<div>
+			<label>Validation einer E-Mail Adresse</label><br>
+			<input type="text" name="email" id="email">
+		</div>
+	</form>
+	
+	<label>Resultat der Auswertung:</label>
+	<div id="ausgabediv"></div>
+</div>
+<script>
+let ausgabe = document.getElementById("ausgabediv");
+let mailField = document.getElementById("email");
+mailField.addEventListener('blur', (event) => {
+	var formData = new FormData();
+	formData.append('email', mailField.value);
+	fetch('php/thirdStep.php', {
+  		method: "post",
+  		body: formData,
+	})
+  	.then((res) => res.json())
+  	.then(function(data) {
+  		console.log(data);
+  		// Von PHP wird true oder false gesendet
+  		if (data) {
+  			ausgabe.innerHTML = "Die E-Mail ist syntaktisch richtig.";
+  		}
+  		else {
+  			ausgabe.innerHTML = "Eine solche E-Mail kann es nicht geben!";
+  			mailField.style.backgroundColor = "lightsalmon";
+  		}
+  	}
+  	)
+  	.catch((error) => console.log(error))
+})
+</script>
+</body>
+</html>
