@@ -236,6 +236,9 @@
 </div>
 </form>
 
+
+
+
 <div id="recipe-result" class="contenteditable">
 <h2 id="recipe-result-title"></h2>
   <ul id="basic-ul"></ul>
@@ -253,6 +256,18 @@
 </div>
 
 
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Some text in the Modal..</p>
+  </div>
+
+</div>
+
+
 <div class="recipe-container">
 
 
@@ -262,6 +277,12 @@
 </div>
 
 <script>
+
+let formTemplate = document.getElementsByClassName("recipe-form contenteditable")
+let modal = document.getElementById("myModal")
+// Get the <span> element that closes the modal
+let span = document.getElementsByClassName("close")[0];
+
 
 let basicCheckboxes = document.getElementsByClassName("basic");
 let meatCheckboxes = document.getElementsByClassName("meat");
@@ -383,9 +404,12 @@ recipeTitle.onkeyup = function() {
 
     console.log(new_data)
   
+    let counter = 1
+
     new_data.forEach( recipes => {
       const div = document.createElement('div')
       div.className = 'contenteditable'
+      div.id = `rezept_nr${recipes.id}`
       const recipes_template = `
       <small>ID: ${recipes.id}</small>
       <h3>${recipes.title}</h3>
@@ -393,30 +417,259 @@ recipeTitle.onkeyup = function() {
       <p>${recipes.beschreib}</p>
       <small>Kreiert von: ${recipes.fk_user}</small>
       <div class="icon-container">
-            <a id="edit" class="btn-custom" href="#" ><i class="fa-solid fa-pen-to-square"></i></a>
+            <a id="edit_nr${recipes.id}" class="btn-custom edit" href="#" ><i class="fa-solid fa-pen-to-square"></i></a>
             <a class="btn-default" href="features/events/delete.php?task=delete&id=<?php  echo $datensatz['id'] ?>"><i class="fa-solid fa-trash"></i></a>
           </div>
       `
       div.innerHTML = recipes_template 
       document.querySelector('.recipe-container').appendChild(div)
 
-      editRecipes(new_data)
+      editRecipes(recipes)
     })
+    
   }
 
-  function editRecipes(new_data) {
+  function editRecipes(recipes) {
 
-    let edit = document.getElementById("edit")
-    edit.addEventListener("click")
-    "click" = false 
-    new_data.forEach(editRecipes => {
-      if ("click" === true) {
-        console.log(`${editRecipes.id}`)
+    let edit = document.getElementById(`edit_nr${recipes.id}`)
+
+
+    edit.addEventListener("click", function (event) {
+        console.log(edit)
+        let recipe = document.getElementById(`rezept_nr${recipes.id}`)  
+
+      modal.style.display = "block";
+      modal.innerHTML = returnFilledForm(recipes)
+    
+      
+      });
+
+
+ 
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function(event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
       }
-    })
+
+      // When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+
+    // for (let i = 0; i < edit.length; i++) {
+   	// 	edit[i].addEventListener("click", function (event) {
+    //     console.log(edit[i])
+                        
+    //   });
+	  // }
+
   
   
   
+  
+  }
+
+  function returnFilledForm (recipes) {
+    return `
+    <form class="recipe-form contenteditable" method="POST" action="private.php">
+<div class="field">
+  <label class="title label">Rezept-Name</label>
+  <div class="control">
+    <input id="recipe-title" class="input" type="text" name="title" placeholder="Text input" value="${recipes.title}">
+  </div>
+</div>
+<div class="field">
+<label class="checkbox label title">Basis</label>
+<div class="checkbox-container">
+<div class="ingredient">
+  <input type="checkbox" name="checkbox[]" class="basic" id="Dinkelmehl" value="Dinkelmehl">
+  Dinkelmehl
+</div>
+<div class="ingredient">
+  <input type="checkbox" name="checkbox[]" class="basic" value="Kartoffelmehl" id="Kartoffelmehl">
+  Kartoffelmehl
+</div>
+<div class="ingredient" >
+  <input type="checkbox" name="checkbox[]" class="basic" value="Vollkornmehl">
+  Vollkornmehl
+</div>
+<div class="ingredient">
+  <input type="checkbox"  name="checkbox[]" class="basic"  value="Buchweizenmehl">
+  Buchweizenmehl
+</div>
+<div class="ingredient">
+  <input type="checkbox"  name="checkbox[]" class="basic" value="Weizenmehl">
+  Weizenmehl
+</div>
+<div class="ingredient" >
+  <input type="checkbox" name="checkbox[]" class="basic" value="Kichererbsenmehl">
+  Kichererbsenmehl
+</div>
+  </div>
+</div>
+<div class="field">
+<label class="checkbox label title">Geschmackszugabe</label>
+<div class="ingredients field">
+  <div class="ingredient-container">
+    <h3>Fleisch</h3>
+    <div class="ingredient" >
+      <input type="checkbox" name="checkbox[]" class="meat" value="Leber">
+      Leber
+    </div>
+    <div class="ingredient">
+      <input type="checkbox" name="checkbox[]" class="meat" value="Hackfleisch">
+      Hackfleisch
+    </div>
+    <div class="ingredient">
+      <input type="checkbox" name="checkbox[]" class="meat" value="Schweineschmalz">
+      Schweineschmalz
+    </div>
+    <div class="ingredient">
+      <input type="checkbox" name="checkbox[]" class="meat" value="Gekochter Schinken">
+      Gekochter Schinken
+    </div>
+  </div>
+  <div class="ingredient-container">
+    <h3>Käse</h3>
+    <div class="ingredient" >
+      <input type="checkbox" name="checkbox[]" class="cheese" value="Hüttenkäse">
+      Hüttenkäse
+    </div>
+    <div class="ingredient">
+      <input type="checkbox" name="checkbox[]" class="cheese" value="Parmesan">
+      Parmesan
+    </div>
+    <div class="ingredient">
+      <input type="checkbox"  name="checkbox[]" class="cheese" value="Cheedar">
+      Cheddar
+    </div>
+  </div>
+  <div class="ingredient-container">
+    <h3>Fisch</h3>
+    <div class="ingredient">
+      <input type="checkbox" name="checkbox[]" class="fish" value="Sardinen">
+      Sardinen
+    </div>
+    <div class="ingredient">
+      <input type="checkbox" name="checkbox[]" class="fish" value="Thunfisch">
+      Thunfisch
+    </div>
+    <div class="ingredient">
+      <input type="checkbox" name="checkbox[]" class="fish" value="Lachsfilet">
+      Lachsfilet
+    </div>
+  </div>
+</div>
+</div>
+<div class="select-container">
+  <div class="field">
+    <label class="label title">Öl</label>
+    <div class="control">
+      <div class="select">
+        <select id="select-oil" onchange="writeOil(this)">
+          <option>Wähle eine Option</option>
+          <option>Kokosöl</option>
+          <option>Hanföl</option>
+          <option>Olivenöl</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="field">
+    <label class="label title">Superfood</label>
+    <div class="control">
+      <div class="select">
+        <select id="select-superfood" onchange="writeSuperfood(this)">
+          <option>Wähle eine Option</option>
+          <option>getrocknete Kamillenblüten</option>
+          <option>Mariendistel-Samen</option>
+          <option>Seealgenmehl</option>
+          <option>Flohsamen</option>
+          <option>Rosenblüten</option>
+          <option>Schafgarben</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="field">
+  <label class="label title">Form</label>
+<div class="control radio-container">
+  <label class="radio">
+    <input type="radio" name="answer">
+    Knochen
+  </label>
+  <label class="radio">
+    <input type="radio" name="answer">
+    Fisch
+  </label>
+  <label class="radio">
+    <input type="radio" name="answer">
+    Stern
+  </label>
+  <label class="radio">
+    <input type="radio" name="answer">
+    Halbkugel
+  </label>
+  <label class="radio">
+    <input type="radio" name="answer">
+    Herz
+  </label>
+  <label class="radio">
+    <input type="radio" name="answer">
+    Donut
+  </label>
+  <label class="radio">
+    <input type="radio" name="answer">
+    Pfoten
+  </label>
+</div>
+</div>
+<div class="field">
+<div class="file">
+  <h3>Lade hier ein Foto deines Haustiers hoch!</h3>
+  <label class="file-label">
+    <input class="file-input" type="file" name="resume">
+    <span class="file-cta">
+      <span class="file-icon">
+        <i class="fas fa-upload"></i>
+      </span>
+      <span class="file-label">
+        Bild
+      </span>
+    </span>
+  </label>
+</div>
+</div>
+<div class="field">
+  <div class="control">
+    <label class="checkbox">
+      <input type="checkbox">
+      Ich bin damit einverstanden, dass mein Rezept gespeichert und veröffentlicht wird. 
+    </label>
+  </div>
+</div>
+
+<div class="field is-grouped">
+  <div class="control">
+    <button class="button is-block is-primary" type="submit" name="go" id="go">Absenden</button>
+  </div>
+  <div class="control">
+    <button class="button is-link is-light">Cancel</button>
+  </div>
+</div>
+</form>
+
+    
+    `
+
+
+    
+    
   }
 
 

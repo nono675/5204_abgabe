@@ -35,7 +35,8 @@ class Recipe extends PDO {
 	
 	// Ist vorläufig nicht in Gebrauch
 	public function readMethod() {
-		$query = "SELECT * FROM recipe";
+		$query = "SELECT recipe.id, recipe.title, recipe.beschreib, recipe.image, recipe.fk_user, zutaten_zu_rezept.id, zutaten_zu_rezept.zutaten_name, zutaten_zu_rezept.fk_rezepte FROM recipe
+		JOIN zutaten_zu_rezept ON zutaten_zu_rezept.fk_rezepte = recipe.id";
 		$stmt = $this -> prepare($query);
 		$stmt -> execute();
 		$result = $stmt -> fetchAll();
