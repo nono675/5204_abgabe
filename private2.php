@@ -309,7 +309,6 @@ recipeTitle.onkeyup = function() {
 }
 
 
-
 // Checkbox-Ausgaben
 
 	for (let i = 0; i < basicCheckboxes.length; i++) {
@@ -378,108 +377,129 @@ recipeTitle.onkeyup = function() {
   getData ()
 
   function getData() {
-  fetch('php/Recipe.class.php')
-    .then(res => res.json())
+    // fetch all recipes (for user) with joined zutaten.
+    fetch('php/Recipe.class.php?getalljoined')
+    .then(res => res.json()) // .then means it waits until step before is completed.
     .then(function(data) {
-      const new_data = data
-      console.log(new_data)
+      const all_recipes_joined = data
+      console.log(all_recipes_joined)
 
-      //showTitle(new_data)
-      showRecipes(new_data)
-
+      showRecipes(all_recipes_joined)
     })
-    //.catch(err => console.log(err))
+
   }
 
-/*   function showTitle (new_data) {
-      const titles = []
-      new_data.forEach( recipe => {
-        titles.push(recipe.title)
-      })
-      console.log(titles)
+  function showRecipes(all_recipes_joined) {
 
-  } */
+    // all_recipes_joined has structure
+    // id(recipe.id) | title | beschreib ....... | zutaten_name | fk_rezepte
+    // 1             | T5000 | abc               | Leber        | 1
+    // 1             | T5000 | abc               | Cheese       | 1
+    // 2             | T2222 | xyz               | Leber        | 2
 
-  function showRecipes(new_data) {
+    // but we want only 1 post it per recipe id.. That's why we group it.
+    console.log(all_recipes_joined)
 
-    console.log(new_data)
-  
-    let counter = 1
+    const rezepte_grupiert = all_recipes_joined.reduce((groups, item) => {
+        const group = (groups[item.rezept_id] || []);
+        group.push(item);
+        groups[item.rezept_id] = group;
+        return groups;
+      }, {});
 
-    new_data.forEach( recipes => {
+    // rezepte_grupiert has structure
+    // key     id(recipe.id) | title | beschreib ....... | zutaten_name | fk_rezepte
+    // [0]
+    //         1             | T5000 | abc               | Leber        | 1             [0] ArrayIndex
+    //         1             | T5000 | abc               | Leber        | 1             [1] ArrayIndex
+    // [1]
+    //         2             | T2222 | xyz               | Leber        | 2             [0] ArrayIndex
+
+    // Now we can loop throu each key to ensure we will have only one posy it per recipe.
+    console.log(rezepte_grupiert);
+    Object.keys(rezepte_grupiert).forEach( key => {
+
+      rezept_gruppe = rezepte_grupiert[key];      
+
+      // Creates a new html div (not know by the html file so far)
       const div = document.createElement('div')
       div.className = 'contenteditable'
-      div.id = `rezept_nr${recipes.id}`
+      div.id = `rezept_nr${rezept_gruppe[0].rezept_id}` // we can always use 0 as index if we want to knoe a vaue from recipe tabel. Since all values of recipe table are the same within rezept_gruppe.
+
+      // ASsign template with attach edit and delete buttons.
       const recipes_template = `
-      <small>ID: ${recipes.id}</small>
-      <h3>${recipes.title}</h3>
-      <img>${recipes.image}</img}
-      <p>${recipes.beschreib}</p>
-      <small>Kreiert von: ${recipes.fk_user}</small>
+      <small>ID: ${rezept_gruppe[0].rezept_id}</small>
+      <h3>${rezept_gruppe[0].title}</h3>
+      <img>${rezept_gruppe[0].image}</img}
+      <p>${rezept_gruppe[0].beschreib}</p>
+      <small>Kreiert von: ${rezept_gruppe[0].fk_user}</small>
       <div class="icon-container">
-            <a id="edit_nr${recipes.id}" class="btn-custom edit" href="#" ><i class="fa-solid fa-pen-to-square"></i></a>
-            <a class="btn-default" href="features/events/delete.php?task=delete&id=<?php  echo $datensatz['id'] ?>"><i class="fa-solid fa-trash"></i></a>
+            <a id="edit_nr${rezept_gruppe[0].rezept_id}" class="btn-custom edit" href="#" ><i class="fa-solid fa-pen-to-square"></i></a>
+            <a class="btn-default" href="features/events/delete.php?task=delete&id=${rezept_gruppe[0].rezept_id}"><i class="fa-solid fa-trash"></i></a>
           </div>
       `
       div.innerHTML = recipes_template 
+      // Add the new html div to the exitsing html file
       document.querySelector('.recipe-container').appendChild(div)
 
-      editRecipes(recipes)
+      // Subscribe onClick methods for edit button
+      editRecipes(rezept_gruppe)
     })
     
   }
 
-  function editRecipes(recipes) {
+  function editRecipes(rezept_gruppe) {
 
-    let edit = document.getElementById(`edit_nr${recipes.id}`)
+    let rezeptId = rezept_gruppe[0].rezept_id; // we can always use 0 as index if we want to knoe a vaue from recipe tabel. Since all values of recipe table are the same within rezept_gruppe.
 
+    // Get edit button
+    let edit = document.getElementById(`edit_nr${rezeptId}`)
 
+    // Subscripe click event
     edit.addEventListener("click", function (event) {
         console.log(edit)
-        let recipe = document.getElementById(`rezept_nr${recipes.id}`)  
 
       modal.style.display = "block";
-      modal.innerHTML = returnFilledForm(recipes)
+
+      // Get recipe edit form (partially prefilled)
+      modal.innerHTML = returnFilledForm(rezept_gruppe)
     
-      
-      });
+      // Select all zutaten_name of rezept_gruppe
+      let rezept_zutaten = rezept_gruppe.map(a => a.zutaten_name);
+      // Select all check boxes which exist in modal and have one of these classes
+      var checkBoxes = modal.querySelectorAll('.basic, .meat, .fish, .cheese')
+      console.log(rezept_zutaten)
 
-
- 
-
-      // When the user clicks anywhere outside of the modal, close it
-      window.onclick = function(event) {
-        if (event.target == modal) {
-          modal.style.display = "none";
-        }
+      // Loop through all check boxes fro modal
+      // If rezept_zutaten contains the value of the check box, it means the zutat exists for this recipe in the db. Thus we set the check box to checked.
+      for (let i = 0; i < checkBoxes.length; i++) {
+          if(rezept_zutaten.includes(checkBoxes[i].value)){
+            console.log(checkBoxes[i].value)
+            checkBoxes[i].checked = true;
+          }
       }
+    })
 
-      // When the user clicks on <span> (x), close the modal
-span.onclick = function() {
-  modal.style.display = "none";
-}
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
 
-
-    // for (let i = 0; i < edit.length; i++) {
-   	// 	edit[i].addEventListener("click", function (event) {
-    //     console.log(edit[i])
-                        
-    //   });
-	  // }
-
-  
-  
-  
-  
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
   }
 
-  function returnFilledForm (recipes) {
+  function returnFilledForm (rezept_gruppe) {  
     return `
     <form class="recipe-form contenteditable" method="POST" action="private.php">
 <div class="field">
   <label class="title label">Rezept-Name</label>
   <div class="control">
-    <input id="recipe-title" class="input" type="text" name="title" placeholder="Text input" value="${recipes.title}">
+    <input id="recipe-title" class="input" type="text" name="title" placeholder="Text input" value="${rezept_gruppe[0].title}">
   </div>
 </div>
 <div class="field">
