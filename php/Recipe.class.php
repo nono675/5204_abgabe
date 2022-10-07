@@ -32,10 +32,29 @@ class Recipe extends PDO {
 		// Das funktioniert nur mit MySQL-Datenbanken!
 		return $this -> lastInsertId();
 	}
+
+	// Read methode von zutaten_zu_rezept pro Rezept
+	public function readAllZutatenZuRezeptProRezeptMethod($rezept_id) {
+		$query = "SELECT zutaten_zu_rezept.id, zutaten_zu_rezept.zutaten_name, zutaten_zu_rezept.fk_rezepte FROM zutaten_zu_rezept
+		WHERE fk_rezepte = {$rezept_id}";
+		$stmt = $this -> prepare($query);
+		$stmt -> execute();
+		$result = $stmt -> fetchAll();
+		return $result;
+	}
 	
-	// Ist vorläufig nicht in Gebrauch
-	public function readMethod() {
-		$query = "SELECT recipe.id, recipe.title, recipe.beschreib, recipe.image, recipe.fk_user, zutaten_zu_rezept.id, zutaten_zu_rezept.zutaten_name, zutaten_zu_rezept.fk_rezepte FROM recipe
+	// Read methode von recipe ohne join zu zutaten_zu_rezept
+	public function readAllRecipeMethod() {
+		$query = "SELECT recipe.id, recipe.title, recipe.beschreib, recipe.image, recipe.fk_user FROM recipe";
+		$stmt = $this -> prepare($query);
+		$stmt -> execute();
+		$result = $stmt -> fetchAll();
+		return $result;
+	}
+
+	// Read methode mit join a zutaten_zu_rezept. Gibt pro Zutat eine Zeile zurück (ein Rezept taucht mehrmahls auf)
+	public function readAllRecipeJoinedMethod() {
+		$query = "SELECT recipe.id as rezept_id, recipe.title, recipe.beschreib, recipe.image, recipe.fk_user, zutaten_zu_rezept.id, zutaten_zu_rezept.zutaten_name, zutaten_zu_rezept.fk_rezepte FROM recipe
 		JOIN zutaten_zu_rezept ON zutaten_zu_rezept.fk_rezepte = recipe.id";
 		$stmt = $this -> prepare($query);
 		$stmt -> execute();
@@ -128,12 +147,30 @@ class Recipe extends PDO {
 }
 
 
-
-
+// if you call fetch('php/Recipe.class.php?getall')
+if(isset($_GET['getall'])){
 	$dbInst = new Recipe($host,$dbname,$user,$passwd);
-	$res=$dbInst->readMethod();
+	$res=$dbInst->readAllRecipeMethod();
 	header('Content-Type: application/json');
 	echo json_encode($res);
+}
+
+// if you call fetch('php/Recipe.class.php?getalljoined')
+if(isset($_GET['getalljoined'])){
+	$dbInst = new Recipe($host,$dbname,$user,$passwd);
+	$res=$dbInst->readAllRecipeJoinedMethod();
+	header('Content-Type: application/json');
+	echo json_encode($res);
+}
+
+// if you call fetch('php/Recipe.class.php?getZutatenProRezept&id=')
+if(isset($_GET['getZutatenProRezept']) and isset($_GET['id'])){
+	$dbInst = new Recipe($host,$dbname,$user,$passwd);
+	$res=$dbInst->readAllZutatenZuRezeptProRezeptMethod($_GET['id']);
+	header('Content-Type: application/json');
+	echo json_encode($res);
+}
+	
 
 
 
