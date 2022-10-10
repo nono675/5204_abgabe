@@ -47,11 +47,11 @@
 
 <div class="new-recipe">
 
-<form class="recipe-form contenteditable" method="POST" action="private.php">
+<form id="recipe-form" class="recipe-form contenteditable" method="POST" action="">
 <div class="field">
   <label class="title label">Rezept-Name</label>
   <div class="control">
-    <input id="recipe-title" class="input" type="text" name="title" placeholder="Text input">
+    <input id="recipe-title" class="input" type="text" name="recipe-title" placeholder="Text input">
   </div>
 </div>
 <div class="field">
@@ -228,7 +228,7 @@
 
 <div class="field is-grouped">
   <div class="control">
-    <button class="button is-block is-primary" type="submit" name="go" id="go">Absenden</button>
+    <button class="button is-block is-primary" type="submit" name="createRecipe" id="createRecipe">Absenden</button>
   </div>
   <div class="control">
     <button class="button is-link is-light">Cancel</button>
@@ -247,10 +247,6 @@
   <ul id="fish-ul"></ul>
   <ul id="oil-ul"></ul>
   <ul id="superfood-ul"></ul>
-
-
-
-
 </div>
 
 </div>
@@ -278,6 +274,10 @@
 
 <script>
 
+  
+let recipeForm = document.getElementById("recipe-form")
+let recipeFormTitle = document.getElementById("recipe-title")
+
 let formTemplate = document.getElementsByClassName("recipe-form contenteditable")
 let modal = document.getElementById("myModal")
 // Get the <span> element that closes the modal
@@ -299,6 +299,42 @@ let oilUl = document.getElementById('oil-ul');
 let superfoodUl = document.getElementById('superfood-ul');
 
 
+// insert data in db
+recipeForm.addEventListener ("submit", function (event) {
+	event.preventDefault();
+	let formData = new FormData();
+	formData.append('recipe-title', recipeFormTitle.value);
+  let checkBoxes = recipeForm.querySelectorAll('.basic, .meat, .fish, .cheese')
+  for (let i = 0; i < checkBoxes.length; i++) {
+         formData.append(checkBoxes[i].value, checkBoxes[i].checked)
+      }
+      console.log(formData)
+
+
+	fetch('php/Recipe.class.php?createRecipe', {
+		method: "post",
+		body: formData,
+	})
+	.then((res) => res.json())
+	.then(function(data) {
+		console.log(data);
+		// Von PHP wird true oder false gesendet
+		if (data) {
+			//account created
+			feedback.innerHTML = "account created";
+			formular.style.display="none";
+
+		}
+		else {
+			//account failed
+			feedback.innerHTML = "account failed to create";
+		}
+	}
+	)
+	.catch((error) => console.log(error))
+
+			
+	})
 
 let recipeTitle = document.getElementById("recipe-title");
 recipeTitle.onkeyup = function() {
