@@ -47,7 +47,7 @@
 
 <div class="new-recipe">
 
-<form id="recipe-form" class="recipe-form contenteditable" method="POST" action="">
+<form id="recipe-form" class="recipe-form contenteditable" method="POST">
 <div class="field">
   <label class="title label">Rezept-Name</label>
   <div class="control">
@@ -299,41 +299,23 @@ let oilUl = document.getElementById('oil-ul');
 let superfoodUl = document.getElementById('superfood-ul');
 
 
-// insert data in db
+// insert new recipe in db
 recipeForm.addEventListener ("submit", function (event) {
 	event.preventDefault();
-	let formData = new FormData();
-	formData.append('recipe-title', recipeFormTitle.value);
-  let checkBoxes = recipeForm.querySelectorAll('.basic, .meat, .fish, .cheese')
-  for (let i = 0; i < checkBoxes.length; i++) {
-         formData.append(checkBoxes[i].value, checkBoxes[i].checked)
-      }
-      console.log(formData)
+	let formData = new FormData(recipeForm);
+  console.log(formData['recipe-title'])
 
-
-	fetch('php/Recipe.class.php?createRecipe', {
+	fetch('php/Recipe.class.php', {
 		method: "post",
 		body: formData,
 	})
 	.then((res) => res.json())
 	.then(function(data) {
-		console.log(data);
-		// Von PHP wird true oder false gesendet
-		if (data) {
-			//account created
-			feedback.innerHTML = "account created";
-			formular.style.display="none";
-
-		}
-		else {
-			//account failed
-			feedback.innerHTML = "account failed to create";
-		}
+    console.log(data)
+		// hier könnte man dann dem user anzeigen, dass das neue rezept erstellt worden ist.
 	}
 	)
 	.catch((error) => console.log(error))
-
-			
 	})
 
 let recipeTitle = document.getElementById("recipe-title");
@@ -514,6 +496,28 @@ recipeTitle.onkeyup = function() {
             checkBoxes[i].checked = true;
           }
       }
+
+
+      // When all existing (title, checkboxes etc.) are loaded to the edit form, 
+      // we can subscribe the submit event for the updateRecipeForm. (very similar to create new recipe)
+      let updateRecipeForm = document.getElementById('update-recipe-form')
+      updateRecipeForm.addEventListener ("submit", function (event) {
+        event.preventDefault();
+        let formData = new FormData(updateRecipeForm);
+        formData.append('id', rezept_gruppe[0].rezept_id) // Necessary for SQL queries and to filter $_POST['id']
+
+        fetch("php/Recipe.class.php", {
+          method: "post",
+          body: formData,
+        })
+        .then((res) => res.json())
+        .then(function(data) {
+          console.log(data)
+          // hier könnte man dann dem user anzeigen, dass das neue rezept erstellt worden ist.
+        }
+        )
+        .catch((error) => console.log(error))
+      })
     })
 
     // When the user clicks anywhere outside of the modal, close it
@@ -531,11 +535,11 @@ recipeTitle.onkeyup = function() {
 
   function returnFilledForm (rezept_gruppe) {  
     return `
-    <form class="recipe-form contenteditable" method="POST" action="private.php">
+    <form id='update-recipe-form'class="recipe-form contenteditable" method="POST"">
 <div class="field">
   <label class="title label">Rezept-Name</label>
   <div class="control">
-    <input id="recipe-title" class="input" type="text" name="title" placeholder="Text input" value="${rezept_gruppe[0].title}">
+    <input id="recipe-title" class="input" type="text" name="recipe-title" placeholder="Text input" value="${rezept_gruppe[0].title}">
   </div>
 </div>
 <div class="field">
