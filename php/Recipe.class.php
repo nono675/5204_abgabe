@@ -3,12 +3,10 @@ require("../prefs/credentials.php");
 // Die Klasse erbt von der Superklasse PDO
 class Recipe extends PDO
 {
-
 	// Konstruktormethode: Stelle die Verbindung zur DB her
 	public function __construct($host, $dbname, $user, $passwd)
 	{
 		$dsn = 'mysql:host=' . $host . ';dbname=' . $dbname . ';charset=utf8';
-
 		// Array für Optionen für PDO anlegen
 		$options = array(
 			// Wir wollen in der Testphase wissen, ob es Fehler gibt.
@@ -25,11 +23,12 @@ class Recipe extends PDO
 		}
 	}
 	// Methode zum Erstellen eines neuen Rezepts
-	public function createMethod($rezeptname)
+	public function createMethod($rezeptname, $shape)
 	{
-		$query = "INSERT INTO recipe (title) VALUES (:rezeptname)";
+		$query = "INSERT INTO recipe (title, form) VALUES (:rezeptname, :form)";
 		$stmt = $this->prepare($query);
 		$stmt->bindParam(':rezeptname', $rezeptname);
+		$stmt->bindParam(':form', $shape);
 		$stmt->execute();
 		// Das funktioniert nur mit MySQL-Datenbanken!
 		return $this->lastInsertId();
@@ -48,15 +47,16 @@ class Recipe extends PDO
 	}
 
 	// Methode zum Updated eines Rezepts
-	public function updateRezeptMethod($rezeptId, $rezeptname)
+	public function updateRezeptMethod($rezeptId, $rezeptname, $shape)
 	{
 		$query = "UPDATE recipe 
-		Set title = :rezeptname
+		Set title = :rezeptname, form = :form
 		where id = :rezeptId";
 
 		$stmt = $this->prepare($query);
 		$stmt->bindParam(':rezeptname', $rezeptname);
 		$stmt->bindParam(':rezeptId', $rezeptId);
+		$stmt->bindParam(':form', $shape);
 		$stmt->execute();
 		// Das funktioniert nur mit MySQL-Datenbanken!
 		return $this->lastInsertId();
@@ -86,7 +86,7 @@ class Recipe extends PDO
 	// Read methode mit join a zutaten_zu_rezept. Gibt pro Zutat eine Zeile zurück (ein Rezept taucht mehrmahls auf)
 	public function readAllRecipeJoinedMethod()
 	{
-		$query = "SELECT recipe.id as rezept_id, recipe.title, recipe.beschreib, recipe.image, recipe.fk_user, zutaten_zu_rezept.id, zutaten_zu_rezept.zutaten_name, zutaten_zu_rezept.fk_rezepte FROM recipe
+		$query = "SELECT recipe.id as rezept_id, recipe.title, recipe.beschreib, recipe.form, recipe.image, recipe.fk_user, zutaten_zu_rezept.id, zutaten_zu_rezept.zutaten_name, zutaten_zu_rezept.fk_rezepte FROM recipe
 		JOIN zutaten_zu_rezept ON zutaten_zu_rezept.fk_rezepte = recipe.id";
 		$stmt = $this->prepare($query);
 		$stmt->execute();
@@ -121,7 +121,7 @@ class Recipe extends PDO
 	// Ist vorläufig nicht in Gebrauch
 	public function deleteMethod($idInput)
 	{
-		$query = "DELETE FROM CRUD WHERE ID = :ID";
+		$query = "DELETE FROM recipe WHERE id = :id";
 		$stmt = $this->prepare($query);
 		$stmt->bindParam(':ID', $idInput, PDO::PARAM_INT);
 		$stmt->execute();
@@ -141,45 +141,69 @@ class Recipe extends PDO
 // Update form submit.
 if (isset($_POST['id']) && isset($_POST['recipe-title'])) {
 	$rezept = new Recipe($host, $dbname, $user, $passwd);
-	
+
 	$existingRezeptId = $_POST['id'];
 
 	$rezept->deleteZutatenVonRezeptMethod($existingRezeptId);
 
 	$rezeptname = $_POST['recipe-title'];
-	$id = $rezept->updateRezeptMethod($existingRezeptId, $rezeptname);
+	$shape = $_POST['answer'];
+	$rezept->updateRezeptMethod($existingRezeptId, $rezeptname, $shape);
 
 	////****** This is an example of how you can return any custom json. */
 	// $result['id'] = $id;
 	// echo json_encode($result);
 	///******* end example.*/
-
-	foreach ($_POST['checkbox'] as $value) {
-
+	if (isset($_POST['checkbox'])) {
+		foreach ($_POST['checkbox'] as $value) {
+			$rezept->createZutatenMethod($value, $existingRezeptId);
+		}
+	}
+	if (isset($_POST['oil']) && $_POST['oil'] != 'Wähle eine Option') {
+		$value = $_POST['oil'];
+		$rezept->createZutatenMethod($value, $existingRezeptId);
+	}
+	if (isset($_POST['superfood']) && $_POST['superfood'] != 'Wähle eine Option') {
+		$value = $_POST['superfood'];
 		$rezept->createZutatenMethod($value, $existingRezeptId);
 	}
 	$result['edit'] = "edit";
+	$result['answer'] = $shape;
 	echo json_encode($result);
 }
 
 // Create form submit (only new recipes.)
 if (!isset($_POST['id']) && isset($_POST['recipe-title'])) { // it's necessary to check isset($_POST['recipe-title']
 	$rezept = new Recipe($host, $dbname, $user, $passwd);
-	
+
 	$rezeptname = $_POST['recipe-title'];
-	$id = $rezept->createMethod($rezeptname);
+	$shape = $_POST['answer'];
+	$id = $rezept->createMethod($rezeptname, $shape);
 
 	////****** This is an example of how you can return any custom json. */
 	// $result['add'] = "add";
 	// echo json_encode($result);
 	///******* end example.*/
+	if (isset($_POST['checkbox'])) {
+		foreach ($_POST['checkbox'] as $value) {
+			$rezept->createZutatenMethod($value, $id);
+		}
+	}
 
-	foreach ($_POST['checkbox'] as $value) {
+	if (isset($_POST['oil']) && $_POST['oil'] != 'Wähle eine Option') {
+		$value = $_POST['oil'];
 		$rezept->createZutatenMethod($value, $id);
 	}
+	if (isset($_POST['superfood']) && $_POST['superfood'] != 'Wähle eine Option') {
+		$value = $_POST['superfood'];
+		$rezept->createZutatenMethod($value, $id);
+	}
+
 	$result['add'] = "add";
 	echo json_encode($result);
 }
+
+
 
 // if you call fetch('php/Recipe.class.php?getall')
 if (isset($_GET['getall'])) {
