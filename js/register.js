@@ -1,6 +1,8 @@
 
     // references from html elements
     let feedback = document.getElementById("feedback");
+    let feedbackUsername = document.getElementById("feedback-username");
+    let feedbackPassword = document.getElementsByClassName("feedback-password");
     let formular = document.getElementById("registrationForm");
     let username = document.getElementById("username");
     let password = document.getElementById("PW");
@@ -21,6 +23,14 @@
     //check if username exists
     username.addEventListener('keyup', (event) => {
       console.log('ich bin da!')
+      console.log(username.value.length)
+      if (username.value.length < 3) {
+        submitBtn.disabled = true;
+        feedbackUsername.innerHTML = "Dein Username muss mind. 3 Zeichen haben";
+        return false;
+      } else {
+        feedbackUsername.innerHTML = "";
+      }
       let formData = new FormData();
       formData.append('username', username.value);
       formData.append('userCheck', "test");
@@ -34,14 +44,14 @@
           // Von PHP wird true oder false gesendet
           if (data) {
             //user exist
-            feedback.innerHTML = "Dieser Username existiert bereits!";
-            username.style.background = "red";
+            feedbackUsername.innerHTML = "Dieser Username existiert bereits!";
+            username.style.borderColor = "red";
             userNameValid = "no";
             checkValid();
           } else {
             //user dont exist
-            feedback.innerHTML = "Dieser Username ist noch frei!";
-            username.style.background = "green";
+            feedbackUsername.innerHTML = "Dieser Username ist noch frei!";
+            username.style.borderColor = "green";
             userNameValid = "yes";
             checkValid();
           }
@@ -64,8 +74,8 @@
           .then(function(data) {
             console.log(data);
             if (data) {
-              feedback.innerHTML = "Das Passwort entspricht den Vorgaben!";
-              password.style.backgroundColor = "green";
+              feedbackPassword.innerHTML = "Das Passwort entspricht den Vorgaben!";
+              password.style.borderBlockColor = "green";
               passwordValid = "yes";
               checkValid();
             } else {
@@ -74,7 +84,7 @@
                               <li>Es darf nicht mit einer Zahl oder einem Sonderzeichen beginnen.</li>
                               <li>Es braucht ein Sonderzeichen: @, #, $ oder %.</li>
                               <li>Es darf keine deutschen Umlaute (äöü) enthalten.</li>`;
-              password.style.backgroundColor = "lightsalmon";
+              password.style.boderColor = "red";
               passwordValid = "no";
               checkValid();
             }
