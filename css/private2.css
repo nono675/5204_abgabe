@@ -44,7 +44,7 @@ ul,li{
   transition: transform .15s linear;
 }
 
-#recipe-form, #update-recipe-form{
+#create-recipe-form, #update-recipe-form{
   position: relative;
   margin: 3rem;
   padding: 2rem;
