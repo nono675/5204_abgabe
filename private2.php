@@ -250,9 +250,7 @@
     <div id="recipe-result" class="contenteditable">
       <h2 id="recipe-result-title"></h2>
       <ul id="create-basic-ul"></ul>
-      <ul id="create-meat-ul"></ul>
-      <ul id="create-cheese-ul"></ul>
-      <ul id="create-fish-ul"></ul>
+      <ul id="create-add_on-ul"></ul>
       <ul id="create-oil-ul"></ul>
       <ul id="create-superfood-ul"></ul>
     </div>

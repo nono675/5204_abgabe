@@ -52,9 +52,9 @@ recipeTitle.onkeyup = function() {
 
 // Checkbox-Ausgaben
 addChangeEventToBasicCheckBoxes('create')
-addChangeEventToMeatCheckBoxes('create')
-addChangeEventToCheeseCheckBoxes('create')
-addChangeEventToFishCheckBoxes('create')
+addChangeEventToAddOnCheckBoxes('create')
+// addChangeEventToCheeseCheckBoxes('create')
+// addChangeEventToFishCheckBoxes('create')
 // for (let i = 0; i < basicCheckboxes.length; i++) {
 // 	basicCheckboxes[i].addEventListener("change", function(event) {
 

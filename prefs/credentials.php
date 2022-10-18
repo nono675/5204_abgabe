@@ -2,7 +2,7 @@
 // lokale DB-Credentials
 $host = "localhost";
 $user = "root";
-$passwd = "root";
+$passwd = "";
 $dbname = "monty";
 
 // DB-Credentials Server

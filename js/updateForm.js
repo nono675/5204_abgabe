@@ -304,9 +304,7 @@ Pfoten
 <div id="recipe-result" class="contenteditable">
 	<h2 id="recipe-result-title"></h2>
 	<ul id="update-basic-ul"></ul>
-	<ul id="update-meat-ul"></ul>
-	<ul id="update-cheese-ul"></ul>
-	<ul id="update-fish-ul"></ul>
+	<ul id="update-add_on-ul"></ul>
 	<ul id="update-oil-ul"></ul>
 	<ul id="update-superfood-ul"></ul>
 </div>

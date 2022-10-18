@@ -31,16 +31,16 @@ function addChangeEventToBasicCheckBoxes(rezept_form_prefix){ // create / update
     }
 }
 
-function addChangeEventToMeatCheckBoxes(rezept_form_prefix){ // create / update / read
+function addChangeEventToAddOnCheckBoxes(rezept_form_prefix){ // create / update / read
     // Select the form where the checkboxes belong to (can be create form or update form (recipe-form / update-recipe-form))
     let formOfEvent = document.getElementById(rezept_form_prefix + '-recipe-form')
-    let checkboxes = formOfEvent.getElementsByClassName("meat");
-    let ul = document.getElementById(rezept_form_prefix + "-meat-ul");
+    let checkboxes = formOfEvent.querySelectorAll('.meat, .fish, .cheese');
+    let ul = document.getElementById(rezept_form_prefix + "-add_on-ul");
     for (let i = 0; i < checkboxes.length; i++) {
         checkboxes[i].addEventListener("change", function (event) {
             // Create new formData and add the form (only selected checkBoxes are in the form)
             let formData = new FormData(formOfEvent);
-            fetch("php/Recipe.class.php?calculateMeatAmounts", {
+            fetch("php/Recipe.class.php?calculateAddOnsAmounts", {
             method: "post",
             body: formData,
             })
@@ -55,7 +55,7 @@ function addChangeEventToMeatCheckBoxes(rezept_form_prefix){ // create / update 
                         console.log(data[gewichtPerZutat])
                         selectetList = `${selectetList} <li>${gewichtPerZutat+' : '+ data[gewichtPerZutat] + ' g'}</li>`
                     }
-                    ul.innerHTML = `<h2>Fleisch</h2><br>${selectetList}`
+                    ul.innerHTML = `<h2>Add-Ons</h2><br>${selectetList}`
                 }
             }
             )

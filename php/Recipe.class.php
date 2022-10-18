@@ -173,7 +173,7 @@ if (isset($_POST['id']) && isset($_POST['recipe-title'])) {
 }
 
 // Create form submit (only new recipes.)
-if (!isset($_GET['calculateBasicAmounts']) && !isset($_GET['calculateMeatAmounts']) && !isset($_GET['calculateCheeseAmounts']) && !isset($_GET['calculateFishAmounts']) && !isset($_POST['id']) && isset($_POST['recipe-title'])) { // it's necessary to check isset($_POST['recipe-title']
+if (!isset($_GET['calculateBasicAmounts']) && !isset($_GET['calculateAddOnsAmounts']) && !isset($_GET['calculateCheeseAmounts']) && !isset($_GET['calculateFishAmounts']) && !isset($_POST['id']) && isset($_POST['recipe-title'])) { // it's necessary to check isset($_POST['recipe-title']
 	$rezept = new Recipe($host, $dbname, $user, $passwd);
 
 	$rezeptname = $_POST['recipe-title'];
@@ -242,11 +242,12 @@ if (isset($_GET['calculateBasicAmounts'])) {
 }
 
 // Calculates the grams per Meat Zutat.
-if (isset($_GET['calculateMeatAmounts'])) {
+if (isset($_GET['calculateAddOnsAmounts'])) {
 	$rezept = new Recipe($host, $dbname, $user, $passwd);
 
 	// Defines all possible Meat Zutaten names
-	$meatZutaten = array("Leber","Hackfleisch","Schweineschmalz","Gekochter Schinken");
+	$meatZutaten = array("Leber","Hackfleisch","Schweineschmalz","Gekochter Schinken",
+	"Hüttenkäse","Parmesan","Cheddar","Sardinen","Thunfisch","Lachsfilet");
 
 	// New Array to fill with all set Meat CheckBoxes provcied in the form
 	$meatCheckBoxNamesInForm = array();
