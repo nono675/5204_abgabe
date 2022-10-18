@@ -18,7 +18,9 @@
 
 
   <!-- JS -->
-  <script src="js/index.js"></script>
+  <script defer src="js/navbar.js"></script>
+  <script defer src="js/index.js"></script>
+
 </head>
 
 <body>
@@ -29,7 +31,6 @@
     </div>
     <nav class="navbar" role="navigation" aria-label="main navigation">
       <div>
-
         <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -50,7 +51,7 @@
                 <strong>Registrieren</strong>
               </a>
               <a href="login.php" class="button is-light">
-                Log in
+                Login
               </a>
             </div>
           </div>
@@ -79,7 +80,10 @@
 
 
 
-
+  <footer>
+    <small>&copy; Monty's Tidbits 2022</small>
+    <i class="fa-solid fa-sharpe fa-bone"></i>
+  </footer>
 
 
 </body>

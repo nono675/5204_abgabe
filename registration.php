@@ -24,19 +24,32 @@
             <form id="registrationForm" method="post" action="registration.php">
               <div class="field">
                 <div class="control">
+                  <input class="input is-medium" type="text" placeholder="Vorname" id="vorname" name="vorname">
+                </div>
+              </div>
+              <div class="field">
+                <div class="control">
+                  <input class="input is-medium" type="text" placeholder="Nachname" id="nachname" name="nachname">
+                </div>
+              </div>
+              <div class="field">
+                <div class="control">
                   <input class="input is-medium" type="text" placeholder="Username" id="username" name="username">
+                </div>
+                <div class="field">
+                  <div id="feedback-username">
+                    <!-- feedback username -->
+                  </div>
                 </div>
               </div>
               <div class="field">
                 <div class="control">
                   <input class="input is-medium" type="password" placeholder="Passwort" id="PW" name="PW">
+                  <div class="feedback-password">
+                    <!-- feedback passwort -->
+                  </div>
                 </div>
               </div>
-              <!--  <div class="field">
-                  <div class="control">
-                    <input class="input is-medium" type="password" placeholder="Passwort bestätigen" id="PW_B" name="PW_B">
-                  </div>
-                </div> -->
               <button class="button is-block is-primary is-fullwidth is-medium" type="submit" name="go" id="go">Account erstellen</button>
               <br />
               <small><a href="login.php">Bereits registriert? Bitte hier entlang!</a></small>
@@ -57,38 +70,15 @@
         </div>
       </div>
       <div class="column is-8 is-offset-2">
-        <br>
-        <nav class="level">
-          <div class="level-left">
-            <div class="level-item">
-              <span class="icon">
-                <i class="fab fa-twitter"></i>
-              </span> &emsp;
-              <span class="icon">
-                <i class="fab fa-facebook"></i>
-              </span> &emsp;
-              <span class="icon">
-                <i class="fab fa-instagram"></i>
-              </span> &emsp;
-              <span class="icon">
-                <i class="fab fa-github"></i>
-              </span> &emsp;
-              <span class="icon">
-                <i class="fas fa-envelope"></i>
-              </span>
-            </div>
-          </div>
-          <div class="level-right">
-            <small class="level-item" style="color: var(--textLight)">
-              &copy; Super Cool Website. All Rights Reserved.
-            </small>
-          </div>
+        <div class="level-right">
+          <small class="level-item" style="color: var(--textLight)">
+            &copy; Super Cool Website. All Rights Reserved.
+          </small>
+        </div>
         </nav>
       </div>
     </div>
   </section>
-
-
 </body>
 
 </html>
