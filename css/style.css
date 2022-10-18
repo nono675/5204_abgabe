@@ -3,14 +3,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Handlee&display=swap');
 
 
-body {
-  height: 100vh;
-}
+
 
 /* Header */
 
 header {
-  background-color: #00d1b2;
+  background-color: #eee0dc;
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -24,16 +23,16 @@ header {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 10rem 0 5rem;
+  margin: 5rem 0 5rem;
 }
 
 h1 {
   font-family: 'Handlee', cursive;
-  color: #fff;
+  color: #555;
   font-size: 5rem;
 }
 header i {
- font-size: 5rem;
+ font-size: 7rem;
  color: #fff;
 }
 /* Navigation */
@@ -44,6 +43,32 @@ header i {
 a.button.is-primary.sign_up {
   border: 1px solid #fff;
 }
+.navbar-burger {
+  height: 5rem;
+  width: 5rem;
+}
+a.navbar-burger span {
+  color: #fff;
+  width: 20px;
+  height: 2px;
+  padding-top: 3px;
+}
+.button.is-primary {
+  background-color: #939597;
+  cursor:pointer;
+  user-select:none;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition-duration: 0.4s;
+  -webkit-transition-duration: 0.4s;
+}
+.button.is-primary:hover {
+  background-color: #6D3B5A;
+  transition-duration: 0.2s;
+}
+
+
 /* Login Section */
 .login-container {
   margin-top: 20rem;
@@ -61,6 +86,7 @@ color: #00d1b2;
 }
 
 /* Search Form */ 
+
 .search {
   width: 300px;
   padding: 3rem 0 0 0;
@@ -71,6 +97,10 @@ color: #00d1b2;
 }
 .search_field {
   display: flex;
+}
+.is-primary.input {
+  border-color:  #939597;
+
 }
 
 
@@ -99,19 +129,21 @@ color: #00d1b2;
   transform:rotate(4deg);
   position:relative;
   top:5px;
-  background: #00d1b2;
+  background: #eee0dc;
 }
 .contenteditable:nth-child(4n) {
   transform:rotate(-3deg);
   position:relative;
   top:-5px;
-  background:#9C4C89;
+  background: #6D3B5A;
   color: #fff;
 }
 .contenteditable:nth-child(3n) {
   transform:rotate(5deg);
   position:relative;
   top:-10px;
+  background-color: #939597;
+  color: #fff;
 }
 
 .contenteditable:hover, .contenteditable:focus{
@@ -220,3 +252,32 @@ color: #00d1b2;
   padding-bottom: 1.5rem;
 }
 
+
+footer {
+  background-color: #6D3B5A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+}
+footer small {
+  color: #fff;
+  font-family: 'Handlee', cursive;
+  font-size: 1rem;
+  padding: 2rem 0 1rem 0;
+}
+footer i {
+  color: #fff;
+  font-size: 3rem;
+  padding-bottom: 2rem;
+}
+
+
+@media (max-width: 1024px) {
+	.navbar {
+    position: absolute;
+    top: 0;
+    right: 0;
+	}
+}

@@ -173,7 +173,7 @@ if (isset($_POST['id']) && isset($_POST['recipe-title'])) {
 }
 
 // Create form submit (only new recipes.)
-if (!isset($_POST['id']) && isset($_POST['recipe-title'])) { // it's necessary to check isset($_POST['recipe-title']
+if (!isset($_GET['calculateBasicAmounts']) && !isset($_GET['calculateMeatAmounts']) && !isset($_GET['calculateCheeseAmounts']) && !isset($_GET['calculateFishAmounts']) && !isset($_POST['id']) && isset($_POST['recipe-title'])) { // it's necessary to check isset($_POST['recipe-title']
 	$rezept = new Recipe($host, $dbname, $user, $passwd);
 
 	$rezeptname = $_POST['recipe-title'];
@@ -202,6 +202,160 @@ if (!isset($_POST['id']) && isset($_POST['recipe-title'])) { // it's necessary t
 	$result['add'] = "add";
 	echo json_encode($result);
 }
+
+// Calculates the grams per basic Zutat.
+if (isset($_GET['calculateBasicAmounts'])) {
+	$rezept = new Recipe($host, $dbname, $user, $passwd);
+
+	// Defines all possible Basic Zutaten names
+	$basicZutaten = array("Dinkelmehl","Kartoffelmehl","Vollkornmehl","Buchweizenmehl","Weizenmehl","Kichererbsenmehl");
+
+	// New Array to fill with all set Basic CheckBoxes provcied in the form
+	$basicCheckBoxesInForm = array();
+
+	if(isset($_POST['checkbox'])){
+		// Go through each checkbox of the submitted form (all checkboxes are sent)
+		foreach ($_POST['checkbox'] as $checkBoxName) {
+			// if in_array returns true, this mean the checkBoxName of the loop is in $basicZutaten and then we can add it to $basicCheckBoxesInForm
+			if(in_array($checkBoxName,$basicZutaten))
+			{
+				$basicCheckBoxesInForm[] = $checkBoxName;
+			}
+		}
+		if(count($basicCheckBoxesInForm)>0){
+			// Devide the total weigt (200g) of basic zutaten by the number of set basic Zutaten in form
+			$gramsPerBasic = floor(200 / count($basicCheckBoxesInForm));
+
+			// Go through all set Basic Zutaten CheckBoxes in Form and attach it to the json result with the calculated grams
+			foreach ($basicCheckBoxesInForm as $basicCheckBoxName) {
+				$result[$basicCheckBoxName] = $gramsPerBasic;
+			}
+			
+		}
+		$result['calcBasic'] = "calcBasic";
+		echo json_encode($result);
+	}
+	else{
+		echo json_encode(null);
+	}
+	
+}
+
+// Calculates the grams per Meat Zutat.
+if (isset($_GET['calculateMeatAmounts'])) {
+	$rezept = new Recipe($host, $dbname, $user, $passwd);
+
+	// Defines all possible Meat Zutaten names
+	$meatZutaten = array("Leber","Hackfleisch","Schweineschmalz","Gekochter Schinken");
+
+	// New Array to fill with all set Meat CheckBoxes provcied in the form
+	$meatCheckBoxNamesInForm = array();
+
+	if(isset($_POST['checkbox'])){
+		// Go through each checkbox of the submitted form (all checkboxes are sent)
+		foreach ($_POST['checkbox'] as $checkBoxName) {
+			// if in_array returns true, this mean the checkBoxName of the loop is in $meatZutaten and then we can add it to $meatCheckBoxNamesInForm
+			if(in_array($checkBoxName,$meatZutaten))
+			{
+				$meatCheckBoxNamesInForm[] = $checkBoxName;
+			}
+		}
+
+		if(count($meatCheckBoxNamesInForm)>0){
+			// Devide the total weigt (200g) of basic zutaten by the number of set basic Zutaten in form
+			$gramsPerMeat = floor(200 / count($meatCheckBoxNamesInForm));
+
+			// Go through all set Meat Zutaten CheckBoxes in Form and attach it to the json result with the calculated grams
+			foreach ($meatCheckBoxNamesInForm as $meatCheckBoxName) {
+				$result[$meatCheckBoxName] = $gramsPerMeat;
+			}
+			
+		}
+		$result['calcMeat'] = "calcMeat";
+		echo json_encode($result);
+	}
+	else{
+		echo json_encode(null);
+	}
+	
+}
+
+// Calculates the grams per Cheese Zutat.
+if (isset($_GET['calculateCheeseAmounts'])) {
+	$rezept = new Recipe($host, $dbname, $user, $passwd);
+
+	// Defines all possible Cheese Zutaten names
+	$cheeseZutaten = array("Hüttenkäse","Parmesan","Cheddar");
+
+	// New Array to fill with all set Cheese CheckBoxes provided in the form
+	$cheeseCheckBoxNamesInForm = array();
+
+	if(isset($_POST['checkbox'])){
+		// Go through each checkbox of the submitted form (all checkboxes are sent)
+		foreach ($_POST['checkbox'] as $checkBoxName) {
+			// if in_array returns true, this mean the checkBoxName of the loop is in $cheeseZutaten and then we can add it to $cheeseCheckBoxNamesInForm
+			if(in_array($checkBoxName,$cheeseZutaten))
+			{
+				$cheeseCheckBoxNamesInForm[] = $checkBoxName;
+			}
+		}
+
+		if(count($cheeseCheckBoxNamesInForm)>0){
+			// Devide the total weigt (200g) of basic zutaten by the number of set basic Zutaten in form
+			$gramsPerCheese = floor(200 / count($cheeseCheckBoxNamesInForm));
+
+			// Go through all set Cheese Zutaten CheckBoxes in Form and attach it to the json result with the calculated grams
+			foreach ($cheeseCheckBoxNamesInForm as $cheeseCheckBoxName) {
+				$result[$cheeseCheckBoxName] = $gramsPerCheese;
+			}
+			
+		}
+		$result['calcCheese'] = "calcCheese";
+		echo json_encode($result);
+	}
+	else{
+		echo json_encode(null);
+	}
+	
+}
+
+// Calculates the grams per Fish Zutat.
+if (isset($_GET['calculateFishAmounts'])) {
+	$rezept = new Recipe($host, $dbname, $user, $passwd);
+
+	// Defines all possible Fish Zutaten names
+	$fishZutaten = array("Sardinen","Thunfisch","Lachsfilet");
+
+	// New Array to fill with all set Fish CheckBoxes provided in the form
+	$fishCheckBoxNamesInForm = array();
+
+	if(isset($_POST['checkbox'])){
+		// Go through each checkbox of the submitted form (all checkboxes are sent)
+		foreach ($_POST['checkbox'] as $checkBoxName) {
+			// if in_array returns true, this mean the checkBoxName of the loop is in $fishZutaten and then we can add it to $fishCheckBoxNamesInForm
+			if(in_array($checkBoxName,$fishZutaten))
+			{
+				$fishCheckBoxNamesInForm[] = $checkBoxName;
+			}
+		}
+		if(count($fishCheckBoxNamesInForm)>0){
+			// Devide the total weigt (200g) of basic zutaten by the number of set basic Zutaten in form
+			$gramsPerFish = floor(200 / count($fishCheckBoxNamesInForm));
+
+			// Go through all Fish Zutaten CheckBoxes in Form and attach it to the json result with the calculated grams
+			foreach ($fishCheckBoxNamesInForm as $fishCheckBoxName) {
+				$result[$fishCheckBoxName] = $gramsPerFish;
+			}
+		}
+		$result['calcFish'] = "calcFish";
+		echo json_encode($result);
+	}
+	else{
+		echo json_encode(null);
+	}
+	
+}
+
 
 
 
