@@ -1,5 +1,5 @@
 
-let recipeForm = document.getElementById("recipe-form")
+let recipeForm = document.getElementById("create-recipe-form")
 let recipeFormTitle = document.getElementById("recipe-title")
 
 let formTemplate = document.getElementsByClassName("recipe-form contenteditable")
@@ -15,10 +15,10 @@ let fishCheckboxes = document.getElementsByClassName("fish");
 
 let recipeSolutionTitle = document.getElementById("recipe-result-title");
 let recipeResult = document.getElementById("recipe-result");
-let basicUl = document.getElementById("basic-ul");
-let meatUl = document.getElementById("meat-ul");
-let cheeseUl = document.getElementById("cheese-ul");
-let fishUl = document.getElementById("cheese-ul");
+// let basicUl = document.getElementById("basic-ul");
+// let meatUl = document.getElementById("meat-ul");
+// let cheeseUl = document.getElementById("cheese-ul");
+// let fishUl = document.getElementById("cheese-ul");
 let oilUl = document.getElementById('oil-ul');
 let superfoodUl = document.getElementById('superfood-ul');
 
@@ -51,55 +51,73 @@ recipeTitle.onkeyup = function() {
 
 
 // Checkbox-Ausgaben
+addChangeEventToBasicCheckBoxes('create')
+addChangeEventToMeatCheckBoxes('create')
+addChangeEventToCheeseCheckBoxes('create')
+addChangeEventToFishCheckBoxes('create')
+// for (let i = 0; i < basicCheckboxes.length; i++) {
+// 	basicCheckboxes[i].addEventListener("change", function(event) {
 
-for (let i = 0; i < basicCheckboxes.length; i++) {
-	basicCheckboxes[i].addEventListener("change", function(event) {
-		console.log(basicCheckboxes[i])
-		let selectetList = "";
-		for (let j = 0; j < basicCheckboxes.length; j++) {
-			if (basicCheckboxes[j].checked === true) {
-				selectetList = `${selectetList} <li>${basicCheckboxes[j].value}</li>`
-			}
-		}
-		basicUl.innerHTML += `<h2>Basis</h2><br>${selectetList}`
-	});
-}
-for (let i = 0; i < meatCheckboxes.length; i++) {
-	meatCheckboxes[i].addEventListener("change", function(event) {
-		console.log(meatCheckboxes[i])
-		let selectetList = "";
-		for (let j = 0; j < meatCheckboxes.length; j++) {
-			if (meatCheckboxes[j].checked === true) {
-				selectetList = `${selectetList} <li>${meatCheckboxes[j].value}</li>`
-			}
-		}
-		meatUl.innerHTML = `${selectetList}`
-	});
-}
-for (let i = 0; i < cheeseCheckboxes.length; i++) {
-	cheeseCheckboxes[i].addEventListener("change", function(event) {
-		console.log(cheeseCheckboxes[i])
-		let selectetList = "";
-		for (let j = 0; j < cheeseCheckboxes.length; j++) {
-			if (cheeseCheckboxes[j].checked === true) {
-				selectetList = `${selectetList} <li>${cheeseCheckboxes[j].value}</li>`
-			}
-		}
-		cheeseUl.innerHTML = `${selectetList}`
-	});
-}
-for (let i = 0; i < fishCheckboxes.length; i++) {
-	fishCheckboxes[i].addEventListener("change", function(event) {
-		console.log(fishCheckboxes[i])
-		let selectetList = "";
-		for (let j = 0; j < fishCheckboxes.length; j++) {
-			if (fishCheckboxes[j].checked === true) {
-				selectetList = `${selectetList} <li>${fishCheckboxes[j].value}</li>`
-			}
-		}
-		fishUl.innerHTML = `${selectetList}`
-	});
-}
+// 		// Select the form where the checkboxes belong to (can be create form or update form (recipe-form / update-recipe-form))
+//         let formOfEvent = document.getElementById('recipe-form')
+//         // Create new formData and add the form (only selected checkBoxes are in the form)
+//         let formData = new FormData(formOfEvent);
+//         fetch("php/Recipe.class.php?calculateBasicAmounts", {
+//           method: "post",
+//           body: formData,
+//         })
+//         .then((res) => res.json())
+//         .then(function(data) {
+// 			console.log(data)
+			
+// 			let selectetList = "";
+// 			for(var gewichtPerZutat in data){
+// 				console.log(gewichtPerZutat)
+// 				console.log(data[gewichtPerZutat])
+// 				selectetList = `${selectetList} <li>${gewichtPerZutat+' : '+ data[gewichtPerZutat] + ' g'}</li>`
+// 			}
+// 			basicUl.innerHTML = `<h2>Basis</h2><br>${selectetList}`
+//         }
+//         )
+//         .catch((error) => console.log(error))
+// 	});
+// }
+// for (let i = 0; i < meatCheckboxes.length; i++) {
+// 	meatCheckboxes[i].addEventListener("change", function(event) {
+// 		console.log(meatCheckboxes[i])
+// 		let selectetList = "";
+// 		for (let j = 0; j < meatCheckboxes.length; j++) {
+// 			if (meatCheckboxes[j].checked === true) {
+// 				selectetList = `${selectetList} <li>${meatCheckboxes[j].value}</li>`
+// 			}
+// 		}
+// 		meatUl.innerHTML = `${selectetList}`
+// 	});
+// }
+// for (let i = 0; i < cheeseCheckboxes.length; i++) {
+// 	cheeseCheckboxes[i].addEventListener("change", function(event) {
+// 		console.log(cheeseCheckboxes[i])
+// 		let selectetList = "";
+// 		for (let j = 0; j < cheeseCheckboxes.length; j++) {
+// 			if (cheeseCheckboxes[j].checked === true) {
+// 				selectetList = `${selectetList} <li>${cheeseCheckboxes[j].value}</li>`
+// 			}
+// 		}
+// 		cheeseUl.innerHTML = `${selectetList}`
+// 	});
+// }
+// for (let i = 0; i < fishCheckboxes.length; i++) {
+// 	fishCheckboxes[i].addEventListener("change", function(event) {
+// 		console.log(fishCheckboxes[i])
+// 		let selectetList = "";
+// 		for (let j = 0; j < fishCheckboxes.length; j++) {
+// 			if (fishCheckboxes[j].checked === true) {
+// 				selectetList = `${selectetList} <li>${fishCheckboxes[j].value}</li>`
+// 			}
+// 		}
+// 		fishUl.innerHTML = `${selectetList}`
+// 	});
+// }
 
 // Select-Ausgaben
 function writeOil(trigger) {
