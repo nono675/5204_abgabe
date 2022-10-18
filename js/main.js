@@ -49,7 +49,6 @@ recipeTitle.onkeyup = function() {
 	recipeSolutionTitle.innerHTML = recipeSolutionTitle.value
 }
 
-
 // Checkbox-Ausgaben
 addChangeEventToBasicCheckBoxes('create')
 addChangeEventToMeatCheckBoxes('create')

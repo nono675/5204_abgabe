@@ -75,7 +75,9 @@
   <section class="recipe-container">
 
   </section>
-  <div class="close">X</div>
+
+
+
 
 
 
@@ -87,5 +89,7 @@
 
 
 </body>
+
+
 
 </html>
