@@ -13,6 +13,7 @@
   <link rel="stylesheet" href="css/private2.css">
 
   <!-- JS -->
+  <script defer src="js/addEventListenerFunctions.js"></script>
   <script defer src="js/main.js"></script>
   <script defer src="js/showRecipes.js"></script>
   <script defer src="js/updateForm.js"></script>
@@ -54,7 +55,7 @@
 
   <div class="new-recipe">
 
-    <form id="recipe-form" class="recipe-form" method="POST">
+    <form id="create-recipe-form" class="recipe-form" method="POST">
       <div class="field">
         <label class="title label">Rezept-Name</label>
         <div class="control">
@@ -123,7 +124,7 @@
               Parmesan
             </div>
             <div class="ingredient">
-              <input type="checkbox" name="checkbox[]" class="cheese" value="Cheedar">
+              <input type="checkbox" name="checkbox[]" class="cheese" value="Cheddar">
               Cheddar
             </div>
           </div>
@@ -248,12 +249,12 @@
 
     <div id="recipe-result" class="contenteditable">
       <h2 id="recipe-result-title"></h2>
-      <ul id="basic-ul"></ul>
-      <ul id="meat-ul"></ul>
-      <ul id="cheese-ul"></ul>
-      <ul id="fish-ul"></ul>
-      <ul id="oil-ul"></ul>
-      <ul id="superfood-ul"></ul>
+      <ul id="create-basic-ul"></ul>
+      <ul id="create-meat-ul"></ul>
+      <ul id="create-cheese-ul"></ul>
+      <ul id="create-fish-ul"></ul>
+      <ul id="create-oil-ul"></ul>
+      <ul id="create-superfood-ul"></ul>
     </div>
 
   </div>

@@ -56,7 +56,25 @@ function editRecipes(rezept_gruppe) {
 		}
 
 
+		// add event listener to basic check boxes of update form
+		addChangeEventToBasicCheckBoxes('update')
+		// simulate "change" event to fill out List with Zutaten
+		modal.querySelector('.basic').dispatchEvent(new Event('change')); // first select ONE basic checkBox and create a new event for this check box
 
+		// add event listener to meat check boxes of update form
+		addChangeEventToMeatCheckBoxes('update')
+		// simulate "change" event to fill out List with Zutaten
+		modal.querySelector('.meat').dispatchEvent(new Event('change')); // first select ONE meat checkBox and create a new event for this check box
+
+		// add event listener to cheese check boxes of update form
+		addChangeEventToCheeseCheckBoxes('update')
+		// simulate "change" event to fill out List with Zutaten
+		modal.querySelector('.cheese').dispatchEvent(new Event('change')); // first select ONE cheese checkBox and create a new event for this check box
+
+		// add event listener to fish check boxes of update form
+		addChangeEventToFishCheckBoxes('update')
+		// simulate "change" event to fill out List with Zutaten
+		modal.querySelector('.fish').dispatchEvent(new Event('change')); // first select ONE fish checkBox and create a new event for this check box
 
 		// When all existing (title, checkboxes etc.) are loaded to the edit form, 
 		// we can subscribe the submit event for the updateRecipeForm. (very similar to create new recipe)
@@ -163,7 +181,7 @@ Kichererbsenmehl
 	Parmesan
 </div>
 <div class="ingredient">
-	<input type="checkbox"  name="checkbox[]" class="cheese" value="Cheedar">
+	<input type="checkbox"  name="checkbox[]" class="cheese" value="Cheddar">
 	Cheddar
 </div>
 </div>
@@ -283,6 +301,15 @@ Pfoten
 </div>
 </form>
 
+<div id="recipe-result" class="contenteditable">
+	<h2 id="recipe-result-title"></h2>
+	<ul id="update-basic-ul"></ul>
+	<ul id="update-meat-ul"></ul>
+	<ul id="update-cheese-ul"></ul>
+	<ul id="update-fish-ul"></ul>
+	<ul id="update-oil-ul"></ul>
+	<ul id="update-superfood-ul"></ul>
+</div>
 
 `
 
