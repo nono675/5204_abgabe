@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://kit.fontawesome.com/15181efa86.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css" />
+  <link rel="stylesheet" href="css/accordion.css">
   <link rel="stylesheet" href="css/private2.css">
 
   <!-- JS -->
@@ -29,11 +30,10 @@
       </a>
     </div>
     <div id="navbarBasicExample" class="navbar-menu">
-      <!-- <div class="navbar-start">
-      <a class="navbar-item">
-        Home
-      </a>
-    </div> -->
+    <div class="navbar-start">
+        <a href="index.php"><i class="fa-solid fa-sharpe fa-bone"></i></a>
+        <h2>Monty's Tidbits</h2>
+      </div>
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
@@ -48,6 +48,8 @@
       </div>
     </div>
   </nav>
+
+
 
   <div class="user"></div>
 
@@ -233,7 +235,6 @@
           </label>
         </div>
       </div>
-
       <div class="field is-grouped">
         <div class="control">
           <button class="button is-block is-primary" type="submit" name="createRecipe" id="createRecipe">Absenden</button>
@@ -258,7 +259,7 @@
 
   </div>
 
-
+  <span class="close">&times;</span>
   <!-- The Modal -->
   <div id="myModal" class="modal">
 
@@ -271,15 +272,16 @@
   </div>
 
 
-  <div class="recipe-container">
-
-
-
-
-
+  <div class="show-recipe-container">
+    <h2>Deine Rezepte</h2>
+    <div class="recipe-container">
+      <!-- Div for recipes -->
+    </div>
   </div>
-
-
+  <footer>
+    <small>&copy; Monty's Tidbits 2022</small>
+    <i class="fa-solid fa-sharpe fa-bone"></i>
+  </footer>
 </body>
 
 </html>
