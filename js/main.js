@@ -50,10 +50,65 @@ addChangeEventToBasicCheckBoxes('create')
 addChangeEventToAddOnCheckBoxes('create')
 
 // Select-Ausgaben
-function writeOil(trigger) {
-	oilUl.innerHTML = `<li>Öl:  ${trigger.value}`;
+function displayOil(dropDownElement) {
+
+	// Select the according UL of depending onn dropDown id (create or update)
+	let currentUl = null
+	if(dropDownElement.id.includes("create")){
+		currentUl = document.getElementById('create-oil-ul')
+	}
+	else if(dropDownElement.id.includes("update")){
+		currentUl = document.getElementById('update-oil-ul')
+	}
+
+	// If selected value of drop contains 'Wähle' Oil should not be displayed
+	if(dropDownElement.value.includes("Wähle")){
+		currentUl.innerHTML = ``;
+	}
+	else{
+		currentUl.innerHTML = `<h2>Öl</h2><br>${dropDownElement.value}`;
+	}
 }
 
-function writeSuperfood(trigger) {
-	superfoodUl.innerHTML = `<li>Superfood:  ${trigger.value}`;
+function displaySuperfood(dropDownElement) {
+	// Select the according UL of depending onn dropDown id (create or update)
+	let currentUl = null
+	if(dropDownElement.id.includes("create")){
+		currentUl = document.getElementById('create-superfood-ul')
+	}
+	else if(dropDownElement.id.includes("update")){
+		currentUl = document.getElementById('update-superfood-ul')
+	}
+
+	// If selected value of drop contains 'Wähle' Superfood should not be displayed
+	if(dropDownElement.value.includes("Wähle")){
+		currentUl.innerHTML = ``;
+	}
+	else{
+		currentUl.innerHTML = `<h2>Superfood</h2><br>${dropDownElement.value}`;
+	}
 }
+
+function displayForm(radioButtonContainer) {
+
+	// Select all radio buttons of radioButtonContainer
+	let radioButtons = radioButtonContainer.querySelectorAll('.radio-btn')
+
+	// Select the according UL depending radioButtonContainer id (create or update)
+	let currentUl = null
+	if(radioButtonContainer.id.includes("create")){
+		currentUl = document.getElementById('create-keksform-ul')
+	}
+	else if(radioButtonContainer.id.includes("update")){
+		currentUl = document.getElementById('update-keksform-ul')
+	}
+	currentUl.innerHTML = ``;
+
+	// Go through all radio buttons of radioButtonContainer and check if selected (checked)
+	for (let i = 0; i < radioButtons.length; i++) {
+		if (radioButtons[i].checked == true) {
+			currentUl.innerHTML = `<h2>Form</h2><br>${radioButtons[i].value}`;
+		}
+	}
+}
+
