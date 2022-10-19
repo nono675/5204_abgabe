@@ -30,7 +30,7 @@
       </a>
     </div>
     <div id="navbarBasicExample" class="navbar-menu">
-      <div class="navbar-start">
+    <div class="navbar-start">
         <a href="index.php"><i class="fa-solid fa-sharpe fa-bone"></i></a>
         <h2>Monty's Tidbits</h2>
       </div>
@@ -152,7 +152,7 @@
           <label for="oil" class="label title">Öl</label>
           <div class="control">
             <div class="select">
-              <select name="oil" id="select-oil" onchange="writeOil(this)">
+              <select name="oil" id="create-select-oil" onchange="displayOil(this)">
                 <option>Wähle eine Option</option>
                 <option value="1 EL Kokosöl">Kokosöl</option>
                 <option value="3 TL Hanföl">Hanföl</option>
@@ -165,7 +165,7 @@
           <label for="superfood" class="label title">Superfood</label>
           <div class="control">
             <div class="select">
-              <select name="superfood" id="select-superfood" onchange="writeSuperfood(this)">
+              <select name="superfood" id="create-select-superfood" onchange="displaySuperfood(this)">
                 <option>Wähle eine Option</option>
                 <option value="20 g getrocknete Kamillenblüten">getrocknete Kamillenblüten</option>
                 <option value="10 g Mariendistel-Samen">Mariendistel-Samen</option>
@@ -180,33 +180,33 @@
       </div>
       <div class="field">
         <label class="label title">Form</label>
-        <div class="control radio-container">
+        <div id="create-radio-container" class="control radio-container" onchange="displayForm(this)">
           <label class="radio">
-            <input type="radio" name="answer" value="Knochen">
+            <input class="radio-btn" type="radio" name="answer" value="Knochen">
             Knochen
           </label>
           <label class="radio">
-            <input type="radio" name="answer" value="Fisch">
+            <input class="radio-btn" type="radio" name="answer" value="Fisch">
             Fisch
           </label>
           <label class="radio">
-            <input type="radio" name="answer" value="Stern">
+            <input class="radio-btn" type="radio" name="answer" value="Stern">
             Stern
           </label>
           <label class="radio">
-            <input type="radio" name="answer" value="Halbkugel">
+            <input class="radio-btn" type="radio" name="answer" value="Halbkugel">
             Halbkugel
           </label>
           <label class="radio">
-            <input type="radio" name="answer" value="Herz">
+            <input class="radio-btn" type="radio" name="answer" value="Herz">
             Herz
           </label>
           <label class="radio">
-            <input type="radio" name="answer" value="Donut">
+            <input class="radio-btn" type="radio" name="answer" value="Donut">
             Donut
           </label>
           <label class="radio">
-            <input type="radio" name="answer" value="Pfoten">
+            <input class="radio-btn" type="radio" name="answer" value="Pfoten">
             Pfoten
           </label>
         </div>
@@ -254,6 +254,7 @@
       <ul id="create-add_on-ul"></ul>
       <ul id="create-oil-ul"></ul>
       <ul id="create-superfood-ul"></ul>
+      <ul id="create-keksform-ul"></ul>
     </div>
 
   </div>
@@ -264,7 +265,6 @@
 
 
   </div>
-
 
 
   <div class="show-recipe-container">

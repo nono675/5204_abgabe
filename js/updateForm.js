@@ -18,13 +18,15 @@ function editRecipes(rezept_gruppe) {
 		let rezept_zutaten = rezept_gruppe.map(a => a.zutaten_name);
 		// Select all check boxes which exist in modal and have one of these classes
 		let checkBoxes = modal.querySelectorAll('.basic, .meat, .fish, .cheese')
-		let selectBoxOil = modal.querySelector('#select-oil')
-		let selectBoxSuperfood = modal.querySelector('#select-superfood')
+		let selectBoxOil = modal.querySelector('#update-select-oil')
+		let oilOptions = selectBoxOil.querySelectorAll('option')
+		let selectBoxSuperfood = modal.querySelector('#update-select-superfood')
+		let superfoodOptions = selectBoxSuperfood.querySelectorAll('option')
 		let radioShape = modal.querySelectorAll('.radio-btn')
+		let radioButtonContainer = modal.querySelector('#update-radio-container')
+		
 		console.log('blabla')
-		console.log(radioShape)
-		console.log(selectBoxOil)
-		console.log(rezept_zutaten)
+		console.log(oilOptions)
 
 		// Loop through all check boxes fro modal
 		// If rezept_zutaten contains the value of the check box, it means the zutat exists for this recipe in the db. Thus we set the check box to checked.
@@ -34,16 +36,16 @@ function editRecipes(rezept_gruppe) {
 				checkBoxes[i].checked = true;
 			}
 		}
-		for (let i = 0; i < selectBoxOil.length; i++) {
-			if (rezept_zutaten.includes(selectBoxOil[i].value)) {
-				console.log(selectBoxOil[i].value)
-				selectBoxOil.value = selectBoxOil[i].value
+		for (let i = 0; i < oilOptions.length; i++) {
+			if (rezept_zutaten.includes(oilOptions[i].value)) {
+				console.log(oilOptions[i].value)
+				selectBoxOil.value = oilOptions[i].value
 			}
 		}
-		for (let i = 0; i < selectBoxSuperfood.length; i++) {
-			if (rezept_zutaten.includes(selectBoxSuperfood[i].value)) {
-				console.log(selectBoxSuperfood[i].value)
-				selectBoxSuperfood.value = selectBoxSuperfood[i].value
+		for (let i = 0; i < superfoodOptions.length; i++) {
+			if (rezept_zutaten.includes(superfoodOptions[i].value)) {
+				console.log(superfoodOptions[i].value)
+				selectBoxSuperfood.value = superfoodOptions[i].value
 			}
 		}
 		console.log('blablabla')
@@ -66,6 +68,16 @@ function editRecipes(rezept_gruppe) {
 		addChangeEventToAddOnCheckBoxes('update')
 		// simulate "change" event to fill out List with Zutaten
 		modal.querySelector('.meat').dispatchEvent(new Event('change')); // first select ONE meat checkBox and create a new event for this check box
+
+		// call "onchange" method for Oil Drop Dwon to display Oil if stored
+		selectBoxOil.onchange(selectBoxOil);
+
+		// call "onchange" method for Superfood Drop Dwon to display Superfood if stored
+		selectBoxSuperfood.onchange(selectBoxSuperfood);
+
+		// call "onchange" method for RadioButtonContainer to display KeksForm
+		radioButtonContainer.onchange(radioButtonContainer);
+
 
 		// When all existing (title, checkboxes etc.) are loaded to the edit form, 
 		// we can subscribe the submit event for the updateRecipeForm. (very similar to create new recipe)
@@ -204,7 +216,7 @@ function returnFilledForm(rezept_gruppe) {
 		<label class="label title">Öl</label>
 		<div class="control">
 			<div class="select">
-				<select name="oil" id="select-oil" onchange="writeOil(this)">
+				<select name="oil" id="update-select-oil" onchange="displayOil(this)">
 					<option>Wähle eine Option</option>
 					<option value="1 EL Kokosöl">Kokosöl</option>
 					<option value="3 TL Hanföl">Hanföl</option>
@@ -217,7 +229,7 @@ function returnFilledForm(rezept_gruppe) {
 		<label class="label title">Superfood</label>
 		<div class="control">
 			<div class="select">
-				<select name="superfood" id="select-superfood" onchange="writeSuperfood(this)">
+				<select name="superfood" id="update-select-superfood" onchange="displaySuperfood(this)">
 					<option>Wähle eine Option</option>
 					<option value="20 g getrocknete Kamillenblüten">getrocknete Kamillenblüten</option>
 					<option value="10 g Mariendistel-Samen">Mariendistel-Samen</option>
@@ -232,7 +244,7 @@ function returnFilledForm(rezept_gruppe) {
 		</div>
 		<div class="field">
 		<label class="label title">Form</label>
-		<div class="control radio-container">
+		<div id="update-radio-container" class="control radio-container" onchange="displayForm(this)">
 		<label class="radio">
 		<input type="radio" class="radio-btn" name="answer" value="Knochen">
 		Knochen
@@ -298,13 +310,13 @@ function returnFilledForm(rezept_gruppe) {
 		</div>
 		</form>
 
-		<div id="recipe-result" class="contenteditable">
-			<h2 id="recipe-result-title"></h2>
-			<ul id="update-basic-ul"></ul>
-			<ul id="update-add_on-ul"></ul>
-			<ul id="update-oil-ul"></ul>
-			<ul id="update-superfood-ul"></ul>
-		</div>
+	<div id="recipe-result" class="contenteditable">
+		<h2 id="recipe-result-title"></h2>
+		<ul id="update-basic-ul"></ul>
+		<ul id="update-add_on-ul"></ul>
+		<ul id="update-oil-ul"></ul>
+		<ul id="update-superfood-ul"></ul>
+		<ul id="update-keksform-ul"></ul>
 	</div>
 
 `
