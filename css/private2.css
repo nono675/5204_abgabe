@@ -25,11 +25,69 @@ p {
 ul,li{
   list-style:none;
 }
+
+/* Navigation */
+
+.navbar {
+  background-color: #fff;
+}
+.navbar-start {
+  align-items: stretch;
+}
+.navbar-start i {
+  color: #555;
+  font-size: 3rem;
+  padding-left: 2rem;
+}
+.navbar-start h2 {
+  padding-left: 1.2rem;
+  padding-top: 0.2rem;
+}
+
+a.button.is-primary.sign_up {
+  border: 1px solid #fff;
+}
+.navbar-burger {
+  height: 5rem;
+  width: 5rem;
+}
+a.navbar-burger span {
+  width: 20px;
+  height: 2px;
+  padding-top: 3px;
+}
+.button.is-primary {
+  background-color: #939597;
+  cursor:pointer;
+  user-select:none;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition-duration: 0.4s;
+  -webkit-transition-duration: 0.4s;
+}
+.button.is-primary:hover {
+  background-color: #6D3B5A;
+  transition-duration: 0.2s;
+}
+.show-recipe-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.show-recipe-container h2 {
+  padding: 5rem 0 1.5rem 0;
+  font-size: 3rem;
+}
 .recipe-container{
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  padding: 2rem;
 }
+
+
 .contenteditable{
   position: relative;
   margin: 3rem;
@@ -44,6 +102,11 @@ ul,li{
   transition: transform .15s linear;
 }
 
+.contenteditable h3 {
+  font-size: 3rem;
+  font-family: 'Handlee', cursive;
+}
+
 #create-recipe-form, #update-recipe-form{
   position: relative;
   margin: 3rem;
@@ -52,7 +115,7 @@ ul,li{
   background:rgb(249, 249, 238);
   display:block;
   height: auto;
-  width: auto;
+  width: 50%;
   box-shadow: 5px 5px 7px rgba(33,33,33,.7);
 }
 
@@ -60,19 +123,21 @@ ul,li{
   transform:rotate(4deg);
   position:relative;
   top:5px;
-  background: #00d1b2;
+  background: #eee0dc;
 }
-.contenteditable:nth-child(3n) {
+.contenteditable:nth-child(4n) {
   transform:rotate(-3deg);
   position:relative;
   top:-5px;
-  background:#9C4C89;
+  background: #6D3B5A;
   color: #fff;
 }
-.contenteditable:nth-child(5n) {
+.contenteditable:nth-child(3n) {
   transform:rotate(5deg);
   position:relative;
   top:-10px;
+  background-color: #939597;
+  color: #fff;
 }
 
 .contenteditable:hover, .contenteditable:focus{
@@ -94,13 +159,13 @@ ul,li{
   padding: 1rem;
 }
 
-.contenteditable:nth-child(3n) i {
+.contenteditable:nth-child(3n) i, .contenteditable:nth-child(4n) i {
   color: #fff;
 }
 
 .contenteditable h3 {
   font-family: 'Handlee', cursive;
-  font-size: 1.2rem;
+  font-size: 3rem;
 }
 
 .recipe-form.contenteditable {
@@ -123,52 +188,113 @@ ul,li{
 }
 
 #recipe-result {
-  background-color: violet;
+  background: #6D3B5A;
+  color: #fff;
   height: auto;
-  width: 300px;
+  width: 40%
+}
+
+#recipe-result h2 {
+  font-size: 2.5rem;
+  padding: 1rem;
+}
+
+#recipe-result h3 {
+  font-size: 2rem;
+  border-bottom: 1px solid #fff;
+}
+
+#create-basic-ul {
+  padding: 0.5rem 1rem 0.2rem 1rem;
+}
+#create-add_on-ul {
+  padding: 0.5rem 1rem 0.2rem 1rem;
 }
 
 .new-recipe {
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  background-color: #eee0dc;
+  padding: 2rem 0;
+
 }
 
 /* The Modal (background) */
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  padding-top: 100px; /* Location of the box */
+  z-index: 200; /* Sit on top */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
-  height: 100%; /* Full height */
+  height: 100vh; /* Full height */
   overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  background: #939597;
+}
+.header-updateform {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 0;
+  background-color: #fff;
 }
 
-/* Modal Content */
-.modal-content {
-  background-color: pink;
-  margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
+.header-updateform h2 {
+  font-size: 2.5rem;
 }
+
+.header-updateform i {
+  font-size: 3rem;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 2rem;
+}
+
 /* The Close Button */
 .close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+  display: none;
+  color: #555;
+  font-size: 3rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 0 1rem;
+  margin: 1rem;
+  z-index: 88888;
 }
 
 .close:hover,
 .close:focus {
-  color: #000;
   text-decoration: none;
   cursor: pointer;
+  color: #e0c2d4;
+
+}
+
+
+footer {
+  background-color: #6D3B5A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+}
+footer small {
+  color: #fff;
+  font-family: 'Handlee', cursive;
+  font-size: 1rem;
+  padding: 2rem 0 1rem 0;
+}
+footer i {
+  color: #fff;
+  font-size: 3rem;
+  padding-bottom: 2rem;
 }
 
