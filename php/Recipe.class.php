@@ -281,21 +281,7 @@ if (isset($_GET['calculateAddOnsAmounts'])) {
 	
 }
 
-// if you call fetch('php/Recipe.class.php?getall')
-if(isset($_GET['getall'])){
-	$dbInst = new Recipe($host,$dbname,$user,$passwd);
-	$res=$dbInst->readAllRecipeMethod();
-	header('Content-Type: application/json');
-	echo json_encode($res);
-}
 
-// if you call fetch('php/Recipe.class.php?getalljoined')
-if(isset($_GET['getalljoined'])){
-	$dbInst = new Recipe($host,$dbname,$user,$passwd);
-	$res=$dbInst->readAllRecipeJoinedMethod();
-	header('Content-Type: application/json');
-	echo json_encode($res);
-}
 
 // if you call fetch('php/Recipe.class.php?getall')
 if (isset($_GET['getall'])) {
