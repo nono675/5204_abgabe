@@ -22,7 +22,7 @@ function addChangeEventToBasicCheckBoxes(rezept_form_prefix){ // create / update
                         console.log(data[gewichtPerZutat])
                         selectetList = `${selectetList} <li>${gewichtPerZutat+' : '+ data[gewichtPerZutat] + ' g'}</li>`
                     }
-                    basicUl.innerHTML = `<h2>Basis</h2><br>${selectetList}`
+                    basicUl.innerHTML = `<h3>Basis</h3><br>${selectetList}`
                 }
             }
             )
@@ -55,7 +55,7 @@ function addChangeEventToAddOnCheckBoxes(rezept_form_prefix){ // create / update
                         console.log(data[gewichtPerZutat])
                         selectetList = `${selectetList} <li>${gewichtPerZutat+' : '+ data[gewichtPerZutat] + ' g'}</li>`
                     }
-                    ul.innerHTML = `<h2>Add-Ons</h2><br>${selectetList}`
+                    ul.innerHTML = `<h3>Add-Ons</h3><br>${selectetList}`
                 }
             }
             )

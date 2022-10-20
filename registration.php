@@ -28,8 +28,18 @@
                 </div>
               </div>
               <div class="field">
+                <div id="feedback-vorname">
+                  <!-- feedback vorname-->
+                </div>
+              </div>
+              <div class="field">
                 <div class="control">
                   <input class="input is-medium" type="text" placeholder="Nachname" id="nachname" name="nachname">
+                </div>
+              </div>
+              <div class="field">
+                <div id="feedback-nachname">
+                  <!-- feedback nachname-->
                 </div>
               </div>
               <div class="field">
@@ -72,7 +82,7 @@
       <div class="column is-8 is-offset-2">
         <div class="level-right">
           <small class="level-item" style="color: var(--textLight)">
-            &copy; Super Cool Website. All Rights Reserved.
+            &copy; Monty's Tidbits
           </small>
         </div>
         </nav>

@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://kit.fontawesome.com/15181efa86.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css" />
+  <link rel="stylesheet" href="css/accordion.css">
   <link rel="stylesheet" href="css/private2.css">
 
   <!-- JS -->
@@ -29,11 +30,10 @@
       </a>
     </div>
     <div id="navbarBasicExample" class="navbar-menu">
-      <!-- <div class="navbar-start">
-      <a class="navbar-item">
-        Home
-      </a>
-    </div> -->
+    <div class="navbar-start">
+        <a href="index.php"><i class="fa-solid fa-sharpe fa-bone"></i></a>
+        <h2>Monty's Tidbits</h2>
+      </div>
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
@@ -48,6 +48,8 @@
       </div>
     </div>
   </nav>
+
+
 
   <div class="user"></div>
 
@@ -150,7 +152,7 @@
           <label for="oil" class="label title">Öl</label>
           <div class="control">
             <div class="select">
-              <select name="oil" id="select-oil" onchange="writeOil(this)">
+              <select name="oil" id="create-select-oil" onchange="displayOil(this)">
                 <option>Wähle eine Option</option>
                 <option value="1 EL Kokosöl">Kokosöl</option>
                 <option value="3 TL Hanföl">Hanföl</option>
@@ -163,7 +165,7 @@
           <label for="superfood" class="label title">Superfood</label>
           <div class="control">
             <div class="select">
-              <select name="superfood" id="select-superfood" onchange="writeSuperfood(this)">
+              <select name="superfood" id="create-select-superfood" onchange="displaySuperfood(this)">
                 <option>Wähle eine Option</option>
                 <option value="20 g getrocknete Kamillenblüten">getrocknete Kamillenblüten</option>
                 <option value="10 g Mariendistel-Samen">Mariendistel-Samen</option>
@@ -178,33 +180,33 @@
       </div>
       <div class="field">
         <label class="label title">Form</label>
-        <div class="control radio-container">
+        <div id="create-radio-container" class="control radio-container" onchange="displayForm(this)">
           <label class="radio">
-            <input type="radio" name="answer" value="Knochen">
+            <input class="radio-btn" type="radio" name="answer" value="Knochen">
             Knochen
           </label>
           <label class="radio">
-            <input type="radio" name="answer" value="Fisch">
+            <input class="radio-btn" type="radio" name="answer" value="Fisch">
             Fisch
           </label>
           <label class="radio">
-            <input type="radio" name="answer" value="Stern">
+            <input class="radio-btn" type="radio" name="answer" value="Stern">
             Stern
           </label>
           <label class="radio">
-            <input type="radio" name="answer" value="Halbkugel">
+            <input class="radio-btn" type="radio" name="answer" value="Halbkugel">
             Halbkugel
           </label>
           <label class="radio">
-            <input type="radio" name="answer" value="Herz">
+            <input class="radio-btn" type="radio" name="answer" value="Herz">
             Herz
           </label>
           <label class="radio">
-            <input type="radio" name="answer" value="Donut">
+            <input class="radio-btn" type="radio" name="answer" value="Donut">
             Donut
           </label>
           <label class="radio">
-            <input type="radio" name="answer" value="Pfoten">
+            <input class="radio-btn" type="radio" name="answer" value="Pfoten">
             Pfoten
           </label>
         </div>
@@ -233,7 +235,6 @@
           </label>
         </div>
       </div>
-
       <div class="field is-grouped">
         <div class="control">
           <button class="button is-block is-primary" type="submit" name="createRecipe" id="createRecipe">Absenden</button>
@@ -253,32 +254,29 @@
       <ul id="create-add_on-ul"></ul>
       <ul id="create-oil-ul"></ul>
       <ul id="create-superfood-ul"></ul>
+      <ul id="create-keksform-ul"></ul>
     </div>
 
   </div>
 
-
+  <span class="close">&times;</span>
   <!-- The Modal -->
   <div id="myModal" class="modal">
 
-    <!-- Modal content -->
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <p>Some text in the Modal..</p>
+
+  </div>
+
+
+  <div class="show-recipe-container">
+    <h2>Deine Rezepte</h2>
+    <div class="recipe-container">
+      <!-- Div for recipes -->
     </div>
-
   </div>
-
-
-  <div class="recipe-container">
-
-
-
-
-
-  </div>
-
-
+  <footer>
+    <small>&copy; Monty's Tidbits 2022</small>
+    <i class="fa-solid fa-sharpe fa-bone"></i>
+  </footer>
 </body>
 
 </html>

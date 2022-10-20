@@ -25,11 +25,13 @@ class User extends PDO
 		}
 	}
 	// Methode zum Eröffnen eines neuen Accounts
-	public function createMethod($username, $passwort)
+	public function createMethod($vorname, $nachname, $username, $passwort)
 	{
-		$query = "INSERT INTO users (username, pw) VALUES (:username, :pw)";
+		$query = "INSERT INTO users (vorname, nachname, username, pw) VALUES (:vorname, :nachname, :username, :pw)";
 		$securePW = password_hash($passwort, PASSWORD_DEFAULT);
 		$stmt = $this->prepare($query);
+		$stmt->bindParam(':vorname', $vorname);
+		$stmt->bindParam(':nachname', $nachname);
 		$stmt->bindParam(':username', $username);
 		$stmt->bindParam(':pw', $securePW);
 		$stmt->execute();
@@ -127,10 +129,12 @@ if (isset($_POST['username']) && isset($_POST['userCheck'])) {
 }
 
 if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['create'])) {
+	$vorname = $_POST['vorname'];
+	$nachname = $_POST['nachname'];
 	$userName = $_POST['username'];
 	$password = $_POST['password'];
 	$dbInst = new User($host, $dbname, $user, $passwd);
-	$res = $dbInst->createMethod($userName, $password);
+	$res = $dbInst->createMethod($vorname, $nachname, $userName, $password);
 	header('Content-Type: application/json');
 	echo json_encode($res);
 }
