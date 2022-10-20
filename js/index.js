@@ -1,7 +1,3 @@
-
-
-
-
 getData()
 
 function getData() {
@@ -17,10 +13,7 @@ function getData() {
 
 }
 
-
 function showRecipes(all_recipes_joined) {
-
-  
 
 	// all_recipes_joined has structure
 	// id(recipe.id) | title | beschreib ....... | zutaten_name | fk_rezepte
@@ -53,11 +46,12 @@ function showRecipes(all_recipes_joined) {
     let rezeptTitle = rezept_gruppe[0].title
     let rezeptForm = rezept_gruppe[0].form
     let rezeptUser = rezept_gruppe[0].fk_user
-
+    let rezeptDivId = `rezept_nr${rezept_gruppe[0].rezept_id}`
 
     // Select all zutaten_name of rezept_gruppe
     let rezept_zutaten = rezept_gruppe.map(a => a.zutaten_name);
     let selectetList = "";
+    let selectetListAddOn = "";
 
     let formData = new FormData();
     rezept_zutaten.forEach(zutat => {
@@ -72,20 +66,24 @@ function showRecipes(all_recipes_joined) {
         console.log(data)
         if(data != null){
 
-            for(var gewichtPerZutat in data){
-                selectetList = `${selectetList} <li>${gewichtPerZutat+' : '+ data[gewichtPerZutat] + ' g'}</li>`
+            for(let gewichtPerZutat in data){
+                selectetList = `${selectetList}<li>${gewichtPerZutat+' : '+ data[gewichtPerZutat] + ' g'}</li>`
                 //console.log(selectetList)
             }
         }
         // Creates a new html div (not know by the html file so far)
         const div = document.createElement('div')
         div.className = 'contenteditable'
-        div.id = `rezept_nr${rezept_gruppe[0].rezept_id}` // we can always use 0 as index if we want to knoe a vaue from recipe tabel. Since all values of recipe table are the same within rezept_gruppe.
-    
+        div.id = rezeptDivId // we can always use 0 as index if we want to knoe a vaue from recipe tabel. Since all values of recipe table are the same within rezept_gruppe.
+        
+        if(selectetList != "") {
+          selectetList = `<h4>Basis</h4>${selectetList}`
+        } 
     
         const recipes_template = `
           <h3>${rezeptTitle}</h3>
           <div>${selectetList}</div>
+          <div id="addOns"></div>
           <button id="accordion${key}" class="accordion">Beschreib</button>
           <div class="panel">
             <p>Heize den Backofen auf 150°C Umluft vor.</p>
@@ -117,8 +115,36 @@ function showRecipes(all_recipes_joined) {
         });
     }
     )
+
     .catch((error) => console.log(error))
 
+
+    fetch("php/Recipe.class.php?calculateAddOnsAmounts", {
+      method: "post",
+      body: formData,
+      })
+      .then((res) => res.json())
+      .then(function(data) {
+          console.log(data)
+          if(data != null){
+  
+              for(let gewichtPerZutat in data){
+                  selectetListAddOn = `${selectetListAddOn} <li>${gewichtPerZutat+' : '+ data[gewichtPerZutat] + ' g'}</li>`
+                  //console.log(selectetList)
+              }
+          }
+          if(selectetListAddOn != "") {
+            selectetListAddOn = `<h4>Add-On</h4>${selectetListAddOn}`
+          } 
+          // Creates a new html div (not know by the html file so far)
+          const div = document.getElementById(rezeptDivId)
+          console.log(div)
+          const addOnDiv = div.querySelector('#addOns')
+      
+          addOnDiv.innerHTML = selectetListAddOn
+      }
+      )
+      .catch((error) => console.log(error))
 	})
 }
 
