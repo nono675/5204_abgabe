@@ -4,12 +4,15 @@ function editRecipes(rezept_gruppe) {
 	// Edit Button erstellen
 	let edit = document.getElementById(`edit_nr${rezeptId}`)
 
+
 	// Click Event für Edit Button
 	edit.addEventListener("click", function(event) {
 		console.log(edit)
 		// Modal mit Update Form wird angezeigt
 		modal.style.display = "block";
 		span.style.display = "block";
+
+
 
 		// Rezept wird mit DB-Daten gefüllt
 		modal.innerHTML = returnFilledForm(rezept_gruppe)
@@ -110,7 +113,6 @@ function editRecipes(rezept_gruppe) {
 	span.onclick = function() {
 		modal.style.display = "none";
 		span.style.display = "none";
-		updateNav.style.display = "none";
 	}
 }
 
