@@ -2,12 +2,25 @@ function editRecipes(rezept_gruppe) {
 
 	let rezeptId = rezept_gruppe[0].rezept_id; // we can always use 0 as index if we want to knoe a vaue from recipe tabel. Since all values of recipe table are the same within rezept_gruppe.
 	// Edit Button erstellen
-	let edit = document.getElementById(`edit_nr${rezeptId}`)
+	let editButton = document.getElementById(`edit_nr${rezeptId}`)
+	let deleteButton = document.getElementById(`delete_nr${rezeptId}`)
 
+	// Click Event für Delete Button
+	deleteButton.addEventListener("click", function(event) {
+		fetch(`php/Recipe.class.php?id=${rezeptId}`, {
+			method: "delete"
+		})
+		.then((res) => res.json())
+		.then(function(data) {
+			console.log(data)
+			// hier könnte man dann dem user anzeigen, dass das neue rezept erstellt worden ist.
+		})
+		.catch((error) => console.log(error))
+	})
 
 	// Click Event für Edit Button
-	edit.addEventListener("click", function(event) {
-		console.log(edit)
+	editButton.addEventListener("click", function(event) {
+		console.log(editButton)
 		// Modal mit Update Form wird angezeigt
 		modal.style.display = "block";
 		span.style.display = "block";

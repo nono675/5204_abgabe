@@ -121,7 +121,7 @@ class Recipe extends PDO
 	// Ist vorläufig nicht in Gebrauch
 	public function deleteMethod($idInput)
 	{
-		$query = "DELETE FROM recipe WHERE id = :id";
+		$query = "DELETE FROM recipe WHERE id = :ID";
 		$stmt = $this->prepare($query);
 		$stmt->bindParam(':ID', $idInput, PDO::PARAM_INT);
 		$stmt->execute();
@@ -281,7 +281,16 @@ if (isset($_GET['calculateAddOnsAmounts'])) {
 	
 }
 
-
+// Deletes a Recipe and all according Zutaten
+if (isset($_GET['id']) && $_SERVER['REQUEST_METHOD'] === 'DELETE') {
+	$dbInst = new Recipe($host, $dbname, $user, $passwd);
+	$dbInst->deleteZutatenVonRezeptMethod($_GET['id']);
+	$dbInst->deleteMethod($_GET['id']);
+	$result['Id'] = $_GET['id'];
+	$result['Delete'] = "Delete";
+	header('Content-Type: application/json');
+	echo json_encode($result);
+}
 
 // if you call fetch('php/Recipe.class.php?getall')
 if (isset($_GET['getall'])) {
