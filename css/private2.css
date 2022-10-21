@@ -1,35 +1,10 @@
-/* Import */
-
-@import url('https://fonts.googleapis.com/css2?family=Handlee&display=swap');
-
-body {
-  margin: 20px auto;
-  font-family: 'Lato';
-
-}
-
-*{
-  margin:0;
-  padding:0;
-}
-
-h2 {
-
-  font-family: 'Handlee', cursive;
-  font-size: 2rem;
-}
-p {
-  font-family: 'Reenie Beanie';
-  font-size: 2rem;
-}
-ul,li{
-  list-style:none;
-}
-
 /* Navigation */
 
 .navbar {
   background-color: #fff;
+}
+.navbar-menu {
+  padding: 1rem;
 }
 .navbar-start {
   align-items: stretch;
@@ -43,149 +18,57 @@ ul,li{
   padding-left: 1.2rem;
   padding-top: 0.2rem;
 }
-
-a.button.is-primary.sign_up {
-  border: 1px solid #fff;
-}
-.navbar-burger {
-  height: 5rem;
-  width: 5rem;
-}
 a.navbar-burger span {
-  width: 20px;
-  height: 2px;
-  padding-top: 3px;
+  color: #555;
 }
-.button.is-primary {
-  background-color: #939597;
-  cursor:pointer;
-  user-select:none;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-  transition-duration: 0.4s;
-  -webkit-transition-duration: 0.4s;
+
+/* New Recipe */
+
+.new-recipe {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  background: #eee0dc;
+  padding: 5rem 0;
 }
-.button.is-primary:hover {
-  background-color: #6D3B5A;
-  transition-duration: 0.2s;
-}
+
+
+/* Show Recipe */
+
 .show-recipe-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 5rem 0;
 }
+
 .show-recipe-container h2 {
-  padding: 5rem 0 1.5rem 0;
-  font-size: 3rem;
-}
-.recipe-container{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 2rem;
-}
-
-
-.contenteditable{
-  position: relative;
-  margin: 3rem;
-  color:#000;
-  background:rgb(249, 249, 238);
-  display:block;
-  height:20rem;
-  width:20rem;
-  padding:1em;
-  box-shadow: 5px 5px 7px rgba(33,33,33,.7);
-  transform: rotate(-6deg);
-  transition: transform .15s linear;
-}
-
-.contenteditable h3 {
-  font-size: 3rem;
-  font-family: 'Handlee', cursive;
-}
-
-#create-recipe-form, #update-recipe-form{
-  position: relative;
-  margin: 3rem;
-  padding: 2rem;
-  color:#000;
-  background:rgb(249, 249, 238);
-  display:block;
-  height: auto;
-  width: 50%;
-  box-shadow: 5px 5px 7px rgba(33,33,33,.7);
-}
-
-.contenteditable:nth-child(even) {
-  transform:rotate(4deg);
-  position:relative;
-  top:5px;
-  background: #eee0dc;
-}
-.contenteditable:nth-child(4n) {
-  transform:rotate(-3deg);
-  position:relative;
-  top:-5px;
-  background: #6D3B5A;
-  color: #fff;
-}
-.contenteditable:nth-child(3n) {
-  transform:rotate(5deg);
-  position:relative;
-  top:-10px;
-  background-color: #939597;
-  color: #fff;
-}
-
-.contenteditable:hover, .contenteditable:focus{
-  box-shadow:10px 10px 7px rgba(0,0,0,.7);
-  transform: scale(1.25);
-  position:relative;
-  z-index:5;
-}
-
-.icon-container {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  padding: 0.5rem 0.2rem;
-}
-.icon-container i {
-  color: #000;
-  font-size: 1.5rem;
-  padding: 1rem;
-}
-
-.contenteditable:nth-child(3n) i, .contenteditable:nth-child(4n) i {
-  color: #fff;
-}
-
-.contenteditable h3 {
-  font-family: 'Handlee', cursive;
   font-size: 3rem;
 }
 
-.recipe-form.contenteditable {
-  width: 400px;
-  height: auto;
-}
+/* Create / Update Recipe Form */
 
-.recipe-form.contenteditable .title {
-  font-family: 'Handlee', cursive;
-  font-size: 1.5rem;
-  padding: 1.5rem 0 0.5rem 0;
-}
+#create-recipe-form h2, .field h2 label, #update-recipe-form h2{
+    font-size: 2rem;
+    padding: 1rem 0 0.5rem 0;
+    color: #555;
+    font-weight: 300;
+  }
+  .recipe-form h3 {
+    font-family: 'Handlee', cursive;
+    font-size: 1.2rem;
+  }
+  .recipe-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 2rem;
+  }
 
-.recipe-form .ingredient-container {
-  padding: 1rem 0;
-}
-.recipe-form .ingredient-container h3 {
-  font-family: 'Handlee', cursive;
-  font-size: 1.2rem;
-}
+
+
+/* Recipe Result */
 
 #recipe-result {
   background: #6D3B5A;
@@ -193,45 +76,41 @@ a.navbar-burger span {
   height: auto;
   width: 40%
 }
-
 #recipe-result h2 {
   font-size: 2.5rem;
   padding: 1rem;
 }
-
 #recipe-result h3 {
   font-size: 2rem;
   border-bottom: 1px solid #fff;
 }
-
-#create-basic-ul {
-  padding: 0.5rem 1rem 0.2rem 1rem;
-}
-#create-add_on-ul {
+#create-basic-ul, #create-add_on-ul, #update-add_on-ul, #update-basic-ul, #update-oil-ul, #update-superfood-ul, #update-keksform-ul {
   padding: 0.5rem 1rem 0.2rem 1rem;
 }
 
-.new-recipe {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  background-color: #eee0dc;
-  padding: 2rem 0;
-
+#update-oil-ul li, #update-superfood-ul li, #update-keksform-ul li {
+  list-style-type: disc;
 }
 
-/* The Modal (background) */
+
+
+
+/* Update Recipe Modal */
+
 .modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 200; /* Sit on top */
+  display: none; 
+  position: fixed; 
+  z-index: 200; 
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100vh; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
+  width: 100%; 
+  height: 100vh;
+  overflow: auto; 
   background: #939597;
 }
+
+/* Header for Updateform */
+
 .header-updateform {
   display: flex;
   flex-direction: column;
@@ -240,15 +119,12 @@ a.navbar-burger span {
   padding: 3rem 0;
   background-color: #fff;
 }
-
 .header-updateform h2 {
   font-size: 2.5rem;
 }
-
 .header-updateform i {
   font-size: 3rem;
 }
-
 .flex-container {
   display: flex;
   justify-content: space-between;
@@ -256,7 +132,8 @@ a.navbar-burger span {
   padding: 2rem;
 }
 
-/* The Close Button */
+/* Close Button for Modal*/
+
 .close {
   display: none;
   color: #555;
@@ -274,27 +151,25 @@ a.navbar-burger span {
   text-decoration: none;
   cursor: pointer;
   color: #e0c2d4;
-
 }
 
 
-footer {
-  background-color: #6D3B5A;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
 
+@media (max-width: 1000px) {
+  .new-recipe {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
-footer small {
-  color: #fff;
-  font-family: 'Handlee', cursive;
-  font-size: 1rem;
-  padding: 2rem 0 1rem 0;
-}
-footer i {
-  color: #fff;
-  font-size: 3rem;
-  padding-bottom: 2rem;
+
+@media (max-width: 800px) {
+  #create-recipe-form, #update-recipe-form {
+    width: 90%;
+  }
+
+  #recipe-result {
+    width: 80%;
+  }
 }
 

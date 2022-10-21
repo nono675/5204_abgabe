@@ -66,7 +66,7 @@ function displayOil(dropDownElement) {
 		currentUl.innerHTML = ``;
 	}
 	else{
-		currentUl.innerHTML = `<h2>Öl</h2><br>${dropDownElement.value}`;
+		currentUl.innerHTML = `<h3>Öl</h3><br>${dropDownElement.value}`;
 	}
 }
 
@@ -85,7 +85,7 @@ function displaySuperfood(dropDownElement) {
 		currentUl.innerHTML = ``;
 	}
 	else{
-		currentUl.innerHTML = `<h2>Superfood</h2><br>${dropDownElement.value}`;
+		currentUl.innerHTML = `<h3>Superfood</h3><br>${dropDownElement.value}`;
 	}
 }
 
@@ -107,7 +107,7 @@ function displayForm(radioButtonContainer) {
 	// Go through all radio buttons of radioButtonContainer and check if selected (checked)
 	for (let i = 0; i < radioButtons.length; i++) {
 		if (radioButtons[i].checked == true) {
-			currentUl.innerHTML = `<h2>Form</h2><br>${radioButtons[i].value}`;
+			currentUl.innerHTML = `<h3>Form</h3><br>${radioButtons[i].value}`;
 		}
 	}
 }

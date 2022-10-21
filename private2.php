@@ -1,17 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Rezept-Generator | Monty's Tidbits</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="https://kit.fontawesome.com/15181efa86.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css" />
+  <link rel="stylesheet" href="css/recipe-postits.css">
   <link rel="stylesheet" href="css/accordion.css">
   <link rel="stylesheet" href="css/private2.css">
+  <link rel="stylesheet" href="css/style.css">
 
   <!-- JS -->
   <script defer src="js/addEventListenerFunctions.js"></script>
@@ -30,7 +32,7 @@
       </a>
     </div>
     <div id="navbarBasicExample" class="navbar-menu">
-    <div class="navbar-start">
+      <div class="navbar-start">
         <a href="index.php"><i class="fa-solid fa-sharpe fa-bone"></i></a>
         <h2>Monty's Tidbits</h2>
       </div>
@@ -59,13 +61,13 @@
 
     <form id="create-recipe-form" class="recipe-form" method="POST">
       <div class="field">
-        <label class="title label">Rezept-Name</label>
+        <h2>Rezeptname</h2>
         <div class="control">
-          <input id="recipe-title" class="input" type="text" name="recipe-title" placeholder="Text input">
+          <input id="recipe-title" class="input" type="text" name="recipe-title" placeholder="Dein Rezeptname">
         </div>
       </div>
       <div class="field">
-        <label class="checkbox label title">Basis</label>
+        <h2>Basis</h2>
         <div class="checkbox-container">
           <div class="ingredient">
             <input type="checkbox" name="checkbox[]" class="basic" id="Dinkelmehl" value="Dinkelmehl">
@@ -94,7 +96,7 @@
         </div>
       </div>
       <div class="field">
-        <label class="checkbox label title">Geschmackszugabe</label>
+        <h2>Geschmackszugabe</h2>
         <div class="ingredients field">
           <div class="ingredient-container">
             <h3>Fleisch</h3>
@@ -149,7 +151,7 @@
       </div>
       <div class="select-container">
         <div class="field">
-          <label for="oil" class="label title">Öl</label>
+          <h2><label for="oil" class="label title">Öl</label></h2>
           <div class="control">
             <div class="select">
               <select name="oil" id="create-select-oil" onchange="displayOil(this)">
@@ -162,7 +164,7 @@
           </div>
         </div>
         <div class="field">
-          <label for="superfood" class="label title">Superfood</label>
+          <h2><label for="superfood" class="label title">Superfood</label></h2>
           <div class="control">
             <div class="select">
               <select name="superfood" id="create-select-superfood" onchange="displaySuperfood(this)">
@@ -179,7 +181,7 @@
         </div>
       </div>
       <div class="field">
-        <label class="label title">Form</label>
+        <h2><label class="label title">Form</label></h2>
         <div id="create-radio-container" class="control radio-container" onchange="displayForm(this)">
           <label class="radio">
             <input class="radio-btn" type="radio" name="answer" value="Knochen">
@@ -260,7 +262,7 @@
   </div>
 
   <span class="close">&times;</span>
-  <!-- The Modal -->
+  <!-- Modal with Update Form -->
   <div id="myModal" class="modal">
 
 
