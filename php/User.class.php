@@ -1,4 +1,7 @@
 <?php
+session_start([
+    'cookie_lifetime' => 3600, // Set lifetime to all Session cookies to one hour (in seconds)
+]);
 require("../prefs/credentials.php");
 // Die Klasse erbt von der Superklasse PDO
 class User extends PDO
@@ -78,13 +81,16 @@ class User extends PDO
 			// Passwort verifizieren
 			if (password_verify($pw, $result['pw'])) {
 				// Passwort stimmt überein
+				$_SESSION['fk_user'] = $result['id'];
 				return true;
 			} else {
 				// Passwort falsch
+				session_destroy();
 				return false;
 			}
 		} else {
 			// User existiert nicht
+			session_destroy();
 			return false;
 		}
 	}
@@ -119,6 +125,25 @@ class User extends PDO
 	}
 }
 
+if (isset($_GET['getSessionInfo'])) {
+	if(isset($_SESSION['fk_user']) && $_SESSION['fk_user'] != ""){
+		$result['fk_user'] = $_SESSION['fk_user'];
+	}
+	else{
+		$result['fk_user'] = null;
+	}
+
+	header('Content-Type: application/json');
+	echo json_encode($result);
+}
+
+if (isset($_GET['logout'])) {
+	setcookie (session_id(), "", time() - 3600);
+	session_destroy();
+	$result['logout'] = true;
+	header('Content-Type: application/json');
+	echo json_encode($result);
+}
 
 if (isset($_POST['username']) && isset($_POST['userCheck'])) {
 	$userName = $_POST['username'];
