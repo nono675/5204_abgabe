@@ -112,3 +112,22 @@ function displayForm(radioButtonContainer) {
 	}
 }
 
+function logoutUserWithButton() {
+
+	fetch('php/User.class.php?logout')
+	.then((res) => res.json())
+	.then(function(data) {
+		console.log(data)
+		window.location.href = "login.php";
+		// hier könnte man dann dem user anzeigen, dass das neue rezept erstellt worden ist.
+	})
+	.catch((error) => console.log(error))
+
+	fetch('php/User.class.php?getSessionInfo')
+		.then(res => res.json()) // .then means it waits until step before is completed.
+		.then(function(data) {
+			const sessionInfo = data
+			console.log(data)
+		})
+}
+

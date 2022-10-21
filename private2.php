@@ -23,7 +23,7 @@
   <script defer src="js/updateForm.js"></script>
 </head>
 
-<body>
+<body style="display:none;"> <!-- display:none is needed to hide page until check of existing session is done -->
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div>
       <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -43,7 +43,7 @@
             <a href="index.php" class="button is-primary sign_up">
               <strong>Home</strong>
             </a>
-            <a href="login.php" class="button is-light">
+            <a class="button is-light" onclick="logoutUserWithButton()">
               Log Out
             </a>
           </div>
@@ -280,6 +280,22 @@
     <small>&copy; Monty's Tidbits 2022</small>
     <i class="fa-solid fa-sharpe fa-bone"></i>
   </footer>
+  <script>
+    window.addEventListener('load', function() {
+    fetch('php/User.class.php?getSessionInfo')
+        .then(res => res.json()) // .then means it waits until step before is completed.
+        .then(function(data) {
+      const sessionInfo = data
+      if(data.hasOwnProperty('fk_user') && data['fk_user'] > 0){
+        console.log(sessionInfo)
+        document.querySelector('body').style.display = 'block'
+      }
+      else{
+        window.location.href = "login.php";
+      }
+    })
+  })
+  </script>
 </body>
 
 </html>

@@ -75,5 +75,18 @@
       </div>
     </div>
   </section>
-
+  <script>
+    fetch('php/User.class.php?getSessionInfo')
+		.then(res => res.json()) // .then means it waits until step before is completed.
+		.then(function(data) {
+			const sessionInfo = data
+      if(data.hasOwnProperty('fk_user') && data['fk_user'] > 0){
+        console.log(sessionInfo)
+        window.location.href = "private2.php";
+      }
+      else{
+        //window.location.href = "login.php";
+      }
+		})
+  </script>
 </body>
