@@ -12,6 +12,7 @@
   transition: transform .15s linear;
 }
 
+
 .contenteditable h3 {
   font-size: 3rem;
   font-family: 'Handlee', cursive;
@@ -29,6 +30,10 @@
 
 .contenteditable li {
   list-style-type: disc;
+
+}
+.else ul {
+  padding: 0 0 1rem 1.5rem;
 }
 
 #create-recipe-form, #update-recipe-form{

@@ -58,14 +58,8 @@ a.navbar-burger span {
   .recipe-form h3 {
     font-family: 'Handlee', cursive;
     font-size: 1.2rem;
+    margin: 1rem 0 0.8rem 0;
   }
-  .recipe-container{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 2rem;
-  }
-
 
 
 /* Recipe Result */
@@ -84,7 +78,7 @@ a.navbar-burger span {
   font-size: 2rem;
   border-bottom: 1px solid #fff;
 }
-#create-basic-ul, #create-add_on-ul, #update-add_on-ul, #update-basic-ul, #update-oil-ul, #update-superfood-ul, #update-keksform-ul {
+#create-basic-ul, #create-add_on-ul, #create-oil-ul, #create-superfood-ul, #create-keksform-ul, #update-add_on-ul, #update-basic-ul, #update-oil-ul, #update-superfood-ul, #update-keksform-ul {
   padding: 0.5rem 1rem 0.2rem 1rem;
 }
 

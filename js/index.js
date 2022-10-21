@@ -67,7 +67,7 @@ function showRecipes(all_recipes_joined) {
         if(data != null){
 
             for(let gewichtPerZutat in data){
-                selectetList = `${selectetList}<li>${gewichtPerZutat+' : '+ data[gewichtPerZutat] + ' g'}</li>`
+                selectetList = `${selectetList}<li>${data[gewichtPerZutat]} g ${gewichtPerZutat}</li>`
                 //console.log(selectetList)
             }
         }
@@ -84,6 +84,13 @@ function showRecipes(all_recipes_joined) {
           <h3>${rezeptTitle}</h3>
           <div>${selectetList}</div>
           <div id="addOns"></div>
+          <div class="else">
+            <h4>Ausserdem</h4>
+            <ul>
+              <li>3 Eier</li>
+              <li>etwas Wasser</li>
+            </ul>
+          </div>
           <button id="accordion${key}" class="accordion">Beschreib</button>
           <div class="panel">
             <p>Heize den Backofen auf 150°C Umluft vor.</p>
@@ -129,7 +136,7 @@ function showRecipes(all_recipes_joined) {
           if(data != null){
   
               for(let gewichtPerZutat in data){
-                  selectetListAddOn = `${selectetListAddOn} <li>${gewichtPerZutat+' : '+ data[gewichtPerZutat] + ' g'}</li>`
+                  selectetListAddOn = `${selectetListAddOn} <li>${data[gewichtPerZutat]} g ${gewichtPerZutat}</li>`
                   //console.log(selectetList)
               }
           }

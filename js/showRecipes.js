@@ -55,6 +55,8 @@ function showRecipes(all_recipes_joined) {
     let rezept_zutaten = rezept_gruppe.map(a => a.zutaten_name);
     let selectetList = "";
     let selectetListAddOn = "";
+		let selectetOil = "";
+		let selectetSuperfood ="";
 
     let formData = new FormData();
     rezept_zutaten.forEach(zutat => {
@@ -67,9 +69,8 @@ function showRecipes(all_recipes_joined) {
     .then((res) => res.json())
     .then(function(data) {
         if(data != null){
-
             for(let gewichtPerZutat in data){
-                selectetList = `${selectetList}<li>${gewichtPerZutat+' : '+ data[gewichtPerZutat] + ' g'}</li>`
+                selectetList = `${selectetList}<li>${data[gewichtPerZutat]} g ${gewichtPerZutat}}</li>`
             }
         }
 	})
@@ -83,7 +84,7 @@ function showRecipes(all_recipes_joined) {
 				console.log(data)
 				if(data != null){
 					for(let gewichtPerZutat in data){
-						selectetListAddOn = `${selectetListAddOn} <li>${gewichtPerZutat+' : '+ data[gewichtPerZutat] + ' g'}</li>`
+						selectetListAddOn = `${selectetListAddOn} <li>${data[gewichtPerZutat]} g ${gewichtPerZutat}</li>`
 					}
 				}
 			})

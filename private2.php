@@ -18,6 +18,7 @@
   <!-- JS -->
   <script defer src="js/addEventListenerFunctions.js"></script>
   <script defer src="js/main.js"></script>
+  <script defer src="js/navbar.js"></script>
   <script defer src="js/showRecipes.js"></script>
   <script defer src="js/updateForm.js"></script>
 </head>
