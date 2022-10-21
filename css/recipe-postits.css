@@ -1,0 +1,103 @@
+.contenteditable{
+  position: relative;
+  margin: 3rem;
+  color:#000;
+  background:rgb(249, 249, 238);
+  display:block;
+  height: auto;
+  width:20rem;
+  padding:1.5em;
+  box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+  transform: rotate(-6deg);
+  transition: transform .15s linear;
+}
+
+.contenteditable h3 {
+  font-size: 3rem;
+  font-family: 'Handlee', cursive;
+}
+
+.contenteditable h4 {
+  font-size: 1.5rem;
+  font-family: 'Handlee', cursive;
+  border-bottom: 1px solid #555;
+  margin: 1.5rem 0 1rem 0;
+}
+.contenteditable:nth-child(3n) h4, .contenteditable:nth-child(4n) h4 {
+  border-bottom: 1px solid #fff;
+}
+
+.contenteditable li {
+  list-style-type: disc;
+}
+
+#create-recipe-form, #update-recipe-form{
+  position: relative;
+  margin: 3rem;
+  padding: 2rem;
+  color:#000;
+  background:rgb(249, 249, 238);
+  display:block;
+  height: auto;
+  width: 50%;
+  box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+}
+
+.contenteditable:nth-child(even) {
+  transform:rotate(4deg);
+  position:relative;
+  top:5px;
+  background: #eee0dc;
+}
+.contenteditable:nth-child(4n) {
+  transform:rotate(-3deg);
+  position:relative;
+  top:-5px;
+  background: #6D3B5A;
+  color: #fff;
+}
+.contenteditable:nth-child(3n) {
+  transform:rotate(5deg);
+  position:relative;
+  top:-10px;
+  background-color: #939597;
+  color: #fff;
+}
+
+.contenteditable:hover, .contenteditable:focus{
+  box-shadow:10px 10px 7px rgba(0,0,0,.7);
+  transform: scale(1.25);
+  position:relative;
+  z-index:5;
+}
+
+.icon-container {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 0.5rem 0.2rem;
+}
+.icon-container i {
+  color: #000;
+  font-size: 1.5rem;
+  padding: 1rem;
+}
+
+.contenteditable:nth-child(3n) i, .contenteditable:nth-child(4n) i {
+  color: #fff;
+}
+
+.recipe-form.contenteditable {
+  width: 400px;
+  height: auto;
+}
+
+.recipe-form.contenteditable .title {
+  font-family: 'Handlee', cursive;
+  font-size: 1.5rem;
+  padding: 1.5rem 0 0.5rem 0;
+}
+
+
+
+
