@@ -88,11 +88,36 @@ class Recipe extends PDO
 	}
 
 	// Read methode mit join a zutaten_zu_rezept. Gibt pro Zutat eine Zeile zurück (ein Rezept taucht mehrmahls auf)
-	public function readAllRecipeJoinedMethod()
+	public function readAllRecipeJoinedMethod($search)
+	{
+		if ($search !== null) {
+			$search = "%$search%";
+		}
+
+		$query = "SELECT recipe.id as rezept_id, recipe.title, recipe.beschreib, recipe.form, recipe.image, 
+		recipe.fk_user, zutaten_zu_rezept.id, zutaten_zu_rezept.zutaten_name, zutaten_zu_rezept.fk_rezepte FROM recipe
+		JOIN zutaten_zu_rezept ON zutaten_zu_rezept.fk_rezepte = recipe.id
+		WHERE recipe.id in (
+			SELECT recipe.id as rezept_id FROM recipe
+			JOIN zutaten_zu_rezept ON zutaten_zu_rezept.fk_rezepte = recipe.id
+			WHERE :search is null or recipe.title like :search or zutaten_zu_rezept.zutaten_name like :search
+		)";
+
+		$stmt = $this->prepare($query);
+		$stmt->bindParam(':search', $search);
+		$stmt->execute();
+		$result = $stmt->fetchAll();
+		return $result;
+	}
+
+	// Read methode mit join a zutaten_zu_rezept. Gibt pro Zutat eine Zeile zurück (ein Rezept taucht mehrmahls auf)
+	public function readAllRecipeJoinedPerUserMethod($fk_user)
 	{
 		$query = "SELECT recipe.id as rezept_id, recipe.title, recipe.beschreib, recipe.form, recipe.image, recipe.fk_user, zutaten_zu_rezept.id, zutaten_zu_rezept.zutaten_name, zutaten_zu_rezept.fk_rezepte FROM recipe
-		JOIN zutaten_zu_rezept ON zutaten_zu_rezept.fk_rezepte = recipe.id";
+		JOIN zutaten_zu_rezept ON zutaten_zu_rezept.fk_rezepte = recipe.id
+		Where fk_user = :fk_user";
 		$stmt = $this->prepare($query);
+		$stmt->bindParam(':fk_user', $fk_user);
 		$stmt->execute();
 		$result = $stmt->fetchAll();
 		return $result;
@@ -229,21 +254,20 @@ if (isset($_GET['calculateBasicAmounts'])) {
 	$rezept = new Recipe($host, $dbname, $user, $passwd);
 
 	// Defines all possible Basic Zutaten names
-	$basicZutaten = array("Dinkelmehl","Kartoffelmehl","Vollkornmehl","Buchweizenmehl","Weizenmehl","Kichererbsenmehl");
+	$basicZutaten = array("Dinkelmehl", "Kartoffelmehl", "Vollkornmehl", "Buchweizenmehl", "Weizenmehl", "Kichererbsenmehl");
 
 	// New Array to fill with all set Basic CheckBoxes provcied in the form
 	$basicCheckBoxesInForm = array();
 
-	if(isset($_POST['checkbox'])){
+	if (isset($_POST['checkbox'])) {
 		// Go through each checkbox of the submitted form (all checkboxes are sent)
 		foreach ($_POST['checkbox'] as $checkBoxName) {
 			// if in_array returns true, this mean the checkBoxName of the loop is in $basicZutaten and then we can add it to $basicCheckBoxesInForm
-			if(in_array($checkBoxName,$basicZutaten))
-			{
+			if (in_array($checkBoxName, $basicZutaten)) {
 				$basicCheckBoxesInForm[] = $checkBoxName;
 			}
 		}
-		if(count($basicCheckBoxesInForm)>0){
+		if (count($basicCheckBoxesInForm) > 0) {
 			// Devide the total weigt (200g) of basic zutaten by the number of set basic Zutaten in form
 			$gramsPerBasic = floor(200 / count($basicCheckBoxesInForm));
 
@@ -251,12 +275,10 @@ if (isset($_GET['calculateBasicAmounts'])) {
 			foreach ($basicCheckBoxesInForm as $basicCheckBoxName) {
 				$result[$basicCheckBoxName] = $gramsPerBasic;
 			}
-			
 		}
 		$result['calcBasic'] = "calcBasic";
 		echo json_encode($result);
-	}
-	else{
+	} else {
 		echo json_encode(null);
 	}
 	exit;	
@@ -267,23 +289,24 @@ if (isset($_GET['calculateAddOnsAmounts'])) {
 	$rezept = new Recipe($host, $dbname, $user, $passwd);
 
 	// Defines all possible Add-On Zutaten names
-	$addOnZutaten = array("Leber","Hackfleisch","Schweineschmalz","Gekochter Schinken",
-	"Hüttenkäse","Parmesan","Cheddar","Sardinen","Thunfisch","Lachsfilet");
+	$addOnZutaten = array(
+		"Leber", "Hackfleisch", "Schweineschmalz", "Gekochter Schinken",
+		"Hüttenkäse", "Parmesan", "Cheddar", "Sardinen", "Thunfisch", "Lachsfilet"
+	);
 
 	// New Array to fill with all set Add-On CheckBoxes provcied in the form
 	$addOnCheckBoxNamesInForm = array();
 
-	if(isset($_POST['checkbox'])){
+	if (isset($_POST['checkbox'])) {
 		// Go through each checkbox of the submitted form (all checkboxes are sent)
 		foreach ($_POST['checkbox'] as $checkBoxName) {
 			// if in_array returns true, this mean the checkBoxName of the loop is in $addOnZutaten and then we can add it to $addOnCheckBoxNamesInForm
-			if(in_array($checkBoxName,$addOnZutaten))
-			{
+			if (in_array($checkBoxName, $addOnZutaten)) {
 				$addOnCheckBoxNamesInForm[] = $checkBoxName;
 			}
 		}
 
-		if(count($addOnCheckBoxNamesInForm)>0){
+		if (count($addOnCheckBoxNamesInForm) > 0) {
 			// Devide the total weigt (200g) of all Add-On zutaten by the number of set Add-On Zutaten in form
 			$gramsPerMeat = floor(200 / count($addOnCheckBoxNamesInForm));
 
@@ -291,12 +314,10 @@ if (isset($_GET['calculateAddOnsAmounts'])) {
 			foreach ($addOnCheckBoxNamesInForm as $meatCheckBoxName) {
 				$result[$meatCheckBoxName] = $gramsPerMeat;
 			}
-			
 		}
 		$result['calcAdd-On'] = "calcAdd-On";
 		echo json_encode($result);
-	}
-	else{
+	} else {
 		echo json_encode(null);
 	}
 	exit;
@@ -332,8 +353,27 @@ if (isset($_GET['getall'])) {
 
 // if you call fetch('php/Recipe.class.php?getalljoined')
 if (isset($_GET['getalljoined'])) {
+	$search = null;
+	if(isset($_GET['search'])){
+		$search = $_GET['search'];
+	}
+
 	$dbInst = new Recipe($host, $dbname, $user, $passwd);
-	$res = $dbInst->readAllRecipeJoinedMethod();
+	$res = $dbInst->readAllRecipeJoinedMethod($search);
+	header('Content-Type: application/json');
+	echo json_encode($res);
+	exit;
+}
+
+// if you call fetch('php/Recipe.class.php?getAllJoinedForUser')
+if (isset($_GET['getAllJoinedForUser'])) {
+	// Check if Session exists
+	if(!isset($_SESSION['fk_user'])){
+		header("HTTP/1.1 401 Unauthorized");
+		exit;
+	}
+	$dbInst = new Recipe($host, $dbname, $user, $passwd);
+	$res = $dbInst->readAllRecipeJoinedPerUserMethod($_SESSION['fk_user']);
 	header('Content-Type: application/json');
 	echo json_encode($res);
 	exit;

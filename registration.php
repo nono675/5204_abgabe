@@ -11,9 +11,10 @@
   <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css" />
   <link rel="stylesheet" href="css/style.css">
   <!-- <link rel="stylesheet" type="text/css" href="../css/register.css"> -->
-
+  <!-- JS -->
   <script defer src="js/register.js"></script>
 </head>
+
 <body>
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div>
