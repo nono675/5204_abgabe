@@ -39,9 +39,9 @@ function showRecipes(all_recipes_joined) {
 	//         2             | T2222 | xyz               | Leber        | 2             [0] ArrayIndex
 
 	// Now we can loop throu each key to ensure we will have only one posy it per recipe.
-	Object.keys(rezepte_grupiert).forEach(key => {
+	for (const key of Object.keys(rezepte_grupiert)) {
 
-		rezept_gruppe = rezepte_grupiert[key];
+    let rezept_gruppe = rezepte_grupiert[key];
     let rezeptTitle = rezept_gruppe[0].title
     let rezeptForm = rezept_gruppe[0].form
     let rezeptUser = rezept_gruppe[0].fk_user
@@ -52,7 +52,7 @@ function showRecipes(all_recipes_joined) {
     let selectetList = "";
     let selectetListAddOn = "";
     let selectetOil = getOilFromZutatList(rezept_zutaten);
-	  let selectetSuperfood = getSuperfoodFromZutatList(rezept_zutaten);
+    let selectetSuperfood = getSuperfoodFromZutatList(rezept_zutaten);
 
     let formData = new FormData();
     rezept_zutaten.forEach(zutat => {
@@ -86,7 +86,7 @@ function showRecipes(all_recipes_joined) {
         })
     )
     .then(() => {
-  
+
       // Creates a new html div (not know by the html file so far)
       const div = document.createElement('div')
       div.className = 'contenteditable'
@@ -95,7 +95,7 @@ function showRecipes(all_recipes_joined) {
       if(selectetList != "") {
         selectetList = `<h4>Basis</h4>${selectetList}`
       } 
-  
+
       if(selectetListAddOn != "") {
         selectetListAddOn = `<h4>Add-On</h4>${selectetListAddOn}`
       } 
@@ -103,7 +103,7 @@ function showRecipes(all_recipes_joined) {
       if(selectetOil != "") {
         selectetOil = `<h4>Öl</h4>${selectetOil}`
       } 
-  
+
       if(selectetSuperfood != "") {
         selectetSuperfood = `<h4>Superfood</h4>${selectetSuperfood}`
       } 
@@ -115,7 +115,7 @@ function showRecipes(all_recipes_joined) {
         <div>${selectetList}</div>
         <div>${selectetListAddOn}</div>
         <div>${selectetOil}</div>
-			  <div>${selectetSuperfood}</div>
+        <div>${selectetSuperfood}</div>
         <button id="accordion${key}" class="accordion">Beschreib</button>
         <div class="panel">
           <p>Heize den Backofen auf 150°C Umluft vor.</p>
@@ -130,16 +130,16 @@ function showRecipes(all_recipes_joined) {
           <a class="btn-default" id="delete_nr${rezept_gruppe[0].rezept_id}" href="#"><i class="fa-solid fa-trash"></i></a>
         </div>
       `
-  
+
       div.innerHTML = recipes_template
       // Add the new html div to the exitsing html file
       document.querySelector('.recipe-container').appendChild(div)
-  
+
       // accordion
-  
+
       let acc = document.getElementById("accordion"+key);
-  
-  
+
+
       acc.addEventListener("click", function() {
         this.classList.toggle("active");
         console.log(div.innerHTML)
@@ -152,7 +152,7 @@ function showRecipes(all_recipes_joined) {
       });
     })
     .catch((error) => console.log(error))
-  })
+  }
 }
 
 
