@@ -82,14 +82,17 @@ class User extends PDO
 			if (password_verify($pw, $result['pw'])) {
 				// Passwort stimmt überein
 				$_SESSION['fk_user'] = $result['id'];
+				$_SESSION['username'] = $result['username'];
 				return true;
 			} else {
 				// Passwort falsch
+				setcookie (session_id(), "", time() - 3600);
 				session_destroy();
 				return false;
 			}
 		} else {
 			// User existiert nicht
+			setcookie (session_id(), "", time() - 3600);
 			session_destroy();
 			return false;
 		}
@@ -135,6 +138,7 @@ if (isset($_GET['getSessionInfo'])) {
 
 	header('Content-Type: application/json');
 	echo json_encode($result);
+	exit;
 }
 
 if (isset($_GET['logout'])) {
@@ -143,6 +147,7 @@ if (isset($_GET['logout'])) {
 	$result['logout'] = true;
 	header('Content-Type: application/json');
 	echo json_encode($result);
+	exit;
 }
 
 if (isset($_POST['username']) && isset($_POST['userCheck'])) {
@@ -151,6 +156,7 @@ if (isset($_POST['username']) && isset($_POST['userCheck'])) {
 	$userCheck = $dbInst->checkUserExist($userName);
 	header('Content-Type: application/json');
 	echo json_encode($userCheck);
+	exit;
 }
 
 if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['create'])) {
@@ -162,6 +168,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['crea
 	$res = $dbInst->createMethod($vorname, $nachname, $userName, $password);
 	header('Content-Type: application/json');
 	echo json_encode($res);
+	exit;
 }
 
 if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['login'])) {
@@ -171,4 +178,10 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['logi
 	$res = $dbInst->checkUserLogin($userName, $password);
 	header('Content-Type: application/json');
 	echo json_encode($res);
+	exit;
 }
+
+
+// If request fullfills no conditions return 404 Not Found
+header("HTTP/1.1 404 Not Found");
+exit;

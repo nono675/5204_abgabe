@@ -13,6 +13,7 @@ function editRecipes(rezept_gruppe) {
 		.then((res) => res.json())
 		.then(function(data) {
 			console.log(data)
+			window.location.href = "private2.php";
 			// hier könnte man dann dem user anzeigen, dass das neue rezept erstellt worden ist.
 		})
 		.catch((error) => console.log(error))
@@ -99,7 +100,6 @@ function editRecipes(rezept_gruppe) {
 		// we can subscribe the submit event for the updateRecipeForm. (very similar to create new recipe)
 		let updateRecipeForm = document.getElementById('update-recipe-form')
 		updateRecipeForm.addEventListener("submit", function(event) {
-			event.preventDefault();
 			let formData = new FormData(updateRecipeForm);
 			formData.append('id', rezept_gruppe[0].rezept_id) // Necessary for SQL queries and to filter $_POST['id']
 
