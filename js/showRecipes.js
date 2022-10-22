@@ -2,7 +2,7 @@ getData()
 
 function getData() {
 	// fetch all recipes (for user) with joined zutaten.
-	fetch('php/Recipe.class.php?getalljoined')
+	fetch('php/Recipe.class.php?getAllJoinedForUser')
 		.then(res => res.json()) // .then means it waits until step before is completed.
 		.then(function(data) {
 			const all_recipes_joined = data
