@@ -14,8 +14,31 @@
 
   <script defer src="js/register.js"></script>
 </head>
-
 <body>
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div>
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <a href="index.php"><i class="fa-solid fa-sharpe fa-bone"></i></a>
+        <h2>Monty's Tidbits</h2>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a href="index.php" class="button is-primary sign_up">
+              <strong>Home</strong>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
   <section class="container login-container">
     <div class="columns is-multiline">
       <div class="column is-8 is-offset-2 register">
@@ -64,12 +87,6 @@
               <br />
               <small><a href="login.php">Bereits registriert? Bitte hier entlang!</a></small>
             </form>
-            <div class="success-container">
-
-              <p>Dein Account wurde erfolgreich erstellt!</p>
-
-              <a href="login.php">Hier geht's zum Login!</a>
-            </div>
           </div>
           <div class="column right">
             <h1 class="title is-1">Registrierung</h1>
