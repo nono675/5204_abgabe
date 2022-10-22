@@ -13,7 +13,6 @@ function addChangeEventToBasicCheckBoxes(rezept_form_prefix){ // create / update
             })
             .then((res) => res.json())
             .then(function(data) {
-                console.log(data)
                 basicUl.innerHTML = `` // reset Basic list (delete Basic section if no Basic checkbox is checked)
                 if(data != null){
                     let selectetList = "";
@@ -46,7 +45,6 @@ function addChangeEventToAddOnCheckBoxes(rezept_form_prefix){ // create / update
             })
             .then((res) => res.json())
             .then(function(data) {
-                console.log(data)
                 ul.innerHTML = `` // reset Meat list (delete Meat section if no Meat checkbox is checked)
                 if(data != null){
                     let selectetList = "";

@@ -26,8 +26,6 @@ function editRecipes(rezept_gruppe) {
 		modal.style.display = "block";
 		span.style.display = "block";
 
-
-
 		// Rezept wird mit DB-Daten gefüllt
 		modal.innerHTML = returnFilledForm(rezept_gruppe)
 
@@ -95,6 +93,20 @@ function editRecipes(rezept_gruppe) {
 		// call "onchange" method for RadioButtonContainer to display KeksForm
 		radioButtonContainer.onchange(radioButtonContainer);
 
+		// Select Rezept Title Input element
+		let recipeSolutionTitle = modal.querySelector("#recipe-result-title");
+		let recipeTitle = modal.querySelector("#recipe-title");
+
+		// Set Stored Recipe Title in Box ()
+		recipeSolutionTitle.innerHTML = recipeTitle.value;
+		
+		// Define onKeyUp function to display title when changed
+		recipeTitle.onkeyup = function() {
+			recipeSolutionTitle.value = this.value;
+			console.log(recipeSolutionTitle.value);
+
+			recipeSolutionTitle.innerHTML = recipeSolutionTitle.value
+		}
 
 		// When all existing (title, checkboxes etc.) are loaded to the edit form, 
 		// we can subscribe the submit event for the updateRecipeForm. (very similar to create new recipe)

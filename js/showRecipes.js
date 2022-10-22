@@ -55,8 +55,8 @@ function showRecipes(all_recipes_joined) {
     let rezept_zutaten = rezept_gruppe.map(a => a.zutaten_name);
     let selectetList = "";
     let selectetListAddOn = "";
-		let selectetOil = "";
-		let selectetSuperfood ="";
+	let selectetOil = getOilFromZutatList(rezept_zutaten);
+	let selectetSuperfood = getSuperfoodFromZutatList(rezept_zutaten);
 
     let formData = new FormData();
     rezept_zutaten.forEach(zutat => {
@@ -70,7 +70,7 @@ function showRecipes(all_recipes_joined) {
     .then(function(data) {
         if(data != null){
             for(let gewichtPerZutat in data){
-                selectetList = `${selectetList}<li>${data[gewichtPerZutat]} g ${gewichtPerZutat}}</li>`
+                selectetList = `${selectetList}<li>${data[gewichtPerZutat]} g ${gewichtPerZutat}</li>`
             }
         }
 	})
@@ -104,12 +104,22 @@ function showRecipes(all_recipes_joined) {
 			selectetListAddOn = `<h4>Add-On</h4>${selectetListAddOn}`
 		} 
 
+		if(selectetOil != "") {
+			selectetOil = `<h4>Öl</h4>${selectetOil}`
+		} 
+
+		if(selectetSuperfood != "") {
+			selectetSuperfood = `<h4>Superfood</h4>${selectetSuperfood}`
+		} 
+		
 		// Assign template with edit and delete buttons to new div.
 		const recipes_template = `
 			<small>ID: ${rezept_gruppe[0].rezept_id}</small>
 			<h3>${rezeptTitle}</h3>
 			<div>${selectetList}</div>
-			<div>sdfdsfsfsd${selectetListAddOn}</div>
+			<div>${selectetListAddOn}</div>
+			<div>${selectetOil}</div>
+			<div>${selectetSuperfood}</div>
 			<button id="accordion${key}" class="accordion">Beschreib</button>
 			<div class="panel">
 				<p>Heize den Backofen auf 150°C Umluft vor.</p>

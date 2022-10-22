@@ -1,8 +1,8 @@
 getData()
 
 function getData() {
-	// fetch all recipes (for user) with joined zutaten.
-	fetch('php/Recipe.class.php?getalljoined&search=dink')
+	// fetch all recipes with joined zutaten.
+	fetch('php/Recipe.class.php?getalljoined')
 		.then(res => res.json()) // .then means it waits until step before is completed.
 		.then(function(data) {
 			const all_recipes_joined = data
@@ -10,7 +10,6 @@ function getData() {
 
 			showRecipes(all_recipes_joined)
 		})
-
 }
 
 function showRecipes(all_recipes_joined) {
@@ -52,107 +51,108 @@ function showRecipes(all_recipes_joined) {
     let rezept_zutaten = rezept_gruppe.map(a => a.zutaten_name);
     let selectetList = "";
     let selectetListAddOn = "";
+    let selectetOil = getOilFromZutatList(rezept_zutaten);
+	  let selectetSuperfood = getSuperfoodFromZutatList(rezept_zutaten);
 
     let formData = new FormData();
     rezept_zutaten.forEach(zutat => {
       formData.append('checkbox[]', zutat)
     })
     fetch("php/Recipe.class.php?calculateBasicAmounts", {
-    method: "post",
-    body: formData,
-    })
-    .then((res) => res.json())
-    .then(function(data) {
-        console.log(data)
-        if(data != null){
-
-            for(let gewichtPerZutat in data){
-                selectetList = `${selectetList}<li>${data[gewichtPerZutat]} g ${gewichtPerZutat}</li>`
-                //console.log(selectetList)
-            }
-        }
-        // Creates a new html div (not know by the html file so far)
-        const div = document.createElement('div')
-        div.className = 'contenteditable'
-        div.id = rezeptDivId // we can always use 0 as index if we want to knoe a vaue from recipe tabel. Since all values of recipe table are the same within rezept_gruppe.
-        
-        if(selectetList != "") {
-          selectetList = `<h4>Basis</h4>${selectetList}`
-        } 
-    
-        const recipes_template = `
-          <h3>${rezeptTitle}</h3>
-          <div>${selectetList}</div>
-          <div id="addOns"></div>
-          <div class="else">
-            <h4>Ausserdem</h4>
-            <ul>
-              <li>3 Eier</li>
-              <li>etwas Wasser</li>
-            </ul>
-          </div>
-          <button id="accordion${key}" class="accordion">Beschreib</button>
-          <div class="panel">
-            <p>Heize den Backofen auf 150°C Umluft vor.</p>
-            <p>Falls nötig, schäle und/oder zerkleinere die gewählte Geschmackszutat.</p>
-            <p>Gib alle Zutaten in den Mixer und füge 3 Eier hinzu. Dann so viel Wasser dazugeben, bis ein zähflüssiger Teig entsteht.</p>
-            <p>Streiche den Teig auf die <span>${rezeptForm}</span>-Silikonbackmatte und im Ofen 35-60 min (je nach Feuchtigkeitsgrad der verwendeten Zutaten) backen.</p>
-            <p>Backofen ausschalten und die Kekse ca. 2 Studen bei leicht geöffneter Backofentür trocknen lassen.
-          </div>
-          <small>Kreiert von: ${rezeptUser}</small>
-      `
-        div.innerHTML = recipes_template
-        // Add the new html div to the exitsing html file
-        document.querySelector('.recipe-container').appendChild(div)
-    
-          // accordion
-      
-      let acc = document.getElementById("accordion"+key);
-    
-    
-        acc.addEventListener("click", function() {
-          this.classList.toggle("active");
-          console.log(div.innerHTML)
-          let panel = this.nextElementSibling;
-          if (panel.style.maxHeight) {
-            panel.style.maxHeight = null;
-          } else {
-            panel.style.maxHeight = panel.scrollHeight + "px";
-          } 
-        });
-    }
-    )
-
-    .catch((error) => console.log(error))
-
-
-    fetch("php/Recipe.class.php?calculateAddOnsAmounts", {
       method: "post",
       body: formData,
       })
       .then((res) => res.json())
       .then(function(data) {
-          console.log(data)
           if(data != null){
-  
               for(let gewichtPerZutat in data){
-                  selectetListAddOn = `${selectetListAddOn} <li>${data[gewichtPerZutat]} g ${gewichtPerZutat}</li>`
-                  //console.log(selectetList)
+                  selectetList = `${selectetList}<li>${data[gewichtPerZutat]} g ${gewichtPerZutat}</li>`
               }
           }
-          if(selectetListAddOn != "") {
-            selectetListAddOn = `<h4>Add-On</h4>${selectetListAddOn}`
-          } 
-          // Creates a new html div (not know by the html file so far)
-          const div = document.getElementById(rezeptDivId)
-          console.log(div)
-          const addOnDiv = div.querySelector('#addOns')
+    })
+    .then(() =>
+      fetch("php/Recipe.class.php?calculateAddOnsAmounts", {
+        method: "post",
+        body: formData,
+        })
+        .then((res) => res.json())
+        .then(function(data) {
+          console.log(data)
+          if(data != null){
+            for(let gewichtPerZutat in data){
+              selectetListAddOn = `${selectetListAddOn} <li>${data[gewichtPerZutat]} g ${gewichtPerZutat}</li>`
+            }
+          }
+        })
+    )
+    .then(() => {
+  
+      // Creates a new html div (not know by the html file so far)
+      const div = document.createElement('div')
+      div.className = 'contenteditable'
+      div.id = rezeptDivId // we can always use 0 as index if we want to knoe a vaue from recipe tabel. Since all values of recipe table are the same within rezept_gruppe.
       
-          addOnDiv.innerHTML = selectetListAddOn
-      }
-      )
-      .catch((error) => console.log(error))
-	})
+      if(selectetList != "") {
+        selectetList = `<h4>Basis</h4>${selectetList}`
+      } 
+  
+      if(selectetListAddOn != "") {
+        selectetListAddOn = `<h4>Add-On</h4>${selectetListAddOn}`
+      } 
+
+      if(selectetOil != "") {
+        selectetOil = `<h4>Öl</h4>${selectetOil}`
+      } 
+  
+      if(selectetSuperfood != "") {
+        selectetSuperfood = `<h4>Superfood</h4>${selectetSuperfood}`
+      } 
+
+      // Assign template with edit and delete buttons to new div.
+      const recipes_template = `
+        <small>ID: ${rezept_gruppe[0].rezept_id}</small>
+        <h3>${rezeptTitle}</h3>
+        <div>${selectetList}</div>
+        <div>${selectetListAddOn}</div>
+        <div>${selectetOil}</div>
+			  <div>${selectetSuperfood}</div>
+        <button id="accordion${key}" class="accordion">Beschreib</button>
+        <div class="panel">
+          <p>Heize den Backofen auf 150°C Umluft vor.</p>
+          <p>Falls nötig, schäle und/oder zerkleinere die gewählte Geschmackszutat.</p>
+          <p>Gib alle Zutaten in den Mixer und füge 3 Eier hinzu. Dann so viel Wasser dazugeben, bis ein zähflüssiger Teig entsteht.</p>
+          <p>Streiche den Teig auf die <span>${rezeptForm}</span>-Silikonbackmatte und im Ofen 35-60 min (je nach Feuchtigkeitsgrad der verwendeten Zutaten) backen.</p>
+          <p>Backofen ausschalten und die Kekse ca. 2 Studen bei leicht geöffneter Backofentür trocknen lassen.
+        </div>
+        <small>Kreiert von: ${rezeptUser}</small>
+        <div class="icon-container">
+          <a id="edit_nr${rezept_gruppe[0].rezept_id}" class="btn-custom edit" href="#" ><i class="fa-solid fa-pen-to-square"></i></a>
+          <a class="btn-default" id="delete_nr${rezept_gruppe[0].rezept_id}" href="#"><i class="fa-solid fa-trash"></i></a>
+        </div>
+      `
+  
+      div.innerHTML = recipes_template
+      // Add the new html div to the exitsing html file
+      document.querySelector('.recipe-container').appendChild(div)
+  
+      // accordion
+  
+      let acc = document.getElementById("accordion"+key);
+  
+  
+      acc.addEventListener("click", function() {
+        this.classList.toggle("active");
+        console.log(div.innerHTML)
+        let panel = this.nextElementSibling;
+        if (panel.style.maxHeight) {
+          panel.style.maxHeight = null;
+        } else {
+          panel.style.maxHeight = panel.scrollHeight + "px";
+        } 
+      });
+    })
+    .catch((error) => console.log(error))
+  })
 }
 
 
