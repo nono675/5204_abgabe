@@ -42,10 +42,18 @@ class User extends PDO
 		return $this->lastInsertId();
 	}
 
-	// Ist vorläufig nicht in Gebrauch
 	public function readMethod()
 	{
 		$query = "SELECT * FROM users";
+		$stmt = $this->prepare($query);
+		$stmt->execute();
+		$result = $stmt->fetchAll();
+		return $result;
+	}
+
+	public function getAllUserNamesMethod()
+	{
+		$query = "SELECT id, username FROM users";
 		$stmt = $this->prepare($query);
 		$stmt->execute();
 		$result = $stmt->fetchAll();
@@ -97,45 +105,25 @@ class User extends PDO
 			return false;
 		}
 	}
-
-
-	// Ist vorläufig nicht in Gebrauch
-	public function updateMethod($idInput, $vornameInput, $nachnameInput, $emailInput, $bemerkungenInput)
-	{
-		$query = "UPDATE CRUD SET ";
-		$query .= "vorname = :vorname, ";
-		$query .= "nachname = :nachname, ";
-		$query .= "ort = :ort";
-		$query .= "email = :email, ";
-		$query .= "bemerkungen = :bemerkungen ";
-		$query .= "WHERE ID = :ID ";
-		$stmt = $this->prepare($query);
-		$stmt->bindParam(':ID', $idInput, PDO::PARAM_INT);
-		$stmt->bindParam(':vorname', $vornameInput);
-		$stmt->bindParam(':nachname', $nachnameInput);
-		$stmt->bindParam(':ort', $ortInput);
-		$stmt->bindParam(':email', $emailInput);
-		$stmt->bindParam(':bemerkungen', $bemerkungenInput);
-		$stmt->execute();
-	}
-	// Ist vorläufig nicht in Gebrauch
-	public function deleteMethod($idInput)
-	{
-		$query = "DELETE FROM CRUD WHERE ID = :ID";
-		$stmt = $this->prepare($query);
-		$stmt->bindParam(':ID', $idInput, PDO::PARAM_INT);
-		$stmt->execute();
-	}
 }
 
 if (isset($_GET['getSessionInfo'])) {
 	if(isset($_SESSION['fk_user']) && $_SESSION['fk_user'] != ""){
 		$result['fk_user'] = $_SESSION['fk_user'];
+		$result['username'] = $_SESSION['username'];
 	}
 	else{
 		$result['fk_user'] = null;
 	}
 
+	header('Content-Type: application/json');
+	echo json_encode($result);
+	exit;
+}
+
+if (isset($_GET['getAllUserNames'])) {
+	$dbInst = new User($host, $dbname, $user, $passwd);
+	$result = $dbInst->getAllUserNamesMethod();
 	header('Content-Type: application/json');
 	echo json_encode($result);
 	exit;
@@ -180,7 +168,6 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['logi
 	echo json_encode($res);
 	exit;
 }
-
 
 // If request fullfills no conditions return 404 Not Found
 header("HTTP/1.1 404 Not Found");

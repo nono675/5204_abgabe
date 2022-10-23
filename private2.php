@@ -36,7 +36,7 @@
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-start">
         <a href="index.php"><i class="fa-solid fa-sharpe fa-bone"></i></a>
-        <h2>Monty's Tidbits</h2>
+        <h2 id="private-tidbits-title">Monty's Tidbits</h2>
       </div>
       <div class="navbar-end">
         <div class="navbar-item">

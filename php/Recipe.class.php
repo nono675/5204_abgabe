@@ -80,7 +80,7 @@ class Recipe extends PDO
 	// Read methode von recipe ohne join zu zutaten_zu_rezept
 	public function readAllRecipeMethod()
 	{
-		$query = "SELECT recipe.id, recipe.title, recipe.beschreib, recipe.image, recipe.fk_user FROM recipe";
+		$query = "SELECT recipe.id, recipe.title, recipe.fk_user FROM recipe";
 		$stmt = $this->prepare($query);
 		$stmt->execute();
 		$result = $stmt->fetchAll();
@@ -94,9 +94,10 @@ class Recipe extends PDO
 			$search = "%$search%";
 		}
 
-		$query = "SELECT recipe.id as rezept_id, recipe.title, recipe.beschreib, recipe.form, recipe.image, 
-		recipe.fk_user, zutaten_zu_rezept.id, zutaten_zu_rezept.zutaten_name, zutaten_zu_rezept.fk_rezepte FROM recipe
+		$query = "SELECT recipe.id as rezept_id, recipe.title, recipe.form,
+		recipe.fk_user, zutaten_zu_rezept.id, zutaten_zu_rezept.zutaten_name, zutaten_zu_rezept.fk_rezepte, users.username FROM recipe
 		JOIN zutaten_zu_rezept ON zutaten_zu_rezept.fk_rezepte = recipe.id
+		JOIN users ON users.id = recipe.fk_user
 		WHERE recipe.id in (
 			SELECT recipe.id as rezept_id FROM recipe
 			JOIN zutaten_zu_rezept ON zutaten_zu_rezept.fk_rezepte = recipe.id
@@ -113,7 +114,7 @@ class Recipe extends PDO
 	// Read methode mit join a zutaten_zu_rezept. Gibt pro Zutat eine Zeile zurück (ein Rezept taucht mehrmahls auf)
 	public function readAllRecipeJoinedPerUserMethod($fk_user)
 	{
-		$query = "SELECT recipe.id as rezept_id, recipe.title, recipe.beschreib, recipe.form, recipe.image, recipe.fk_user, zutaten_zu_rezept.id, zutaten_zu_rezept.zutaten_name, zutaten_zu_rezept.fk_rezepte FROM recipe
+		$query = "SELECT recipe.id as rezept_id, recipe.title, recipe.form, recipe.fk_user, zutaten_zu_rezept.id, zutaten_zu_rezept.zutaten_name, zutaten_zu_rezept.fk_rezepte FROM recipe
 		JOIN zutaten_zu_rezept ON zutaten_zu_rezept.fk_rezepte = recipe.id
 		Where fk_user = :fk_user";
 		$stmt = $this->prepare($query);
@@ -121,21 +122,6 @@ class Recipe extends PDO
 		$stmt->execute();
 		$result = $stmt->fetchAll();
 		return $result;
-	}
-
-	// Checkt ob der User bereits existiert
-	public function checkUserExist($username)
-	{
-		$query = "SELECT * FROM users WHERE username = :username";
-		$stmt = $this->prepare($query);
-		$stmt->bindParam(':username', $username);
-		$stmt->execute();
-		$result = $stmt->fetch();
-		if ($result) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 	// Löscht alle Zutaten von einem Rezept (nötig für das Löschen oder Update eines Rezept)
@@ -154,16 +140,6 @@ class Recipe extends PDO
 		$stmt = $this->prepare($query);
 		$stmt->bindParam(':ID', $idInput, PDO::PARAM_INT);
 		$stmt->execute();
-	}
-
-	public function getSingleRecord($idInput)
-	{
-		$query = "SELECT * FROM recipe WHERE ID = :ID";
-		$stmt = $this->prepare($query);
-		$stmt->bindParam(':ID', $idInput, PDO::PARAM_INT);
-		$stmt->execute();
-		$result = $stmt->fetch();
-		return $result;
 	}
 }
 
@@ -374,15 +350,6 @@ if (isset($_GET['getAllJoinedForUser'])) {
 	}
 	$dbInst = new Recipe($host, $dbname, $user, $passwd);
 	$res = $dbInst->readAllRecipeJoinedPerUserMethod($_SESSION['fk_user']);
-	header('Content-Type: application/json');
-	echo json_encode($res);
-	exit;
-}
-
-// if you call fetch('php/Recipe.class.php?getZutatenProRezept&id=')
-if (isset($_GET['getZutatenProRezept']) and isset($_GET['id'])) {
-	$dbInst = new Recipe($host, $dbname, $user, $passwd);
-	$res = $dbInst->readAllZutatenZuRezeptProRezeptMethod($_GET['id']);
 	header('Content-Type: application/json');
 	echo json_encode($res);
 	exit;

@@ -19,6 +19,16 @@ let oilUl = document.getElementById('oil-ul');
 let superfoodUl = document.getElementById('superfood-ul');
 
 
+// Set username in nav bar (user's tidbits)
+fetch('php/User.class.php?getSessionInfo')
+.then(res => res.json()) // .then means it waits until step before is completed.
+.then(function(data) {
+	const sessionInfo = data
+	let navtitle = document.getElementById('private-tidbits-title');
+	navtitle.innerHTML = sessionInfo['username'] + "'s Tidbits"
+	console.log(data)
+})
+
 // insert new recipe in db
 recipeForm.addEventListener("submit", function(event) {
 	event.preventDefault();
