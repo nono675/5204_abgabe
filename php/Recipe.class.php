@@ -1,4 +1,7 @@
 <?php
+session_start([
+    'cookie_lifetime' => 3600, // Set lifetime to all Session cookies to one hour (in seconds)
+]);
 require("../prefs/credentials.php");
 // Die Klasse erbt von der Superklasse PDO
 class Recipe extends PDO
@@ -23,12 +26,13 @@ class Recipe extends PDO
 		}
 	}
 	// Methode zum Erstellen eines neuen Rezepts
-	public function createMethod($rezeptname, $shape)
+	public function createMethod($rezeptname, $shape, $fk_user)
 	{
-		$query = "INSERT INTO recipe (title, form) VALUES (:rezeptname, :form)";
+		$query = "INSERT INTO recipe (title, form, fk_user) VALUES (:rezeptname, :form, :fk_user)";
 		$stmt = $this->prepare($query);
 		$stmt->bindParam(':rezeptname', $rezeptname);
 		$stmt->bindParam(':form', $shape);
+		$stmt->bindParam(':fk_user', $fk_user);
 		$stmt->execute();
 		// Das funktioniert nur mit MySQL-Datenbanken!
 		return $this->lastInsertId();
@@ -106,6 +110,19 @@ class Recipe extends PDO
 		return $result;
 	}
 
+	// Read methode mit join a zutaten_zu_rezept. Gibt pro Zutat eine Zeile zurück (ein Rezept taucht mehrmahls auf)
+	public function readAllRecipeJoinedPerUserMethod($fk_user)
+	{
+		$query = "SELECT recipe.id as rezept_id, recipe.title, recipe.beschreib, recipe.form, recipe.image, recipe.fk_user, zutaten_zu_rezept.id, zutaten_zu_rezept.zutaten_name, zutaten_zu_rezept.fk_rezepte FROM recipe
+		JOIN zutaten_zu_rezept ON zutaten_zu_rezept.fk_rezepte = recipe.id
+		Where fk_user = :fk_user";
+		$stmt = $this->prepare($query);
+		$stmt->bindParam(':fk_user', $fk_user);
+		$stmt->execute();
+		$result = $stmt->fetchAll();
+		return $result;
+	}
+
 	// Checkt ob der User bereits existiert
 	public function checkUserExist($username)
 	{
@@ -152,6 +169,13 @@ class Recipe extends PDO
 
 // Update form submit.
 if (isset($_POST['id']) && isset($_POST['recipe-title'])) {
+
+	// Check if Session exists
+	if(!isset($_SESSION['fk_user'])){
+		header("HTTP/1.1 401 Unauthorized");
+		exit;
+	}
+	
 	$rezept = new Recipe($host, $dbname, $user, $passwd);
 
 	$existingRezeptId = $_POST['id'];
@@ -182,15 +206,23 @@ if (isset($_POST['id']) && isset($_POST['recipe-title'])) {
 	$result['edit'] = "edit";
 	$result['answer'] = $shape;
 	echo json_encode($result);
+	exit;
 }
 
 // Create form submit (only new recipes.)
 if (!isset($_GET['calculateBasicAmounts']) && !isset($_GET['calculateAddOnsAmounts']) && !isset($_POST['id']) && isset($_POST['recipe-title'])) { // it's necessary to check isset($_POST['recipe-title']
+	
+	// Check if Session exists
+	if(!isset($_SESSION['fk_user'])){
+		header("HTTP/1.1 401 Unauthorized");
+		exit;
+	}
+	
 	$rezept = new Recipe($host, $dbname, $user, $passwd);
 
 	$rezeptname = $_POST['recipe-title'];
 	$shape = $_POST['answer'];
-	$id = $rezept->createMethod($rezeptname, $shape);
+	$id = $rezept->createMethod($rezeptname, $shape, $_SESSION['fk_user']);
 
 	////****** This is an example of how you can return any custom json. */
 	// $result['add'] = "add";
@@ -213,10 +245,12 @@ if (!isset($_GET['calculateBasicAmounts']) && !isset($_GET['calculateAddOnsAmoun
 
 	$result['add'] = "add";
 	echo json_encode($result);
+	exit;
 }
 
 // Calculates the grams per basic Zutat.
 if (isset($_GET['calculateBasicAmounts'])) {
+	
 	$rezept = new Recipe($host, $dbname, $user, $passwd);
 
 	// Defines all possible Basic Zutaten names
@@ -247,6 +281,7 @@ if (isset($_GET['calculateBasicAmounts'])) {
 	} else {
 		echo json_encode(null);
 	}
+	exit;	
 }
 
 // Calculates the grams per Add-On Zutat.
@@ -285,10 +320,18 @@ if (isset($_GET['calculateAddOnsAmounts'])) {
 	} else {
 		echo json_encode(null);
 	}
+	exit;
 }
 
 // Deletes a Recipe and all according Zutaten
 if (isset($_GET['id']) && $_SERVER['REQUEST_METHOD'] === 'DELETE') {
+
+	// Check if Session exists
+	if(!isset($_SESSION['fk_user'])){
+		header("HTTP/1.1 401 Unauthorized");
+		exit;
+	}
+	
 	$dbInst = new Recipe($host, $dbname, $user, $passwd);
 	$dbInst->deleteZutatenVonRezeptMethod($_GET['id']);
 	$dbInst->deleteMethod($_GET['id']);
@@ -296,6 +339,7 @@ if (isset($_GET['id']) && $_SERVER['REQUEST_METHOD'] === 'DELETE') {
 	$result['Delete'] = "Delete";
 	header('Content-Type: application/json');
 	echo json_encode($result);
+	exit;
 }
 
 // if you call fetch('php/Recipe.class.php?getall')
@@ -304,15 +348,35 @@ if (isset($_GET['getall'])) {
 	$res = $dbInst->readAllRecipeMethod();
 	header('Content-Type: application/json');
 	echo json_encode($res);
+	exit;
 }
 
 // if you call fetch('php/Recipe.class.php?getalljoined')
 if (isset($_GET['getalljoined'])) {
-	$search = $_GET['search'];
+	$search = null;
+	if(isset($_GET['search'])){
+		$search = $_GET['search'];
+	}
+
 	$dbInst = new Recipe($host, $dbname, $user, $passwd);
 	$res = $dbInst->readAllRecipeJoinedMethod($search);
 	header('Content-Type: application/json');
 	echo json_encode($res);
+	exit;
+}
+
+// if you call fetch('php/Recipe.class.php?getAllJoinedForUser')
+if (isset($_GET['getAllJoinedForUser'])) {
+	// Check if Session exists
+	if(!isset($_SESSION['fk_user'])){
+		header("HTTP/1.1 401 Unauthorized");
+		exit;
+	}
+	$dbInst = new Recipe($host, $dbname, $user, $passwd);
+	$res = $dbInst->readAllRecipeJoinedPerUserMethod($_SESSION['fk_user']);
+	header('Content-Type: application/json');
+	echo json_encode($res);
+	exit;
 }
 
 // if you call fetch('php/Recipe.class.php?getZutatenProRezept&id=')
@@ -321,4 +385,9 @@ if (isset($_GET['getZutatenProRezept']) and isset($_GET['id'])) {
 	$res = $dbInst->readAllZutatenZuRezeptProRezeptMethod($_GET['id']);
 	header('Content-Type: application/json');
 	echo json_encode($res);
+	exit;
 }
+
+// If request fullfills no conditions return 404 Not Found
+header("HTTP/1.1 404 Not Found");
+exit;

@@ -23,7 +23,6 @@ let superfoodUl = document.getElementById('superfood-ul');
 recipeForm.addEventListener("submit", function(event) {
 	event.preventDefault();
 	let formData = new FormData(recipeForm);
-	console.log(formData['recipe-title'])
 
 	fetch('php/Recipe.class.php', {
 			method: "post",
@@ -31,7 +30,7 @@ recipeForm.addEventListener("submit", function(event) {
 		})
 		.then((res) => res.json())
 		.then(function(data) {
-			console.log(data)
+			window.location.href = "private2.php";
 			// hier könnte man dann dem user anzeigen, dass das neue rezept erstellt worden ist.
 		})
 		.catch((error) => console.log(error))

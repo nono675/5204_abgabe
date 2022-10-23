@@ -20,8 +20,10 @@
 
 
   <!-- JS -->
+  <script defer src="js/functions.js"></script>
   <script defer src="js/navbar.js"></script>
   <script defer src="js/index.js"></script>
+  
 
 </head>
 
@@ -63,10 +65,8 @@
     <form class="search">
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique obcaecati culpa aut modi a temporibus suscipit, dolor itaque aliquam iure!</p>
       <div class="search_field">
-        <input class="input is-primary" type="text" list="games" name="search" id="search">
-        <datalist id="games">
-        </datalist>
-        <input class="button is-light" type="submit" value="Suchen" class="search-button">
+        <input id="search-input" class="input is-primary" type="text" name="search" id="search">
+        <input class="button is-light" value="Suchen" class="search-button" onclick="getDataForSearch()">
       </div>
     </form>
   </header>
