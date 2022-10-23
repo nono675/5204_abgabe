@@ -127,7 +127,6 @@ function showRecipes(all_recipes_joined) {
 					<p>Streiche den Teig auf die <span>${rezeptForm}</span>-Silikonbackmatte und im Ofen 35-60 min (je nach Feuchtigkeitsgrad der verwendeten Zutaten) backen.</p>
 					<p>Backofen ausschalten und die Kekse ca. 2 Studen bei leicht geöffneter Backofentür trocknen lassen.
 				</div>
-				<small>Kreiert von: ${rezeptUser}</small>
 				<div class="icon-container">
 					<a id="edit_nr${rezept_gruppe[0].rezept_id}" class="btn-custom edit" href="#" ><i class="fa-solid fa-pen-to-square"></i></a>
 					<a class="btn-default" id="delete_nr${rezept_gruppe[0].rezept_id}" href="#"><i class="fa-solid fa-trash"></i></a>
