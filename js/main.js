@@ -1,9 +1,10 @@
 
-let recipeForm = document.getElementById("create-recipe-form")
-let recipeFormTitle = document.getElementById("recipe-title")
+let recipeForm = document.getElementById("create-recipe-form");
+let recipeFormTitle = document.getElementById("recipe-title");
+let titleFeedback = document.getElementById("title-feedback");
 
-let formTemplate = document.getElementsByClassName("recipe-form contenteditable")
-let modal = document.getElementById("myModal")
+let formTemplate = document.getElementsByClassName("recipe-form contenteditable");
+let modal = document.getElementById("myModal");
 // Get the <span> element that closes the modal
 let span = document.getElementsByClassName("close")[0];
 
@@ -19,6 +20,7 @@ let oilUl = document.getElementById('oil-ul');
 let superfoodUl = document.getElementById('superfood-ul');
 
 
+
 // Set username in nav bar (user's tidbits)
 fetch('php/User.class.php?getSessionInfo')
 .then(res => res.json()) // .then means it waits until step before is completed.
@@ -29,9 +31,25 @@ fetch('php/User.class.php?getSessionInfo')
 	console.log(data)
 })
 
+
+recipeFormTitle.addEventListener('keyup', (event) => {
+	console.log('hallo titel');
+	if(recipeFormTitle.value.length == 0 || recipeFormTitle.value.length < 3 || recipeFormTitle.value.length == "") {
+		console.log('der titel ist zu kurz')
+		titleFeedback.innerHTML = "Bitte gib einen Titel ein!"
+		recipeFormTitle.style.backgroundColor = "#feecf0";
+		recipeFormTitle.style.border = "";
+	}
+	else {
+		titleFeedback.innerHTML = "";
+		recipeFormTitle.style.border = "3px solid #00d1b2";
+		recipeFormTitle.style.backgroundColor = "";
+	}
+})
+
 // insert new recipe in db
 recipeForm.addEventListener("submit", function(event) {
-	event.preventDefault();
+
 	let formData = new FormData(recipeForm);
 
 	fetch('php/Recipe.class.php', {
@@ -40,8 +58,6 @@ recipeForm.addEventListener("submit", function(event) {
 		})
 		.then((res) => res.json())
 		.then(function(data) {
-			window.location.href = "private2.php";
-			// hier könnte man dann dem user anzeigen, dass das neue rezept erstellt worden ist.
 		})
 		.catch((error) => console.log(error))
 })

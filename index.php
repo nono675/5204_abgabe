@@ -1,30 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Monty's Tidbits</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <meta name="description" content="Kreiere Leckerli-Rezepte für deinen Hund und teile sie mit anderen Hundebesitzern!">
+  <meta name="copyright" content="Monty's Tidbits">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="img/favicon/favicon.ico" type="image/x-icon">
+
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Handlee&display=swap" rel="stylesheet">
+
+  <!-- Font awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <script src="https://kit.fontawesome.com/15181efa86.js" crossorigin="anonymous"></script>
+
+  <!-- Bulma -->
   <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css" />
+
+  <!-- CSS -->
   <link rel="stylesheet" href="css/recipe-postits.css">
   <link rel="stylesheet" href="css/accordion.css">
   <link rel="stylesheet" href="css/style.css">
-  <!-- <link rel="stylesheet" type="text/css" href="../css/register.css"> -->
-
 
   <!-- JS -->
   <script defer src="js/functions.js"></script>
   <script defer src="js/navbar.js"></script>
   <script defer src="js/index.js"></script>
-  
-
 </head>
 
 <body>
@@ -41,13 +47,7 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-
       <div id="navbarBasicExample" class="navbar-menu">
-        <!-- <div class="navbar-start">
-      <a class="navbar-item">
-        Home
-      </a>
-    </div> -->
         <div class="navbar-end">
           <div class="navbar-item">
             <div class="buttons">
@@ -63,35 +63,21 @@
       </div>
     </nav>
     <form class="search">
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique obcaecati culpa aut modi a temporibus suscipit, dolor itaque aliquam iure!</p>
+      <p>Egal ob als Snack für zwischendurch oder als Belohnung für ein erflogreiches Training - jeder Hund liebt leckere Hundekekse. Umso wichtiger ist es, dass du weisst, was in den Leckereien steckt, die dein geliebter Vierbeiner täglich bekommt. Hier kannst du deine eigenen, gesunden Leckerlis ganz ohne künstliche Farbstoffe, Aromen und Konservierungsstoffen, kreieren und mit anderen teilen . Mit Hilfe einer Backmatte gelingt die Herstellung einfach und schnell.</p>
       <div class="search_field">
         <input id="search-input" class="input is-primary" type="text" name="search" id="search">
-        <input class="button is-light" value="Suchen" class="search-button" onclick="getDataForSearch()">
+        <input id="search-button" class="button is-primary" value="Suchen" class="search-button" onclick="getDataForSearch()">
       </div>
     </form>
   </header>
-  <div class="container">
-    <ul class="gameseries">
-    </ul>
-  </div>
   <section class="recipe-container">
-
+    <!-- Section for Recipes -->
   </section>
-
-
-
-
-
-
-
+  <!-- Footer -->
   <footer>
     <small>&copy; Monty's Tidbits 2022</small>
     <i class="fa-solid fa-sharpe fa-bone"></i>
   </footer>
-
-
 </body>
-
-
 
 </html>

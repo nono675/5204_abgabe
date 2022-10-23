@@ -5,6 +5,7 @@
     let feedbackNachname = document.getElementById("feedback-nachname");
     let feedbackUsername = document.getElementById("feedback-username");
     let feedbackPassword = document.getElementsByClassName("feedback-password");
+    let successContainer = document.getElementById("success-container")
     let formular = document.getElementById("registrationForm");
     let vorname = document.getElementById("vorname");
     let nachname = document.getElementById("nachname");
@@ -32,12 +33,14 @@
       console.log('vorname: ich bin da!')
       if(vorname.value.length < 2) {
         feedbackVorname.innerHTML = "Dein Vorname muss mind. 1 Buchstaben haben!";
-        vorname.style.borderColor = "red";
+        vorname.style.backgroundColor = "#feecf0";
+        vorname.style.border = "";
         vornameValid = "no";
         checkValid();
       } else {
         feedbackVorname.innerHTML = "";
-        vorname.style.borderColor = "green";
+        vorname.style.border = "3px solid #00d1b2";
+        vorname.style.backgroundColor = "";
         vornameValid = "yes";
         checkValid();
       }
@@ -46,12 +49,14 @@
       console.log('nachname: ich bin da!')
       if(nachname.value.length < 2) {
         feedbackNachname.innerHTML = "Dein Vorname muss mind. 1 Buchstaben haben!";
-        nachname.style.borderColor = "red";
+        nachname.style.backgroundColor = "#feecf0";
+        nachname.style.border = "";
         nachnameValid = "no";
         checkValid();
       } else {
         feedbackNachname.innerHTML = "";
-        nachname.style.borderColor = "green";
+        nachname.style.border = "3px solid #00d1b2";
+        nachname.style.backgroundColor = "";
         nachnameValid = "yes";
         checkValid();
       }
@@ -62,11 +67,11 @@
       //console.log(username.value.length)
       if (username.value.length < 3) {
         feedbackUsername.innerHTML = "Dein Username muss mind. 3 Zeichen haben";
-        username.style.borderColor = "red";
+        username.style.backgroundColor = "#feecf0";
         
       } else {
         feedbackUsername.innerHTML = "";
-        username.style.boderColor = "green";
+        username.style.border = "3px solid #00d1b2";
   
       }
       let formData = new FormData();
@@ -83,13 +88,15 @@
           if (data) {
             //user exist
             feedbackUsername.innerHTML = "Dieser Username existiert bereits!";
-            username.style.borderColor = "red";
+            username.style.backgroundColor = "#feecf0";
+            username.style.border = "";
             userNameValid = "no";
             checkValid();
           } else {
             //user dont exist
             feedbackUsername.innerHTML = "Dieser Username ist noch frei!";
-            username.style.borderColor = "green";
+            username.style.border = "3px solid #00d1b2";
+            username.style.backgroundColor = "";
             userNameValid = "yes";
             checkValid();
           }
@@ -113,7 +120,8 @@
             console.log(data);
             if (data) {
               feedbackPassword.innerHTML = "Das Passwort entspricht den Vorgaben!";
-              password.style.borderBlockColor = "green";
+              password.style.border = "3px solid #00d1b2";
+              password.style.backgroundColor = "";
               passwordValid = "yes";
               checkValid();
             } else {
@@ -123,7 +131,8 @@
                               <li>Es darf nicht mit einer Zahl oder einem Sonderzeichen beginnen.</li>
                               <li>Es braucht ein Sonderzeichen: @, #, $ oder %.</li>
                               <li>Es darf keine deutschen Umlaute (äöü) enthalten.</li>`;
-              password.style.boderColor = "red";
+              password.style.backgroundColor = "#feecf0";
+              password.style.border = "";
               passwordValid = "no";
               checkValid();
             }
@@ -151,8 +160,15 @@
           // Von PHP wird true oder false gesendet
           if (data) {
             //account created
-            feedback.innerHTML = "account created";
+            feedback.style.display = "none";
             formular.style.display = "none";
+            successContainer.innerHTML = `<h2>Hurra <span>${username.value}</span>!!</h2>
+            <i class="fa-solid fa-check"></i>
+            <p>Dein Account wurde erfolgreich erstellt!</p>
+            <a href="login.php">Hier geht's zum Login!</a>
+            `
+
+
 
           } else {
             //account failed

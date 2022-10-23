@@ -152,7 +152,7 @@ function returnFilledForm(rezept_gruppe) {
 			<div class="field">
 				<h2>Rezeptname</h2>
 				<div class="control">
-					<input id="recipe-title" class="input" type="text" name="recipe-title" placeholder="Text input" value="${rezept_gruppe[0].title}">
+					<input id="recipe-title" class="input" type="text" name="recipe-title" placeholder="Dein Rezeptname" value="${rezept_gruppe[0].title}">
 				</div>
 			</div>
 			<div class="field">
@@ -302,36 +302,9 @@ function returnFilledForm(rezept_gruppe) {
 					</label>
 				</div>
 			</div>
-			<div class="field">
-				<div class="file">
-					<h3>Lade hier ein Foto deines Haustiers hoch!</h3>
-					<label class="file-label">
-						<input class="file-input" type="file" name="resume">
-						<span class="file-cta">
-							<span class="file-icon">
-								<i class="fas fa-upload"></i>
-							</span>
-							<span class="file-label">
-								Bild
-							</span>
-						</span>
-					</label>
-				</div>
-			</div>
-			<div class="field">
-				<div class="control">
-				<label class="checkbox">
-					<input type="checkbox">
-					Ich bin damit einverstanden, dass mein Rezept gespeichert und veröffentlicht wird. 
-				</label>
-				</div>
-			</div>
 			<div class="field is-grouped">
 				<div class="control">
-					<button class="button is-block is-primary" type="submit" name="go" id="go">Absenden</button>
-				</div>
-				<div class="control">
-					<button class="button is-link is-light">Cancel</button>
+					<button class="button is-block is-primary" type="submit" name="go" id="go">Updaten</button>
 				</div>
 			</div>
 		</form>
