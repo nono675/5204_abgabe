@@ -112,7 +112,7 @@ a.navbar-burger span {
 /* Search Form */ 
 
 .search {
-  width: 300px;
+  width: 400px;
   padding: 3rem 0 0 0;
 }
 .search p {
@@ -125,9 +125,13 @@ a.navbar-burger span {
 .search_field {
   display: flex;
 }
+#search-button {
+  width: 6rem;
+}
 .is-primary.input {
   border-color:  #939597;
 }
+
 
 /* Recipe Container */
 
@@ -168,22 +172,18 @@ footer i {
 
 /* Registration */
 
-i.fa-solid .fa-check-double {
-  color: #000;
-  width: 200px;
+#success-container h2 span {
+  font-size: 2rem;
+  color: #9f5281;
 }
 .fa-solid.fa-check {
-color: #00d1b2;
+  color: #00d1b2;
   font-size: 4rem;
+  padding: 1rem;
 }
-
-
-
-
-
-
-
-
+#feedback li {
+  list-style-type: disc !important;
+}
 
 
 @media (max-width: 1024px) {
@@ -192,4 +192,50 @@ color: #00d1b2;
     top: 0;
     right: 0;
 	}
+  .navbar-start {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column-reverse;
+    padding: 0.5rem;
+  }
+  .navbar-start h2 {
+    font-size: 1.5rem;
+    padding-left: 0;
+  }
+  .navbar-start i {
+    font-size: 2rem;
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 964px) {
+  .title.is-1 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .column {
+    padding: 1.5rem;
+    flex-direction: column-reverse;
+  }
+  .column.is-8.is-offset-2.register {
+    flex-direction: row;
+  }
+}
+
+@media (max-width: 550px ) {
+  h1 {
+    font-size: 3rem;
+  }
+  header i {
+    font-size: 4.5rem;
+  }
+}
+
+@media (max-width:420px) {
+  .search {
+    width: 300px;
+  }
 }

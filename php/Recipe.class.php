@@ -1,6 +1,6 @@
 <?php
 session_start([
-    'cookie_lifetime' => 3600, // Set lifetime to all Session cookies to one hour (in seconds)
+	'cookie_lifetime' => 3600, // Set lifetime to all Session cookies to one hour (in seconds)
 ]);
 require("../prefs/credentials.php");
 // Die Klasse erbt von der Superklasse PDO
@@ -80,7 +80,7 @@ class Recipe extends PDO
 	// Read methode von recipe ohne join zu zutaten_zu_rezept
 	public function readAllRecipeMethod()
 	{
-		$query = "SELECT recipe.id, recipe.title, recipe.beschreib, recipe.image, recipe.fk_user FROM recipe";
+		$query = "SELECT recipe.id, recipe.title, recipe.fk_user FROM recipe";
 		$stmt = $this->prepare($query);
 		$stmt->execute();
 		$result = $stmt->fetchAll();
@@ -94,7 +94,7 @@ class Recipe extends PDO
 			$search = "%$search%";
 		}
 
-		$query = "SELECT recipe.id as rezept_id, recipe.title, recipe.beschreib, recipe.form, recipe.image, 
+		$query = "SELECT recipe.id as rezept_id, recipe.title, recipe.form,
 		recipe.fk_user, zutaten_zu_rezept.id, zutaten_zu_rezept.zutaten_name, zutaten_zu_rezept.fk_rezepte FROM recipe
 		JOIN zutaten_zu_rezept ON zutaten_zu_rezept.fk_rezepte = recipe.id
 		WHERE recipe.id in (
@@ -113,7 +113,7 @@ class Recipe extends PDO
 	// Read methode mit join a zutaten_zu_rezept. Gibt pro Zutat eine Zeile zurück (ein Rezept taucht mehrmahls auf)
 	public function readAllRecipeJoinedPerUserMethod($fk_user)
 	{
-		$query = "SELECT recipe.id as rezept_id, recipe.title, recipe.beschreib, recipe.form, recipe.image, recipe.fk_user, zutaten_zu_rezept.id, zutaten_zu_rezept.zutaten_name, zutaten_zu_rezept.fk_rezepte FROM recipe
+		$query = "SELECT recipe.id as rezept_id, recipe.title, recipe.form, recipe.fk_user, zutaten_zu_rezept.id, zutaten_zu_rezept.zutaten_name, zutaten_zu_rezept.fk_rezepte FROM recipe
 		JOIN zutaten_zu_rezept ON zutaten_zu_rezept.fk_rezepte = recipe.id
 		Where fk_user = :fk_user";
 		$stmt = $this->prepare($query);
@@ -171,11 +171,11 @@ class Recipe extends PDO
 if (isset($_POST['id']) && isset($_POST['recipe-title'])) {
 
 	// Check if Session exists
-	if(!isset($_SESSION['fk_user'])){
+	if (!isset($_SESSION['fk_user'])) {
 		header("HTTP/1.1 401 Unauthorized");
 		exit;
 	}
-	
+
 	$rezept = new Recipe($host, $dbname, $user, $passwd);
 
 	$existingRezeptId = $_POST['id'];
@@ -211,13 +211,13 @@ if (isset($_POST['id']) && isset($_POST['recipe-title'])) {
 
 // Create form submit (only new recipes.)
 if (!isset($_GET['calculateBasicAmounts']) && !isset($_GET['calculateAddOnsAmounts']) && !isset($_POST['id']) && isset($_POST['recipe-title'])) { // it's necessary to check isset($_POST['recipe-title']
-	
+
 	// Check if Session exists
-	if(!isset($_SESSION['fk_user'])){
+	if (!isset($_SESSION['fk_user'])) {
 		header("HTTP/1.1 401 Unauthorized");
 		exit;
 	}
-	
+
 	$rezept = new Recipe($host, $dbname, $user, $passwd);
 
 	$rezeptname = $_POST['recipe-title'];
@@ -250,7 +250,7 @@ if (!isset($_GET['calculateBasicAmounts']) && !isset($_GET['calculateAddOnsAmoun
 
 // Calculates the grams per basic Zutat.
 if (isset($_GET['calculateBasicAmounts'])) {
-	
+
 	$rezept = new Recipe($host, $dbname, $user, $passwd);
 
 	// Defines all possible Basic Zutaten names
@@ -281,7 +281,7 @@ if (isset($_GET['calculateBasicAmounts'])) {
 	} else {
 		echo json_encode(null);
 	}
-	exit;	
+	exit;
 }
 
 // Calculates the grams per Add-On Zutat.
@@ -327,11 +327,11 @@ if (isset($_GET['calculateAddOnsAmounts'])) {
 if (isset($_GET['id']) && $_SERVER['REQUEST_METHOD'] === 'DELETE') {
 
 	// Check if Session exists
-	if(!isset($_SESSION['fk_user'])){
+	if (!isset($_SESSION['fk_user'])) {
 		header("HTTP/1.1 401 Unauthorized");
 		exit;
 	}
-	
+
 	$dbInst = new Recipe($host, $dbname, $user, $passwd);
 	$dbInst->deleteZutatenVonRezeptMethod($_GET['id']);
 	$dbInst->deleteMethod($_GET['id']);
@@ -354,7 +354,7 @@ if (isset($_GET['getall'])) {
 // if you call fetch('php/Recipe.class.php?getalljoined')
 if (isset($_GET['getalljoined'])) {
 	$search = null;
-	if(isset($_GET['search'])){
+	if (isset($_GET['search'])) {
 		$search = $_GET['search'];
 	}
 
@@ -368,7 +368,7 @@ if (isset($_GET['getalljoined'])) {
 // if you call fetch('php/Recipe.class.php?getAllJoinedForUser')
 if (isset($_GET['getAllJoinedForUser'])) {
 	// Check if Session exists
-	if(!isset($_SESSION['fk_user'])){
+	if (!isset($_SESSION['fk_user'])) {
 		header("HTTP/1.1 401 Unauthorized");
 		exit;
 	}

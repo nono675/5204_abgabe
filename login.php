@@ -7,14 +7,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Login - Monty's Tidbits</title>
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-  <script src="https://kit.fontawesome.com/15181efa86.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css" />
+
+  <!-- CSS -->
   <link rel="stylesheet" href="css/style.css">
-  <!-- <link rel="stylesheet" type="text/css" href="../css/register.css"> -->
+
+  <!-- JS -->
+  <script defer src="js/navbar.js"></script>
   <script defer src="js/login.js"></script>
 </head>
 
 <body>
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div>
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span style="color: #555;" aria-hidden="true"></span>
+        <span style="color: #555;" aria-hidden="true"></span>
+        <span style="color: #555;" aria-hidden="true"></span>
+      </a>
+    </div>
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+        <a href="index.php"><i class="fa-solid fa-sharpe fa-bone" style="color: #555;"></i></a>
+        <h2>Monty's Tidbits</h2>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a href="index.php" class="button is-primary sign_up">
+              <strong>Home</strong>
+            </a>
+            <a href="login.php" class="button is-light">
+              Login
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
   <section class="container login-container">
     <div class="columns is-multiline">
       <div class="column is-8 is-offset-2 register">
@@ -45,48 +76,25 @@
         </div>
       </div>
       <div class="column is-8 is-offset-2">
-        <br>
-        <nav class="level">
-          <div class="level-left">
-            <div class="level-item">
-              <span class="icon">
-                <i class="fab fa-twitter"></i>
-              </span> &emsp;
-              <span class="icon">
-                <i class="fab fa-facebook"></i>
-              </span> &emsp;
-              <span class="icon">
-                <i class="fab fa-instagram"></i>
-              </span> &emsp;
-              <span class="icon">
-                <i class="fab fa-github"></i>
-              </span> &emsp;
-              <span class="icon">
-                <i class="fas fa-envelope"></i>
-              </span>
-            </div>
-          </div>
-          <div class="level-right">
-            <small class="level-item" style="color: var(--textLight)">
-              &copy; Super Cool Website. All Rights Reserved.
-            </small>
-          </div>
-        </nav>
+        <div class="level-right">
+          <small class="level-item" style="color: var(--textLight)">
+            &copy; Monty's Tidbits
+          </small>
+        </div>
       </div>
     </div>
   </section>
   <script>
     fetch('php/User.class.php?getSessionInfo')
-		.then(res => res.json()) // .then means it waits until step before is completed.
-		.then(function(data) {
-			const sessionInfo = data
-      if(data.hasOwnProperty('fk_user') && data['fk_user'] > 0){
-        console.log(sessionInfo)
-        window.location.href = "private2.php";
-      }
-      else{
-        //window.location.href = "login.php";
-      }
-		})
+      .then(res => res.json()) // .then means it waits until step before is completed.
+      .then(function(data) {
+        const sessionInfo = data
+        if (data.hasOwnProperty('fk_user') && data['fk_user'] > 0) {
+          console.log(sessionInfo)
+          window.location.href = "private2.php";
+        } else {
+          //window.location.href = "login.php";
+        }
+      })
   </script>
 </body>

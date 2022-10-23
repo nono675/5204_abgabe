@@ -6,10 +6,23 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rezept-Generator | Monty's Tidbits</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <meta name="description" content="Kreiere Leckerli-Rezepte für deinen Hund und teile sie mit anderen Hundebesitzern!">
+  <meta name="copyright" content="Monty's Tidbits">
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="img/favicon/favicon.ico" type="image/x-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Handlee&display=swap" rel="stylesheet">
+
+  <!-- Font awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <script src="https://kit.fontawesome.com/15181efa86.js" crossorigin="anonymous"></script>
+
+  <!-- Bulma -->
   <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css" />
+
+  <!-- CSS -->
   <link rel="stylesheet" href="css/recipe-postits.css">
   <link rel="stylesheet" href="css/accordion.css">
   <link rel="stylesheet" href="css/private2.css">
@@ -24,9 +37,11 @@
   <script defer src="js/updateForm.js"></script>
 </head>
 
-<body style="display:none;"> <!-- display:none is needed to hide page until check of existing session is done -->
+<body style="display:none;">
+  <!-- display:none is needed to hide page until check of existing session is done -->
   <nav class="navbar" role="navigation" aria-label="main navigation">
     <div>
+      <!-- Responsive nav with burger menu -->
       <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
@@ -53,20 +68,16 @@
     </div>
   </nav>
 
-
-
-  <div class="user"></div>
-
-
-
   <div class="new-recipe">
-
+    <div id="success-save"></div>
+    <!-- Form for recipe creation -->
     <form id="create-recipe-form" class="recipe-form" method="POST">
       <div class="field">
         <h2>Rezeptname</h2>
         <div class="control">
           <input id="recipe-title" class="input" type="text" name="recipe-title" placeholder="Dein Rezeptname">
         </div>
+        <div id="title-feedback"></div>
       </div>
       <div class="field">
         <h2>Basis</h2>
@@ -186,7 +197,7 @@
         <h2><label class="label title">Form</label></h2>
         <div id="create-radio-container" class="control radio-container" onchange="displayForm(this)">
           <label class="radio">
-            <input class="radio-btn" type="radio" name="answer" value="Knochen">
+            <input class="radio-btn" type="radio" name="answer" value="Knochen" checked>
             Knochen
           </label>
           <label class="radio">
@@ -215,44 +226,15 @@
           </label>
         </div>
       </div>
-      <div class="field">
-        <div class="file">
-          <h3>Lade hier ein Foto deines Haustiers hoch!</h3>
-          <label class="file-label">
-            <input class="file-input" type="file" name="resume">
-            <span class="file-cta">
-              <span class="file-icon">
-                <i class="fas fa-upload"></i>
-              </span>
-              <span class="file-label">
-                Bild
-              </span>
-            </span>
-          </label>
-        </div>
-      </div>
-      <div class="field">
-        <div class="control">
-          <label class="checkbox">
-            <input type="checkbox">
-            Ich bin damit einverstanden, dass mein Rezept gespeichert und veröffentlicht wird.
-          </label>
-        </div>
-      </div>
       <div class="field is-grouped">
         <div class="control">
-          <button class="button is-block is-primary" type="submit" name="createRecipe" id="createRecipe">Absenden</button>
-        </div>
-        <div class="control">
-          <button class="button is-link is-light">Cancel</button>
+          <button class="button is-block is-primary save" type="submit" name="createRecipe" id="createRecipe">Speichern</button>
         </div>
       </div>
     </form>
-
-
-
-
+    <!-- Recipe Result -->
     <div id="recipe-result" class="contenteditable">
+      <div id="success-save"></div>
       <h2 id="recipe-result-title"></h2>
       <ul id="create-basic-ul"></ul>
       <ul id="create-add_on-ul"></ul>
@@ -260,17 +242,14 @@
       <ul id="create-superfood-ul"></ul>
       <ul id="create-keksform-ul"></ul>
     </div>
-
   </div>
-
+  <!-- Close button for modal -->
   <span class="close">&times;</span>
   <!-- Modal with Update Form -->
   <div id="myModal" class="modal">
 
-
   </div>
-
-
+  <!-- Recipe Container for created recipes -->
   <div class="show-recipe-container">
     <h2>Deine Rezepte</h2>
     <div class="recipe-container">
@@ -283,19 +262,18 @@
   </footer>
   <script>
     window.addEventListener('load', function() {
-    fetch('php/User.class.php?getSessionInfo')
+      fetch('php/User.class.php?getSessionInfo')
         .then(res => res.json()) // .then means it waits until step before is completed.
         .then(function(data) {
-      const sessionInfo = data
-      if(data.hasOwnProperty('fk_user') && data['fk_user'] > 0){
-        console.log(sessionInfo)
-        document.querySelector('body').style.display = 'block'
-      }
-      else{
-        window.location.href = "login.php";
-      }
+          const sessionInfo = data
+          if (data.hasOwnProperty('fk_user') && data['fk_user'] > 0) {
+            console.log(sessionInfo)
+            document.querySelector('body').style.display = 'block'
+          } else {
+            window.location.href = "login.php";
+          }
+        })
     })
-  })
   </script>
 </body>
 
